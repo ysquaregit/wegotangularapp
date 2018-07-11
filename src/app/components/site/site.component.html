@@ -1,0 +1,134 @@
+<p-growl [(value)]="msgs"></p-growl>
+<section class="panel panel-horizontal" style="height: 120px;">
+    <div class="panel-body  text-center">
+        <h4 class="text-capitalize">Site Total Consumption</h4>
+        <div class="row" *ngIf="featureEnabled">
+            <div class="col-md-4">
+                Today
+                <div class="widget-summary widget-summary-sm">
+                    <div class="widget-summary-col widget-summary-col-icon">
+                        <div class="summary-icon bg-primary">
+                            <i>{{today | date :'dd'}}</i>
+                        </div>
+                    </div>
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <div class="info padder">
+                                <span class="amountx"> {{(stDat[0].dt)/1000| number: '1.1-2'}}</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                Month
+                <div class="widget-summary widget-summary-sm">
+                    <div class="widget-summary-col widget-summary-col-icon">
+                        <div class="summary-icon bg-tertiary">
+                            <i>{{today | date :'MMM'}}</i>
+                        </div>
+                    </div>
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <div class="info padder">
+                                <span class="amountx">{{(stDat[0].mt)/1000| number: '1.1-2'}}</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                Prev.Month
+                <div class="widget-summary widget-summary-sm">
+                    <div class="widget-summary-col widget-summary-col-icon">
+
+                    </div>
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <div class="info padder">
+                                <span class="amountx">{{(stDat[0].pmt)/1000| number: '1.1-2'}}</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="!featureEnabled">
+
+
+            <div class="col-md-4">
+                Day
+                <div class="widget-summary widget-summary-sm">
+                    <div class="widget-summary-col widget-summary-col-icon">
+                        <div class="summary-icon bg-primary">
+                            <i>{{today | date :'dd'}}</i>
+                        </div>
+                    </div>
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <div class="info padder">
+                                <span class="amountx"> -</span>
+
+                            </div>
+                        </div>
+                        <div class="summary-footer">
+                            <a class="text-muted text-uppercase">Today</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                Month
+                <div class="widget-summary widget-summary-sm">
+                    <div class="widget-summary-col widget-summary-col-icon">
+                        <div class="summary-icon bg-tertiary">
+                            <i>{{today | date :'MMM'}}</i>
+                        </div>
+                    </div>
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <div class="info padder">
+                                <span class="amountx">-</span>
+
+                            </div>
+                        </div>
+                        <div class="summary-footer">
+                            <a class="text-muted text-uppercase">Today</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                Prev.Month
+                <div class="widget-summary widget-summary-sm">
+                    <div class="widget-summary-col widget-summary-col-icon">
+                        <div class="summary-icon bg-quartenary">
+                            <i></i>
+                        </div>
+                    </div>
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <div class="info padder">
+                                <span class="amountx">-</span>
+
+                            </div>
+                        </div>
+                        <div class="summary-footer">
+                            <a class="text-muted text-uppercase">Today</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</section>

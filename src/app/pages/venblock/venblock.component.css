@@ -1,0 +1,39 @@
+.btn-circle {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 22px;
+    line-height: 1.428571429;
+    border-radius: 40px;
+}
+
+.spacerb {
+    padding-top: 100px;
+}
+
+.ui-tabview-nav {
+    border-top-style: none;
+
+}
+
+.boxer {
+
+    text-align: center;
+}
+
+.btn.semi {
+    background-color: #FFEB3B;
+}
+
+.btn.good {
+    background-color: #E0F2F1;
+}
+
+.btn.noflow {
+    background-color: #FF9800;
+}
+
+.btn.leakage {
+    background-color: #FF6E40;
+}

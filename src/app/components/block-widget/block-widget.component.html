@@ -1,0 +1,80 @@
+<div class="panel-card-blocks text-center bgimg">
+
+    <h4>Block Consumption</h4>
+
+    <swiper class="swiper" [config]="config" #usefulSwiper *ngIf="featureEnabled">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let blockitem of blockTotals">
+                <div class="cardSpacer">
+                    <h4>{{blockitem.name}}</h4>
+                    <span *ngIf="blockitem.offline !== 1"><h4>offline</h4></span>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Day
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="bigDisp">{{(blockitem.day_total)/1000| number: '1.1-2' }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span *ngIf="!blockitem.offline" class="tinyDisp"> - </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Month
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="bigDisp">{{(blockitem.current_month_total)/1000| number: '1.1-2' }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span *ngIf="!blockitem.offline" class="tinyDisp"> - </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Prev. Month
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="bigDisp">{{(blockitem.prev_month_total)/1000| number: '1.1-2'}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span *ngIf="!blockitem.offline" class="tinyDisp"> - </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="swiper-button-next" (click)="gonext()"></div>
+        <div class="swiper-button-prev" (click)="goprev()"></div>
+    </swiper>
+
+    <div *ngIf="!featureEnabled"><p>Offline</p></div>
+</div>

@@ -1,0 +1,69 @@
+swiper {
+    height: 80%;
+    width: 100%;
+}
+
+.panel-card-blocks {
+    height: 200px;
+}
+
+.bigDisp {
+    font-family: 'Roboto Condensed', sans-serif light;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.tinyDisp {
+    font-size: 16px;
+}
+
+.microDisp {
+    font-size: 12px;
+}
+
+.cardSpacer {
+    padding-top: 15px;
+}
+
+h4 {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 800;
+}
+
+.bgimg {
+
+}
+
+.mwl-gauge {
+    width: 150px;
+    height: 150px;
+    display: block;
+    padding: 10px;
+}
+
+.mwl-gauge > .gauge > .dial {
+    stroke: #eee;
+    stroke-width: 20;
+    fill: rgba(0, 0, 0, 0);
+}
+
+.mwl-gauge > .gauge > .value {
+    stroke: rgb(47, 227, 255);
+    stroke-width: 20;
+    fill: rgba(0, 0, 0, 0);
+}
+
+.mwl-gauge > .gauge > .value-text {
+    fill: rgb(47, 227, 255);
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 10em;
+}
+
+.swiper-button-next {
+    background-image: url('/assets/images/nextarrow.png');
+}
+
+.swiper-button-prev {
+    background-image: url('/assets/images/prevarrow.png');
+}

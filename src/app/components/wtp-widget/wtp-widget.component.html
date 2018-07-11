@@ -1,0 +1,66 @@
+<div class="panel-card-blocks text-center bgimg">
+
+    <h4>WTP</h4>
+
+    <swiper [config]="config" #usefulSwiper *ngIf="!wtpNDF">
+
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let wtp of wtpArray">
+                <!-- <h4>{{wtp.name}}</h4> -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="microDisp">TODAY</span><br/>
+                        <span class="microDisp">INPUT</span><br/>
+                        <span class="bigDisp">{{(wtp.inFlowDayTot)/1000| number: '1.1-2'}}</span>
+
+                    </div>
+                    <div class="col-md-12">
+                        <span class="microDisp">OUTPUT</span><br/>
+                        <span class="bigDisp">{{(wtp.outFlowDayTot)/1000| number: '1.1-2'}}</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="swiper-slide " *ngFor="let wtp of wtpArray">
+
+
+                <div class="cardSpacer">
+
+                    <!-- <h4>{{wtp.name}}</h4> -->
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="microDisp">OUTPUT</span><br/>
+                                <span class="bigDisp">{{(wtp.outFlow)/1000| number: '1.1-2'}}</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="microDisp">INPUT</span><br/>
+                            <span class="tinyDisp">{{(wtp.inFlow)/1000| number: '1.1-2'}}</span>
+                        </div>
+                        <div class="col-md-12">
+                            <span class="microDisp">Wastage</span>
+                            <span class="tinyDisp">{{(((wtp.inFlow-wtp.outFlow)/wtp.inFlow) * 100).toFixed(2)}}%</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </swiper>
+</div>

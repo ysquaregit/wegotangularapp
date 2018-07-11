@@ -1,0 +1,226 @@
+<app-nav-comp></app-nav-comp>
+<p-growl [(value)]="msgs"></p-growl>
+<p-messages [(value)]="msgs2" [closable]="false"></p-messages>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="row">
+
+                <div class="col-md-9 fixedHeight">
+
+                    <h1>Settings</h1>
+                    <hr>
+
+                    <div class="tabs">
+                        <ul class="nav nav-tabs">
+
+                            <li>
+                                <a href="#water" data-toggle="tab" class="active">Water</a>
+                            </li>
+
+                            <li>
+                                <a href="#maint" data-toggle="tab">Maintanence</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="water" class="tab-pane active">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <section class="panel panel-horizontal">
+                                            <header class="panel-heading bg-primary">
+                                                <div class="panel-heading-icon">
+                                                    <i class="fa fa-inr"></i>
+                                                </div>
+                                            </header>
+                                            <div class="panel-body p-lg">
+                                                <h3 class="text-weight-semibold mt-sm">Water Cost</h3>
+                                                <p>Provide the cost of water per litre. Kindly note that the maintanence
+                                                    cost has to be entered in the next tab.</p>
+
+                                                <h4>Slab Rates</h4>
+                                                <div class="row spacer">
+
+
+                                                    <ng2-smart-table [settings]="settings" [source]="slabs"
+                                                                     (deleteConfirm)="deleteclicked($event)"
+                                                                     (createConfirm)="createclicked($event)"></ng2-smart-table>
+
+                                                </div>
+
+                                                <div *ngIf="addNew === 1">
+
+
+                                                </div>
+
+                                            </div>
+                                        </section>
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <header class="panel-heading bg-white">
+                                            <div class="panel-heading-icon bg-primary mt-sm">
+                                                <i class="fa fa-comment-o"></i>
+                                            </div>
+                                        </header>
+                                        <h3 class="text-weight-semibold mt-none text-center">Notifications</h3>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+
+
+                                        <section class="panel">
+                                            <div class="panel-body">
+                                                <h3 class="text-weight-semibold mt-none text-center">SMS</h3>
+                                                <p>Provide Mobile numbers to be notified in case of alarms.</p>
+                                                <ng2-smart-table [settings]="phonesettings" [source]="phones"
+                                                                 (deleteConfirm)="deleteSMSclicked($event)"
+                                                                 (createConfirm)="createSMSclicked($event)"></ng2-smart-table>
+
+
+                                            </div>
+                                        </section>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <section class="panel">
+                                            <div class="panel-body">
+                                                <h3 class="text-weight-semibold mt-none text-center">Email</h3>
+                                                <p>Provide Email addresses to be notified in case of alarms.</p>
+                                                <ng2-smart-table [settings]="emailsettings" [source]="emails"
+                                                                 (deleteConfirm)="deleteEmailclicked($event)"
+                                                                 (createConfirm)="createEmailclicked($event)"></ng2-smart-table>
+                                            </div>
+                                        </section>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div id="maint" class="tab-pane">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <section class="panel panel-horizontal">
+                                            <header class="panel-heading bg-primary ">
+                                                <div class="panel-heading-icon">
+                                                    <i class="fa fa-wrench"></i>
+                                                </div>
+                                            </header>
+                                            <div class="panel-body p-lg">
+                                                <h3 class="text-weight-semibold mt-sm">Maintenance Cost</h3>
+                                                <p>Select the type of cost calculation.</p>
+
+                                                <div class="row ">
+
+                                                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                                                        <div class="ui-g-6">
+                                                            <p-radioButton name="group2" value="1" label="Fixed Cost"
+                                                                           [(ngModel)]="val2"
+                                                                           inputId="preopt1"></p-radioButton>
+                                                        </div>
+                                                        <!-- <div class="ui-g-6"><p-radioButton name="group2" value="2" label="Sqr. Ft Basis" [(ngModel)]="val2" inputId="preopt2" (click)="nodata()"></p-radioButton></div>-->
+                                                        <div class="ui-g-6">
+                                                            <p-radioButton name="group2" value="2" label="Sqr. Ft Basis"
+                                                                           [(ngModel)]="val2" inputId="preopt2"
+                                                                           (click)="nodata()"></p-radioButton>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </section>
+
+                                    </div>
+
+
+                                    <div class="col-md-12">
+
+
+                                        <div *ngIf="val2 === '1'" class="'col-md-12">
+                                            <section>
+
+                                                <h3 class="text-weight-semibold mt-none">Fixed Cost</h3>
+
+                                                <div class="col-md-6">
+                               <span class="ui-float-label">
+                       <input id="fcCost" type="text" size="30" [(ngModel)]="fcCost" pInputText>
+                    <label for="float-input9">Cost</label>
+                    </span>
+
+                                                </div>
+                                                <div class="col-md-6">
+                            <span class="ui-float-label">
+                       <input id="fcTax" type="text" size="30" [(ngModel)]="fcTax" pInputText>
+                    <label for="float-input9">Tax Percent</label>
+                    </span>
+
+                                                </div>
+
+
+                                                <div class="col-md-12 text-center spacer">
+                                                    <button class="btn btn-primary" (click)="MCUpdate()">Update</button>
+                                                </div>
+                                            </section>
+                                        </div>
+
+
+                                        <div *ngIf="val2 === '2'" class="'col-md-12">
+                                            <section>
+                                                <h3 class="text-weight-semibold mt-none">Sqft Basis</h3>
+                                                <div class="col-md-6">
+      <span class="ui-float-label">
+                           <input id="sqft" type="text" size="30" [(ngModel)]="sqft" pInputText disabled>
+                        <label for="float-input9">Sqft</label>
+                        </span>
+
+                                                </div>
+                                                <div class="col-md-6">
+             <span class="ui-float-label">
+                           <input id="sqftRate" type="text" size="30" [(ngModel)]="sqCost" pInputText disabled>
+                        <label for="float-input9">Rate</label>
+                        </span>
+                                                </div>
+
+
+                                                <div class="col-md-12 text-center spacer">
+                                                    <button class="btn btn-primary " disabled (click)="MCUpdate()">
+                                                        Update
+                                                    </button>
+                                                </div>
+                                            </section>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-3 ">
+                    <app-block-side-widget></app-block-side-widget>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

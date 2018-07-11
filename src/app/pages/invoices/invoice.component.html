@@ -1,0 +1,114 @@
+<app-nav-comp></app-nav-comp>
+<div class="container">
+    <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+    <div class="row">
+        <div class="col-md-12 spacer">
+            <div class="row">
+
+                <div class="col-md-9 fixedHeight">
+
+
+                    <h1>Invoices</h1>
+                    <hr>
+
+                    <div class="tabs">
+                        <ul class="nav nav-tabs">
+
+                            <!-- <li>
+                                 <a href="#block" data-toggle="tab" (click)="resetControls()">Block</a>
+                             </li>-->
+
+                            <li>
+                                <a href="#apart" data-toggle="tab" (click)="resetControls()">Apartment</a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content">
+                            <!--<div id="block" class="tab-pane active">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center fixHeight">
+                                        <div>
+                                            <h4>Full Block Invoice</h4>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-4">Select Block :
+                                                    <p-dropdown [options]="blockArrayList"
+                                                                [(ngModel)]="selectedBlock"></p-dropdown>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <button class="btn btn-success" (click)="downloadFullBlock()">
+                                                        Download
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>-->
+
+
+                            <div id="apart" class="tab-pane active">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center fixHeight">
+                                        <div>
+                                            <h4>Individual Apartment Invoice </h4>
+                                            <hr>
+                                            <div class="row ">
+                                                <div class="col-md-4">Select Block:
+                                                    <p-dropdown [options]="blockArrayList"
+                                                                [(ngModel)]="selectedBlock"
+                                                                (ngModelChange)="blockSelected(selectedBlock)"></p-dropdown>
+                                                </div>
+                                                <div class="col-md-4">Select Apartment:
+                                                    <p-dropdown #apt [options]="apartFEList" [autoWidth]="true"
+                                                                [(ngModel)]="selectedApart"
+                                                                (ngModelChange)="apartSelected(apartFEList[selectedApart].label)"></p-dropdown>
+                                                </div>
+                                                <div class="col-md-4 ">
+                                                    <button class="btn btn-primary" (click)="downloadApartInvoice()">
+                                                        DOWNLOAD
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="marginSpacer">
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-3 spacer">
+                    <app-block-side-widget></app-block-side-widget>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

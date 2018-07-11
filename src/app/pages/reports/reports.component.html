@@ -1,0 +1,280 @@
+<app-nav-comp></app-nav-comp>
+<div class="container">
+    <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+    <div class="row">
+        <div class="col-md-12 spacer">
+            <div class="row">
+
+                <div class="col-md-9 fixedHeight">
+
+
+                    <h1>Reports</h1>
+                    <hr>
+
+                    <div class="tabs">
+                        <ul class="nav nav-tabs">
+
+                            <li>
+                                <a href="#block" data-toggle="tab" class="!active">Block</a>
+                            </li>
+
+                            <li>
+                                <a href="#apart" data-toggle="tab" (click)="tabClicked()">Apartment</a>
+                            </li>
+
+                            <li>
+                                <a href="#ws" data-toggle="tab" (click)="tabClicked()">Water Source</a>
+                            </li>
+                            <li>
+                                <a href="#pl" data-toggle="tab" (click)="tabClicked()">Pump Log</a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content ">
+                            <div id="block" class="tab-pane active">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center fixHeight">
+                                        <div>
+                                            <h4>Block Daywise Reports</h4>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-12">Block :
+                                                    <p-dropdown [options]="blockArrayList"
+                                                                [(ngModel)]="selectedBlock"></p-dropdown>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    From:
+                                                    <p-calendar [(ngModel)]="fromdateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    To:
+                                                    <p-calendar [(ngModel)]="todateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-12 spacerdownload">
+                                                    <a [href]="urlLink">
+                                                        <button class="btn btn-primary" (click)="downloadClicked()">
+                                                            DOWNLOAD
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center fixHeight">
+                                        <div>
+                                            <h4>Site Total Report</h4>
+                                            <hr>
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    From:
+                                                    <p-calendar [(ngModel)]="fromdateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    To:
+                                                    <p-calendar [(ngModel)]="todateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-12 spacerdownload">
+                                                    <a [href]="urlLink">
+                                                        <button class="btn btn-primary" (click)="downloadSTClicked()">
+                                                            DOWNLOAD
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div id="apart" class="tab-pane">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center fixHeight">
+                                        <div>
+                                            <h4>Apartment Daywise Report</h4>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-3 text-left">Block:
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p-dropdown [autoWidth]="false" [options]="blockArrayList"
+                                                                [(ngModel)]="selectedBlock"
+                                                                (ngModelChange)="blockSelected(selectedBlock)"></p-dropdown>
+                                                </div>
+
+                                                <div class="col-md-3 text-left">Apartment :
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p-dropdown [autoWidth]="false" [options]="apartFEList"
+                                                                [(ngModel)]="selectedApart"></p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="row"><br/></div>
+                                            <div class="row">
+                                                <div class="col-md-3 text-left">
+                                                    From:
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p-calendar [(ngModel)]="fromAdateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-3 text-left">
+                                                    To:
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p-calendar [(ngModel)]="toAdateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-12  text-center  spacerdownload">
+                                                    <a [href]="urlLink">
+                                                        <button class="btn btn-primary"
+                                                                (click)="downloadApartClicked()">
+                                                            DOWNLOAD
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                            <div id="ws" class="tab-pane">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center fixHeight">
+                                        <div>
+                                            <h4>Water Source Reports</h4>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    From:
+                                                    <p-calendar [(ngModel)]="fromWSdateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    To:
+                                                    <p-calendar [(ngModel)]="toWSdateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-12 spacerdownload">
+                                                    <a [href]="urlLink">
+                                                        <button class="btn btn-primary" (click)="downloadWSClicked()">
+                                                            DOWNLOAD
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                            <div id="pl" class="tab-pane">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center fixHeight">
+                                        <div>
+                                            <h4>Pump Log Report</h4>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    From:
+                                                    <p-calendar [(ngModel)]="fromWSdateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    To:
+                                                    <p-calendar [(ngModel)]="toWSdateValue"
+                                                                dateFormat="dd.mm.yy"></p-calendar>
+                                                </div>
+                                                <div class="col-md-12 spacerdownload">
+                                                    <a [href]="urlLink">
+                                                        <button class="btn btn-primary" (click)="downloadPLClicked()">
+                                                            DOWNLOAD
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-3 spacer">
+                    <app-block-side-widget></app-block-side-widget>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+@media (min-width: 768px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+
+.spacer {
+    padding-top: 60px;
+
+}
+
+.button-row {
+    align-items: center;
+    justify-content: space-around;
+}
+
+.button {
+
+    width: 100%;
+}
+
+.fixedHeight {
+    height: 600px;
+}
+
+.builder-card {
+    width: 100%;
+}
+
+.builder-image {
+
+}
+
+.marginSpacer {
+    margin-top: 10px;
+}
+
+.md-card {
+    height: 100%;
+}
+
+.md-card-wrapper {
+    position: relative;
+    width: 40%;
+}
+
+.md-card-wrapper span {
+    position: absolute;
+    top: 20%;
+    right: 20%;
+    color: white;
+    font-size: 34px;
+}
+
+.panel-card {
+
+    height: 200px;
+}
+
+.bigDisp {
+    font-family: 'Roboto Condensed', sans-serif light;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.tinyDisp {
+    font-size: 16px;
+}
+
+.cardSpacer {
+    padding-top: 15px;
+}
+
+swiper {
+    height: 80%;
+    width: 100%;
+}
+
+.panel-card-blocks {
+    height: 200px;
+}
+
+.panel-card-alarms {
+    height: 230px;
+}
+
+h4 {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 800;
+}
+
+.bgimg {
+
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.swiper-button-next {
+    background-image: url('/assets/images/nextarrow.png');
+}
+
+.swiper-button-prev {
+    background-image: url('/assets/images/prevarrow.png');
+}

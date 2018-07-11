@@ -1,0 +1,41 @@
+<div class="panel-card-blocks text-center bgimg">
+
+    <h4>Sewage Treatment</h4>
+
+    <swiper [config]="config" #usefulSwiper *ngIf="featureEnabled">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let stp of stpArray">
+
+                <div class="cardSpacer">
+                    <h4>{{stp.name}}</h4>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="bigDisp">{{stp.outFlow}}</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="tinyDisp">{{stp.inFlow}}</span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </swiper>
+    <div *ngIf="!featureEnabled"><p>Offline</p></div>
+</div>

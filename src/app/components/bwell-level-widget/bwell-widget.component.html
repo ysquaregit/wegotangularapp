@@ -1,0 +1,63 @@
+<div class="panel-card-blocks text-center">
+
+    <h4>B.Well Status</h4>
+    <swiper [config]="config" #usefulSwiper *ngIf="featureEnabled">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let bwell of bwellLevelArray">
+
+                <div class="cardSpacer">
+                    <h4>{{bwell.name}}</h4>
+                    <p *ngIf="bwell.crt > 0">Running - {{bwell.crt}} mins</p>
+                    <p *ngIf="bwell.cit > 0">Idle - {{bwell.cit}} mins</p>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="semiDisp text-center">{{(bwell.cumtotal)/1000 | number: '1.1-2'}}</span>
+                            </div>
+                            <div class="col-md-12">
+                                <p> Cumulative</p>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="bigDisp">{{(bwell.total)/1000| number: '1.1-2'}}</span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="tinyDisp">Today</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="tinyDisp"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="swiper-button-next swiper-button-white" (click)="gonext()"></div>
+        <div class="swiper-button-prev" (click)="goprev()"></div>
+    </swiper>
+
+
+    <div *ngIf="!featureEnabled"><p>Offline</p></div>
+
+
+</div>

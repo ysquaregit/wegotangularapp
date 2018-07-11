@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 spacer">
+            <div class="row">
+
+                <div class="col-md-12 fixedHeight ">
+                    <div class="jumbotron ">
+                        <h1>Choose your Property</h1>
+                        <p>Select one of the properties linked to your account.</p>
+                        <div class="row spacer">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4" *ngFor="let sites of siteListArray">
+                                        <section class="hidden-md panel ">
+                                            <div class="panel-body">
+                                                <div class="widget-summary">
+                                                    <div class="widget-summary-col widget-summary-col-icon">
+                                                        <div class="summary-icon bg-tertiary">
+                                                            <i class="fa fa-home"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-summary-col">
+                                                        <div class="summary">
+                                                            <h4 class="title"> - </h4>
+                                                            <div class="info">
+                                                                <strong class="amount">{{sites.site_name}}</strong>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="summary-footer">
+                                                            <button type="button"
+                                                                    class="mb-xs mt-xs mr-xs btn btn-default"
+                                                                    (click)="selected(sites.site_id, sites.site_name)">
+                                                                Select
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

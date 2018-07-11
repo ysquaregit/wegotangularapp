@@ -1,0 +1,70 @@
+<div class="panel-card-alarms text-center bgimg">
+
+    <h4>B.Well Pump Control</h4>
+    <swiper [config]="config" #usefulSwiper *ngIf="featureEnabled">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let pump of pumpLevelArray">
+
+                <div class="cardSpacer">
+                    <h4>{{pump.name}}</h4>
+
+                    <!--<span *ngIf="pump.offline"><h4>[offline]</h4></span>-->
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="tinyDisp">{{pump.status ? 'On' : 'Off'}}</span>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <!-- disabling temprorly till BI gets in palce -->
+
+                            <!--<div class="col-md-12" *ngIf="pump.reqstate === pump.status">
+                                <ui-switch [checked]="pump.status ? true : false"
+                                           (change)="stateChange(pump.id,!pump.status)"></ui-switch>
+
+
+                            </div>-->
+
+                            <!-- <div class="col-md-12" *ngIf="pump.reqstate !== pump.status">
+                                 <p> Processing request</p>
+
+                             </div>-->
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="tinyDisp">{{pump.rt}}</span>
+                        </div>
+                        <div class="col-md-12">
+              <span class="tinyDisp">
+              <button *ngIf="pump.at == 0" class="btn btn-success btn-circle">OK</button>
+              <button *ngIf="pump.at == 8" class="btn btn-warning">OL</button>
+                <button *ngIf="pump.at == 9" class="btn btn-danger">DR</button>
+
+              </span>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Add Arrows -->
+        <div class="swiper-button-next" (click)="gonext()"></div>
+        <div class="swiper-button-prev" (click)="goprev()"></div>
+    </swiper>
+
+    <div *ngIf="!featureEnabled"><p>Offline</p></div>
+</div>

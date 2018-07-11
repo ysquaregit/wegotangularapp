@@ -1,0 +1,142 @@
+<app-nav-comp></app-nav-comp>
+
+<div class="container">
+    <div class="row">
+
+
+
+        <div class="col-md-12 spacer">
+
+            <div class="row">
+
+                <div class="col-md-12 fixedHeight">
+
+                    <h1>Distribution</h1>
+                    <hr>
+
+                    <div>
+
+
+                        <p-tabView class="text-center" (onChange)="TabClicked($event)">
+
+                            <p-tabPanel *ngFor="let x of this.globals.blocksArray" header="{{x.block_name}}"
+                                        (click)="TabClicked(x.block_id)">
+                                <div class="row">
+                                    <div class="col-md-2" *ngFor="let apt of apartArray">
+                                        <button type="button" class="mb-xs mt-xs mr-xs btn good"
+                                                *ngIf="apt.status == 0" (click)="openDialog(apt.id,0,apt.name)">
+                                            {{apt.name}}
+                                        </button>
+                                        <button type="button" class="mb-xs mt-xs mr-xs btn noflow"
+                                                *ngIf="apt.status == 2" (click)="openDialog(apt.id,2,apt.name)">
+                                            {{apt.name}}
+                                        </button>
+                                        <button type="button" class="mb-xs mt-xs mr-xs btn leakage"
+                                                *ngIf="apt.status == 12" (click)="openDialog(apt.id,12,apt.name)">
+                                            {{apt.name}}
+                                        </button>
+                                        <button type="button" class="mb-xs mt-xs mr-xs btn semi"
+                                                *ngIf="apt.status == 100" (click)="openDialog(apt.id,2,apt.name)">
+                                            {{apt.name}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </p-tabPanel>
+
+                        </p-tabView>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12 spacer">
+            <footer>
+
+                <p>&copy; Copyright 2017 Wegot Utility Soultions Pvt. Ltd.</p>
+            </footer>
+        </div>
+    </div>
+</div>
+
+
+<app-popup [(visible)]="showDialog">
+    <h4 class="text-center">Usage Summary</h4>
+    <hr>
+    <div class="col-md-12 text-center"><h4>{{aptStatus}}</h4></div>
+
+    <div class="col-md-12 text-center">
+
+        <h4>Apartment : {{ aptName }}</h4>
+
+        </div>
+
+        <div class="col-md-6 text-center">
+
+            <div style="height:50px">
+                <div>{{ month_total }}</div>
+
+                <div>litres this month</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 text-center">
+            <div style="height:50px">
+                <div> {{ day_total }}</div>
+                <div>litres today</div>
+            </div>
+
+
+
+    </div>
+
+    <div class="col-md-12 text-center">
+        <div *ngIf="this.last_update">As of : {{last_update |date :'dd-MM-yyyy'}}</div>
+        <br/><br/>
+    </div>
+
+    <div class="col-md-12 text-center">
+        <p>Overall Reading</p>
+
+        <div class="col-md-4 boxer text-center">
+            Apartment
+            <br>
+            <h6>{{cumulative}}</h6>
+        </div>
+        <div class="col-md-4 boxer" *ngFor="let compcs of apartCompCumArray">
+            {{compcs.name}}
+            <br>
+            <h6>{{compcs.cumulative}}</h6>
+        </div>
+
+    </div>
+
+
+    <div class="col-md-12 text-center">
+        <h4 class="text-center">Inlet Status</h4>
+        <hr>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-4 boxer" *ngFor="let comps of apartCompArray">
+            {{comps.name}}
+            <br>
+            <h6 *ngIf="comps.status === 12">Leakage</h6>
+            <h6 *ngIf="comps.status === 2">No Flow</h6>
+            <h6 *ngIf="comps.status === 0">Normal</h6>
+            <h6 *ngIf="comps.status === 11">Comm. Error</h6>
+        </div>
+
+    </div>
+    <div class="col-md-12 text-center">
+        <button (click)="showDialog = !showDialog; this.last_update=''" class="btn">Close</button>
+    </div>
+
+</app-popup>

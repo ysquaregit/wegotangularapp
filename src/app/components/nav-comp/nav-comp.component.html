@@ -1,0 +1,47 @@
+<nav id="myNavbar" class="navbar navbar-default " role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" (click)="about()" routerLinkActive="active"><img src="assets/images/logo.png"
+                                                                                     width="100px;" height="auto;"
+                                                                                     style="padding-top: -15px;"></a>
+            <a class="navbar-brand" routerLink="/homepage" routerLinkActive="active">W2</a>
+
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav navbar-nav">
+                <li><a routerLink="/dashboard" routerLinkActive="router-link-active">Dashboard</a></li>
+                <li><a routerLink="/venaqua" routerLinkActive="active">Distribution</a></li>
+                <li><a routerLink="/reports" routerLinkActive="active">Reports</a></li>
+                <li><a routerLink="/invoice" routerLinkActive="active">Invoices</a></li>
+                <li><a routerLink="/settings" routerLinkActive="active">Settings</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav">
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="padding-top: 10px;"><img src="assets/images/ven-logo.png" width="100px;" height="auto;"></li>
+                <li><p class="navbar-text">Hello!, <b>{{ userName }}</b></p></li>
+                <li><a (click)="logout()" routerLinkActive="active">Logout</a></li>
+
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><p class="navbar-text">{{datevar | date: 'medium'}}</p></li>
+                <li style="padding-top: 10px;"><img src="assets/images/network.png" width="30px;" height="auto;"></li>
+
+                <li><p class="navbar-text">{{ping | number:'1.0-0'}}ms</p></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,197 @@
+<app-nav-comp></app-nav-comp>
+
+<div class="container">
+    <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <!-- water source -->
+                <div class="col-md-6">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <div class="panel-body bg-primary text-center" style="height: 140px;">
+                                    All reading in Kilolitres
+                                    <div class="row">
+                                        <div class="col-md-3" *ngIf="siteConfigArray['GW'] >= 1">
+                                            <app-sm-gwwidget></app-sm-gwwidget>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="siteConfigArray['MW'] >= 1">
+                                            <app-sm-mwwidget></app-sm-mwwidget>
+
+                                        </div>
+
+                                        <div class="col-md-3" *ngIf="siteConfigArray['TW'] >= 1">
+                                            <app-sm-twwidget></app-sm-twwidget>
+
+                                        </div>
+
+                                        <div class="col-md-3" *ngIf="siteConfigArray['RW'] >= 1">
+                                            <app-sm-rwwidget></app-sm-rwwidget>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <app-site></app-site>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <section class="panel" *ngIf="siteConfigArray['SUM'] >= 1">
+                                    <div class="panel-body text-center">
+                                        <app-sump-level-widget></app-sump-level-widget>
+                                    </div>
+                                </section>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <section class="panel" *ngIf="siteConfigArray['BW'] >= 1">
+                                    <div class="panel-body text-center">
+                                        <app-bwell-widget></app-bwell-widget>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-md-3">
+                                <section class="panel" *ngIf="siteConfigArray['PUM'] >= 1">
+                                    <div class="panel-body text-center">
+                                        <app-bwell-control-widget></app-bwell-control-widget>
+                                    </div>
+                                </section>
+                            </div>
+
+                            <div class="col-md-3">
+                                <section class="panel bgimg">
+                                    <div class="panel-body text-center">
+                                        <app-bwell-intelligence-widget></app-bwell-intelligence-widget>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <section class="panel panel-horizontal">
+                                    <div class="panel-body  text-center">
+                                        <app-block-widget></app-block-widget>
+                                    </div>
+                                </section>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <section class="panel">
+                                <div class="panel-body text-center">
+
+                                    <app-pump-widget></app-pump-widget>
+
+
+                                </div>
+                            </section>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <section class="panel" *ngIf="siteConfigArray['WTP'] >= 1">
+                                <div class="panel-body text-center">
+
+                                    <app-wtp-widget></app-wtp-widget>
+
+
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-md-3">
+                            <section class="panel" *ngIf="siteConfigArray['STP'] >= 1">
+                                <div class="panel-body text-center">
+
+                                    <app-stp-widget></app-stp-widget>
+
+
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-md-3">
+                            <section class="panel" *ngIf="siteConfigArray['RO'] >= 1">
+                                <div class="panel-body text-center">
+
+                                    <app-ro-widget></app-ro-widget>
+
+
+                                </div>
+                            </section>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <section class="panel panel-horizontal">
+                                <div class="panel-body  text-center">
+                                    <app-alarms-widget></app-alarms-widget>
+                                </div>
+                            </section>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,63 @@
+<div class="panel-card-blocks text-center bgimg">
+
+    <h4>Sump Level</h4>
+    <swiper [config]="config" #usefulSwiper *ngIf="featureEnabled">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let sump of sumpLevelArray">
+
+                <div class="cardSpacer">
+                    <h4>{{sump.sname}}</h4>
+
+                    <div class="col-md-12">
+                        <div class="row" *ngIf="sump.eqKl > 0">
+                            <div class="col-md-12">
+                                <h3>{{sump.eqKl/1000| number: '1.1-2'}}</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div *ngIf="sump.level == 0">
+                                    <h3>Low</h3>
+
+
+                                </div>
+
+
+                                <div *ngIf="sump.level == 1">
+                                    <h3>Medium</h3>
+
+                                </div>
+                                <div *ngIf="sump.level == 2">
+                                    <h3>High</h3>
+
+                                </div>
+
+                                <div *ngIf="sump.level == 9">
+                                    <h3>Empty</h3>
+
+                                </div>
+                            </div>
+                            <!--<span *ngIf="sump.offline">level sustaining since <br/> {{sump.dt | date :'yMMMd' }}</span>-->
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="tinyDisp"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="swiper-button-next" (click)="gonext()"></div>
+        <div class="swiper-button-prev" (click)="goprev()"></div>
+    </swiper>
+
+    <div *ngIf="!featureEnabled"><p>Offline</p></div>
+</div>

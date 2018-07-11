@@ -1,0 +1,18 @@
+
+.bigDisp {
+    font-family: 'Roboto Condensed', sans-serif light;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.tinyDisp {
+    font-size: 16px;
+}
+
+.microDisp {
+    font-size: 12px;
+}
+
+.ba {
+    height: 20px;
+}
