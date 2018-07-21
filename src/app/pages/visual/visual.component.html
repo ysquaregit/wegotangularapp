@@ -1,0 +1,65 @@
+<app-nav-comp></app-nav-comp>
+<!-- Tab -->
+<div class="container-fluid">
+    <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 bhoechie-tab-menu">
+                <div class="list-group">
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='pie'}" (click)="open('pie')">
+                        <h4 class="glyphicon glyphicon-plane"></h4>
+                        <br/>Pie
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='heatMap'}" (click)="open('heatMap')">
+                        <h4 class="glyphicon glyphicon-road"></h4>
+                        <br/>Heat Map / Histogram
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='tree'}" (click)="open('tree')">
+                        <h4 class="glyphicon glyphicon-home"></h4>
+                        <br/>Tree Map
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='RTS'}" (click)="open('RTS')">
+                        <h4 class="glyphicon glyphicon-cutlery"></h4>
+                        <br/>Raw / Treated /STP
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='SL'}" (click)="open('SL')">
+                        <h4 class="glyphicon glyphicon-credit-card"></h4>
+                        <br/>Sparkline
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='usageChart'}" (click)="open('usageChart')">
+                        <h4 class="glyphicon glyphicon-credit-card"></h4>
+                        <br/>Usage Chart
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='ganttChart'}" (click)="open('ganttChart')">
+                        <h4 class="glyphicon glyphicon-credit-card"></h4>
+                        <br/>Usage Chart
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+                <!-- flight section -->
+                <div class="bhoechie-tab-content" [ngClass]="{'active':navActive==='pie'}">
+                    <chart [options]="options"></chart>
+                </div>
+                <!-- train section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='heatMap'}">
+                    <div class="feature" id="chart"></div>
+                </div>
+                <!-- train section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='RTS'}">
+                    <span *ngFor="let person of RTSChartFinalData">
+                        <chart [options]="person"></chart>
+                    </span>
+                </div>
+                <!-- train section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='usageChart'}">
+                    <svg width="960" height="960" font-family="sans-serif" font-size="10" text-anchor="middle" id="usageChart"></svg>
+                </div>
+                <!-- train section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}">
+                    <chart [options]="Ganttoptions"></chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

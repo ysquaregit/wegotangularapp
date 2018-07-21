@@ -9,7 +9,7 @@ import {SettingsComponent} from "./pages/settings/settings.component";
 import {InvoiceComponent} from "./pages/invoices/invoice.component";
 import {LoginRedirect} from "./services/login-redirect.service";
 import {EnsureAuthenticated} from "./services/ensure-authenticated.service";
-
+import {VisualComponent} from "./pages/visual/visual.component";
 export const routes: Routes = [
     {
         path: '',
@@ -29,6 +29,11 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardVenComponent,
+        canActivate: [EnsureAuthenticated]
+    },
+    {
+        path: 'visual',
+        component: VisualComponent,
         canActivate: [EnsureAuthenticated]
     },
     {

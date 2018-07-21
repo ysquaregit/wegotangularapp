@@ -360,5 +360,6 @@ Theme Version: 	1.4.1
     };
 
     $('#vectorMapWorld').vectorMap(vectorMapDashOptions);
+    
 
 }).apply(this, [jQuery]);

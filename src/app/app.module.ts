@@ -3,6 +3,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import { ChartModule } from 'angular2-highcharts';
+import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+// import * as d3 from 'd3';
+// import * as d3Hierarchy from 'd3-hierarchy';
 import {
     ButtonModule,
     CalendarModule,
@@ -18,7 +22,6 @@ import {
     TabViewModule
 } from 'primeng/primeng';
 
-
 import {AppComponent} from './app.component';
 
 import {LoginComponent} from './components/login/login.component';
@@ -28,6 +31,7 @@ import {HomepageComponent} from './pages/homepage/homepage.component';
 import {UtilityService} from "./services/utility.service";
 import {Globals} from "./globals";
 import {DashboardVenComponent} from './pages/dashboard-ven/dashboard-ven.component';
+import {VisualComponent} from './pages/visual/visual.component';
 import {SmGWWidgetComponent} from './components/sm-gwwidget/sm-gwwidget.component';
 import {MessageService} from "./services/data.service";
 import {SmMWWidgetComponent} from "./components/sm-mwwidget/sm-mwwidget.component";
@@ -63,14 +67,18 @@ import {PingService} from "./services/ping.service";
 import {ArchwizardModule} from 'ng2-archwizard/dist';
 import {ModalDialogModule} from 'ngx-modal-dialog';
 import {Ng2SmartTableModule} from "ng2-smart-table";
+export function highchartsFactory() {
+    return require('highcharts');
+}
 
-
+declare let require: any;
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         HomepageComponent,
         DashboardVenComponent,
+        VisualComponent,
         SmGWWidgetComponent,
         SmMWWidgetComponent,
         SmRWWidgetComponent,
@@ -120,11 +128,26 @@ import {Ng2SmartTableModule} from "ng2-smart-table";
         MessagesModule,
         ArchwizardModule,
         ModalDialogModule.forRoot(),
-        Ng2SmartTableModule
+        Ng2SmartTableModule,
+        ChartModule.forRoot(require('highcharts'))
     ],
-    providers: [AuthService, UtilityService, Globals, MessageService, EnsureAuthenticated, LoginRedirect, AuthHttp, PingService],
+    providers: [
+        AuthService, 
+        UtilityService, 
+        Globals, 
+        MessageService, 
+        EnsureAuthenticated, 
+        LoginRedirect, 
+        AuthHttp, 
+        PingService,
+        {
+            provide: HighchartsStatic,
+            useFactory: highchartsFactory
+        },
+    ],
     bootstrap: [AppComponent],
     entryComponents: []
 })
+
 export class AppModule {
 }
