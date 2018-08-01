@@ -67,6 +67,8 @@ import {PingService} from "./services/ping.service";
 import {ArchwizardModule} from 'ng2-archwizard/dist';
 import {ModalDialogModule} from 'ngx-modal-dialog';
 import {Ng2SmartTableModule} from "ng2-smart-table";
+
+
 export function highchartsFactory() {
     return require('highcharts');
 }
@@ -130,6 +132,7 @@ declare let require: any;
         ModalDialogModule.forRoot(),
         Ng2SmartTableModule,
         ChartModule.forRoot(require('highcharts'))
+        // ChartModule.forRoot('highcharts'),
     ],
     providers: [
         AuthService, 
