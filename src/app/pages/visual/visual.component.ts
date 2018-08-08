@@ -160,13 +160,13 @@ export class VisualComponent implements OnInit {
                             color: '#F0F0F0'
                         }
                     },          
-                    xAxis: {
-                        crosshair: true,
-                        type: 'datetime',
-                        dateTimeLabelFormats: {
-                            year: '%Y'
-                        }
-                    },
+                    // xAxis: {
+                    //     crosshair: true,
+                    //     type: 'datetime',
+                    //     dateTimeLabelFormats: {
+                    //         year: '%Y'
+                    //     }
+                    // },
                     yAxis: [{
                         title: {
                             text: dataset.Name

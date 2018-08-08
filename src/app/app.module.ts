@@ -68,12 +68,16 @@ import {ArchwizardModule} from 'ng2-archwizard/dist';
 import {ModalDialogModule} from 'ngx-modal-dialog';
 import {Ng2SmartTableModule} from "ng2-smart-table";
 
-
-export function highchartsFactory() {
-    return require('highcharts');
-}
-
 declare let require: any;
+export function highchartsFactory() {
+    const hc = require('highcharts');
+    const dd = require('highcharts/modules/drilldown');
+    dd(hc);
+
+    return hc;
+  }
+
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -131,8 +135,8 @@ declare let require: any;
         ArchwizardModule,
         ModalDialogModule.forRoot(),
         Ng2SmartTableModule,
-        ChartModule.forRoot(require('highcharts'))
-        // ChartModule.forRoot('highcharts'),
+        // ChartModule.forRoot(require('highcharts'))
+        ChartModule
     ],
     providers: [
         AuthService, 

@@ -47,6 +47,7 @@
                 </div>
                 <!-- train section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='RTS'}">
+                    {{RTSChartOptions | json}}
                     <span *ngFor="let person of RTSChartFinalData">
                         <chart [options]="person"></chart>
                     </span>
