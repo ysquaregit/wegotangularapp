@@ -1,0 +1,146 @@
+
+  /* .sparklinesdata{
+    border: 1px dashed lime;
+    width: 200px;
+    height: 100px;
+  }
+  
+  .sparklinesdata svg g path {
+    fill: none;
+    stroke-width: 4;
+    stroke: red;
+  }
+  
+  .wind { stroke: red; }
+  .power { stroke: steelblue; }
+  
+  
+  
+  line {
+      stroke: black;
+  }
+  
+  line.wind {
+      stroke: red;
+      
+  }
+  
+  text {
+      font-family: Arial;
+      font-size: 9pt;
+  }
+
+  #result {
+    text-align: right;
+    color: gray;
+    min-height: 2em;
+}
+#table-sparkline {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+th {
+    font-weight: bold;
+    text-align: left;
+}
+td, th {
+    padding: 5px;
+    border-bottom: 1px solid silver;
+    height: 20px;
+}
+
+thead th {
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+}
+.highcharts-tooltip>span {
+    background: white;
+    border: 1px solid silver;
+    border-radius: 3px;
+    box-shadow: 1px 1px 2px #888;
+    padding: 8px;
+} */
+/* 
+#result {
+  text-align: right;
+  color: gray;
+  min-height: 2em;
+}
+#table-sparkline {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+th {
+  font-weight: bold;
+  text-align: left;
+}
+td, th {
+  padding: 5px;
+  border-bottom: 1px solid silver;
+  height: 20px;
+}
+
+thead th {
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
+}
+.highcharts-tooltip>span {
+  background: white;
+  border: 1px solid silver;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px #888;
+  padding: 8px;
+} */
+.js-report-sparkline {
+  width: 208px;
+  height: 70px;
+  font-family: sans-serif;
+  position: relative;
+}
+.js-report-sparkline * {
+  box-sizing: border-box;
+}
+.js-report-sparkline path {
+  stroke-width: 3;
+  fill: none;
+}
+.js-report-sparkline .point {
+  stroke-width: 2;
+  transition: all 0.3s;
+}
+.js-report-sparkline .bar-rect {
+  fill: transparent;
+  stroke: none;
+}
+.js-report-sparkline .point.hover {
+  stroke-width: 4;
+}
+.js-report-sparkline .chart-container {
+  position: relative;
+}
+.js-report-sparkline .chart-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, .8);
+  color: white;
+  left: 0;
+  display: none;
+  padding: 2px 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  pointer-events: none;
+}
+.js-report-sparkline .chart-tooltip .title {
+  z-index: 3;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.js-report-sparkline .bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  right: 5px;
+  top: 13px;
+}

@@ -8,6 +8,8 @@ import {environment} from "../../../environments/environment";
 import {Message} from 'primeng/primeng';
 import * as d3 from 'd3';
 import * as d3Hierarchy from 'd3-hierarchy';
+import * as $ from 'jquery/dist/jquery.min.js';
+import * as Highcharts from 'highcharts/highcharts.js';
 
 @Component({
     selector: 'app-visual',
@@ -23,11 +25,18 @@ export class VisualComponent implements OnInit {
     value = 50;
     bufferValue = 75;
     items: Array<any> = [];
-    options: Object;
+    options: Array<any> = [];
     RTSChartOptions:Object;
     RTSChartFinalData:Array<any> = [];
     navActive = 'pie';
     Ganttoptions: Object;
+    heatMapDataSet: Array<any> = [];
+    histogramDataSet:Array<any> = []
+    treeMapChartSet:Array<any> = [];
+    sparklinesSetData:Array<any> = [];
+    fromdateValue: Date;
+    toateValue: Date;
+    treeMapShowStatus = false;
 
     private width: number;
     private height: number;
@@ -76,7 +85,9 @@ export class VisualComponent implements OnInit {
     
 
     ngOnInit() {
-        
+        this.fromdateValue = new Date();
+        this.toateValue = new Date();
+        this.open('pie')
     }
 
 
@@ -90,13 +101,13 @@ export class VisualComponent implements OnInit {
                 this.heatMapChart();
                 break;
             case 'tree':
-                //this.treeMapChart();
+                this.treeMapChart();
                 break;
             case 'RTS':
                 this.RTSChart();
                 break;
             case 'SL': 
-                //this.SLchart();
+                this.SLchart();
                 break;
             case 'usageChart':
                 this.usageChart();
@@ -111,41 +122,45 @@ export class VisualComponent implements OnInit {
     }
 
     pieChart() {
-        this.options = {
-            chart: { 
-                type: 'pie'
-            },
-            title : {
-                text: 'pie chart'
-            },
-            series: [{
-                name: 'Brands',
-                data: [{
-                    name: 'Chrome',
-                    y: 61.41,
-                }, {
-                    name: 'Internet Explorer',
-                    y: 11.84
-                }, {
-                    name: 'Firefox',
-                    y: 10.85
-                }]
-            }]
-        };
+        this.options = [{
+            name: 'Sources 1',
+            y: 61.41,
+        }, {
+            name: 'Sources 2',
+            y: 11.84
+        }, {
+            name: 'Sources 3',
+            y: 10.85
+        }, {
+            name: 'Sources 4',
+            y: 500
+        }, {
+            name: 'Sources 5',
+            y: 250
+        }]
     }
 
     RTSChart() {
         let headers: Headers = new Headers({
             'Content-Type': 'application/json'
         });
-        this.http.get('https://cdn.rawgit.com/highcharts/highcharts/057b672172ccc6c08fe7dbb27fc17ebca3f5b770/samples/data/activity.json').subscribe(activity => {
-
+        this.http.get('https://api.myjson.com/bins/awsj8').subscribe(activity => {
+            var chartColor;
             activity.json().datasets.forEach((dataset,i) => {
+                if(dataset.name == "Raw") {
+                    chartColor = "#89CFF0";
+                }
+                else if(dataset.name == "Treated") {
+                    chartColor = "#32CD32";
+                }
+                else {
+                    chartColor = "rgba(67,67,72,0.3)";
+                }
                 this.RTSChartOptions = {
                     chart: {
                         type: dataset.type,           
                         zoomType: 'x',
-                        height: 300,  
+                        height: 300
                     },
                     title: {
                         text: dataset.name,       
@@ -160,13 +175,15 @@ export class VisualComponent implements OnInit {
                             color: '#F0F0F0'
                         }
                     },          
-                    // xAxis: {
-                    //     crosshair: true,
-                    //     type: 'datetime',
-                    //     dateTimeLabelFormats: {
-                    //         year: '%Y'
-                    //     }
-                    // },
+                    xAxis: {
+                        crosshair: true,
+                        dateTimeLabelFormats: {
+                            minute: '%H:%M'
+                        },
+                        labels: {
+                            format: '{value} m'
+                        }
+                    },
                     yAxis: [{
                         title: {
                             text: dataset.Name
@@ -174,22 +191,25 @@ export class VisualComponent implements OnInit {
                         height: 200,
                         lineWidth: 2,
                         top: 0,
-                    }],
-                    legend: {
-                            align: 'center',
-                            verticalAlign: 'top',
-                            layout: 'vertical',
-                            x: 30,
-                            y: 0,
-            
-                        itemStyle: {
-                            color: '#ffffff',
-                            fontSize: '14px'
+                        labels: {
+                            format: '{value} K/l'
                         }
-                    },
+                    }],
+                    // legend: {
+                    //         align: 'center',
+                    //         verticalAlign: 'bottom',
+                    //         layout: 'vertical',
+                    //         x: 30,
+                    //         y: 0,
+            
+                    //     itemStyle: {
+                    //         color: '#ffffff',
+                    //         fontSize: '14px'
+                    //     }
+                    // },
                     plotOptions: {
                         series: {
-                            pointStart: 2010,
+                            pointStart: 0,
                             color: '#2B908F'
                         }
                     },
@@ -197,6 +217,8 @@ export class VisualComponent implements OnInit {
                         name: dataset.Name,
                         data: dataset.data,
                         yAxis : 0,
+                        color: chartColor,//Highcharts.getOptions().colors[i],
+                        fillOpacity: 0.3
                     }]
                 };  
                 this.RTSChartFinalData.push(this.RTSChartOptions);
@@ -205,321 +227,452 @@ export class VisualComponent implements OnInit {
     }
 
     ganttChart() {
-        var today_date = new Date(),
-        day = 1000 * 60 * 60 * 24;
-
-        // Set to 00:00:00:000 today
-        today_date.setUTCHours(0);
-        today_date.setUTCMinutes(0);
-        today_date.setUTCSeconds(0);
-        today_date.setUTCMilliseconds(0);
-        var today = today_date.getTime();
-        this.Ganttoptions = {
-            title: {
-                text: 'Gantt Chart Test'
-            },
-            xAxis: {
-                currentDateIndicator: true,
-                min: today - 3 * day,
-                max: today + 18 * day
-            },
+        var category_json = [{"name":"Pump 9","data":[{"x":1374019200000,"y":0,"label":"Pump 9","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":0,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":0,"label":"Pump 9","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":0,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 8","data":[{"x":1374019200000,"y":1,"label":"Pump 8","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":1,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":1,"label":"Pump 8","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":1,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 7","data":[{"x":1374019200000,"y":2,"label":"Pump 7","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":2,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":2,"label":"Pump 7","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":2,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 6","data":[{"x":1374019200000,"y":3,"label":"Pump 6","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":3,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":3,"label":"Pump 6","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":3,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 5","data":[{"x":1374019200000,"y":4,"label":"Pump 5","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":4,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":4,"label":"Pump 5","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":4,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 4","data":[{"x":1376784000000,"y":5,"label":"Pump 4","from":1376784000000,"to":1434931200000},{"x":1434931200000,"y":5,"from":1376784000000,"to":1434931200000}]},{"name":"Pump 3","data":[{"x":1308182400000,"y":6,"label":"Pump 3","from":1308182400000,"to":1334966400000},{"x":1334966400000,"y":6,"from":1308182400000,"to":1334966400000},[1355486400000,null],{"x":1376006400000,"y":6,"label":"Pump 3","from":1376006400000,"to":1434931200000},{"x":1434931200000,"y":6,"from":1376006400000,"to":1434931200000}]},{"name":"Pump 2- Should be null","data":[]},{"name":"Pump 1","data":[{"x":1277078400000,"y":8,"label":"Pump 1","from":1277078400000,"to":1434844800000},{"x":1434844800000,"y":8,"from":1277078400000,"to":1434844800000}]}];
         
-            /*
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'ganttChartContainer'
+            },
+
+            title: {
+                text: 'On / Off Status'
+            },
+
+            xAxis: {
+                type: 'time'
+            },
+
+            yAxis: {
+
+             categories: ['Pump 1',
+                          'Pump 2',
+                          'Pump 3',
+                          'Pump 4',
+                          'Pump 5',
+                          'Pump 6',
+                          'Pump 7',
+                          'Pump 8',
+                          'Pump 9'],
+                tickInterval: 1,            
+                tickPixelInterval: 200,
+                labels: {
+                    style: {
+                        color: '#525151',
+                        font: '12px Helvetica',
+                        fontWeight: 'bold'
+                    },
+                   /* formatter: function() {
+                        if (tasks[this.value]) {
+                            return tasks[this.value].name;
+                        }
+                    }*/
+                },
+                startOnTick: false,
+                endOnTick: false,
+                title: {
+                    text: 'Criteria'
+                },
+                minPadding: 0.2,
+                maxPadding: 0.2,
+                fontSize:'15px'
+                
+            },
+
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                // formatter: function() {
+                //     return '<b>'+ tasks[this.y].name + '</b><br/>' +
+                //         Highcharts.dateFormat('%m-%d-%Y', this.point.options.from)  +
+                //         ' - ' + Highcharts.dateFormat('%m-%d-%Y', this.point.options.to); 
+                // }
+            },
+
             plotOptions: {
-                gantt: {
-                    pathfinder: {
-                        type: 'simpleConnect'
+                line: {
+                    lineWidth: 10,
+                    marker: {
+                        enabled: false
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        align: 'left',
+                        formatter: function() {
+                            return this.point.options && this.point.options.label;
+                        }
                     }
                 }
             },
-            */
-        
-            series: [{
-                name: 'Offices',
-                data: [{
-                    taskName: 'New offices',
-                    id: 'new_offices',
-                    start: today - 2 * day,
-                    end: today + 14 * day
-                }, {
-                    taskName: 'Prepare office building',
-                    id: 'prepare_building',
-                    parent: 'new_offices',
-                    start: today - (2 * day),
-                    end: today + (6 * day),
-                    completed: {
-                        amount: 0.2
-                    }
-                }, {
-                    taskName: 'Inspect building',
-                    id: 'inspect_building',
-                    dependency: 'prepare_building',
-                    parent: 'new_offices',
-                    start: today + 6 * day,
-                    end: today + 8 * day
-                }, {
-                    taskName: 'Passed inspection',
-                    id: 'passed_inspection',
-                    dependency: 'inspect_building',
-                    parent: 'new_offices',
-                    start: today + 9.5 * day,
-                    milestone: true
-                }, {
-                    taskName: 'Relocate',
-                    id: 'relocate',
-                    dependency: 'passed_inspection',
-                    parent: 'new_offices',
-                    start: today + 10 * day,
-                    end: today + 14 * day
-                }, {
-                    taskName: 'Relocate staff',
-                    id: 'relocate_staff',
-                    parent: 'relocate',
-                    start: today + 10 * day,
-                    end: today + 11 * day
-                }, {
-                    taskName: 'Relocate test facility',
-                    dependency: 'relocate_staff',
-                    parent: 'relocate',
-                    start: today + 11 * day,
-                    end: today + 13 * day
-                }, {
-                    taskName: 'Relocate cantina',
-                    dependency: 'relocate_staff',
-                    parent: 'relocate',
-                    start: today + 11 * day,
-                    end: today + 14 * day
-                }]
-            }, {
-                name: 'Product',
-                data: [{
-                    taskName: 'New product launch',
-                    id: 'new_product',
-                    start: today - day,
-                    end: today + 18 * day
-                }, {
-                    taskName: 'Development',
-                    id: 'development',
-                    parent: 'new_product',
-                    start: today - day,
-                    end: today + (11 * day),
-                    completed: {
-                        amount: 0.6,
-                        fill: '#e80'
-                    }
-                }, {
-                    taskName: 'Beta',
-                    id: 'beta',
-                    dependency: 'development',
-                    parent: 'new_product',
-                    start: today + 12.5 * day,
-                    milestone: true
-                }, {
-                    taskName: 'Final development',
-                    id: 'finalize',
-                    dependency: 'beta',
-                    parent: 'new_product',
-                    start: today + 13 * day,
-                    end: today + 17 * day
-                }, {
-                    taskName: 'Launch',
-                    dependency: 'finalize',
-                    parent: 'new_product',
-                    start: today + 17.5 * day,
-                    milestone: true
-                }]
-            }]
-        };
+
+            series: category_json
+
+        });		 
     }
 
 
 
     heatMapChart() {
-        var margin = {top: 20, right: 0, bottom: 0, left: 0},
-            width = 960,
-            height = 500 - margin.top - margin.bottom,
-            formatNumber = d3.format(",d"),
-            transitioning;
-        console.log("margin",margin)
+        //https://api.myjson.com/bins/fkyjo
+        //https://api.myjson.com/bins/7hw5g
+        var testData = [
+            {
+              "Sender": 0,
+              "Receiver": 0,
+              "Bytes": 2323
+            },
+            {
+              "Sender": 0,
+              "Receiver": 1,
+              "Bytes": 1337735
+            },
+            {
+              "Sender": 0,
+              "Receiver": 2,
+              "Bytes": 1498089
+            },
+            {
+              "Sender": 0,
+              "Receiver": 3,
+              "Bytes": 1927158
+            },
+            {
+              "Sender": 0,
+              "Receiver": 4,
+              "Bytes": 954470
+            },
+            {
+              "Sender": 0,
+              "Receiver": 5,
+              "Bytes": 1059291
+            },
+            {
+              "Sender": 0,
+              "Receiver": 6,
+              "Bytes": 337230
+            },
+            {
+              "Sender": 0,
+              "Receiver": 7,
+              "Bytes": 1196630
+            },
+            {
+              "Sender": 1,
+              "Receiver": 0,
+              "Bytes": 920993
+            },
+            {
+              "Sender": 1,
+              "Receiver": 1,
+              "Bytes": 4564564
+            },
+            {
+              "Sender": 1,
+              "Receiver": 2,
+              "Bytes": 68509952
+            },
+            {
+              "Sender": 1,
+              "Receiver": 3,
+              "Bytes": 24007175
+            },
+            {
+              "Sender": 1,
+              "Receiver": 4,
+              "Bytes": 294988
+            },
+            {
+              "Sender": 1,
+              "Receiver": 5,
+              "Bytes": 33621593
+            },
+            {
+              "Sender": 1,
+              "Receiver": 6,
+              "Bytes": 746257
+            },
+            {
+              "Sender": 1,
+              "Receiver": 7,
+              "Bytes": 3212629
+            },
+            {
+              "Sender": 2,
+              "Receiver": 0,
+              "Bytes": 3064254
+            },
+            {
+              "Sender": 2,
+              "Receiver": 1,
+              "Bytes": 36162185
+            },
+            {
+              "Sender": 2,
+              "Receiver": 2,
+              "Bytes": 45645
+            },
+            {
+              "Sender": 2,
+              "Receiver": 3,
+              "Bytes": 2552097
+            },
+            {
+              "Sender": 2,
+              "Receiver": 4,
+              "Bytes": 140083
+            },
+            {
+              "Sender": 2,
+              "Receiver": 5,
+              "Bytes": 503400
+            },
+            {
+              "Sender": 2,
+              "Receiver": 6,
+              "Bytes": 3624428
+            },
+            {
+              "Sender": 2,
+              "Receiver": 7,
+              "Bytes": 984222
+            },
+            {
+              "Sender": 3,
+              "Receiver": 0,
+              "Bytes": 123123123123
+            },
+            {
+              "Sender": 3,
+              "Receiver": 1,
+              "Bytes": 71141164
+            },
+            {
+              "Sender": 3,
+              "Receiver": 2,
+              "Bytes": 39918684
+            },
+            {
+              "Sender": 3,
+              "Receiver": 3,
+              "Bytes": 56767
+            },
+            {
+              "Sender": 3,
+              "Receiver": 4,
+              "Bytes": 165707
+            },
+            {
+              "Sender": 3,
+              "Receiver": 5,
+              "Bytes": 1998975
+            },
+            {
+              "Sender": 3,
+              "Receiver": 6,
+              "Bytes": 523288
+            },
+            {
+              "Sender": 3,
+              "Receiver": 7,
+              "Bytes": 254694
+            },
+            {
+              "Sender": 4,
+              "Receiver": 0,
+              "Bytes": 5878690
+            },
+            {
+              "Sender": 4,
+              "Receiver": 1,
+              "Bytes": 3743080
+            },
+            {
+              "Sender": 4,
+              "Receiver": 2,
+              "Bytes": 1084812
+            },
+            {
+              "Sender": 4,
+              "Receiver": 3,
+              "Bytes": 89613280
+            },
+            {
+              "Sender": 4,
+              "Receiver": 4,
+              "Bytes": 123123
+            },
+            {
+              "Sender": 4,
+              "Receiver": 5,
+              "Bytes": 123123123123
+            },
+            {
+              "Sender": 4,
+              "Receiver": 6,
+              "Bytes": 43995619
+            },
+            {
+              "Sender": 4,
+              "Receiver": 7,
+              "Bytes": 823902
+            },
+            {
+              "Sender": 5,
+              "Receiver": 0,
+              "Bytes": 52302944
+            },
+            {
+              "Sender": 5,
+              "Receiver": 1,
+              "Bytes": 11820707
+            },
+            {
+              "Sender": 5,
+              "Receiver": 2,
+              "Bytes": 23220812
+            },
+            {
+              "Sender": 5,
+              "Receiver": 3,
+              "Bytes": 123123123123
+            },
+            {
+              "Sender": 5,
+              "Receiver": 4,
+              "Bytes": 38104169
+            },
+            {
+              "Sender": 5,
+              "Receiver": 5,
+              "Bytes": 5433223
+            },
+            {
+              "Sender": 5,
+              "Receiver": 6,
+              "Bytes": 1027855
+            },
+            {
+              "Sender": 5,
+              "Receiver": 7,
+              "Bytes": 1455038
+            },
+            {
+              "Sender": 6,
+              "Receiver": 0,
+              "Bytes": 4636646
+            },
+            {
+              "Sender": 6,
+              "Receiver": 1,
+              "Bytes": 12330615
+            },
+            {
+              "Sender": 6,
+              "Receiver": 2,
+              "Bytes": 3741502
+            },
+            {
+              "Sender": 6,
+              "Receiver": 3,
+              "Bytes": 123123123123
+            },
+            {
+              "Sender": 6,
+              "Receiver": 4,
+              "Bytes": 219557981
+            },
+            {
+              "Sender": 6,
+              "Receiver": 5,
+              "Bytes": 3391134
+            },
+            {
+              "Sender": 6,
+              "Receiver": 6,
+              "Bytes": 123123123123
+            },
+            {
+              "Sender": 6,
+              "Receiver": 7,
+              "Bytes": 104803858
+            },
+            {
+              "Sender": 7,
+              "Receiver": 0,
+              "Bytes": 12262082
+            },
+            {
+              "Sender": 7,
+              "Receiver": 1,
+              "Bytes": 2535301
+            },
+            {
+              "Sender": 7,
+              "Receiver": 2,
+              "Bytes": 2735266
+            },
+            {
+              "Sender": 7,
+              "Receiver": 3,
+              "Bytes": 22877396
+            },
+            {
+              "Sender": 7,
+              "Receiver": 4,
+              "Bytes": 3142736
+            },
+            {
+              "Sender": 7,
+              "Receiver": 5,
+              "Bytes": 3213889
+            },
+            {
+              "Sender": 7,
+              "Receiver": 6,
+              "Bytes": 341987
+            },
+            {
+              "Sender": 7,
+              "Receiver": 7,
+              "Bytes": 132123
+            },
+            {
+              "Sender": 8,
+              "Receiver": 0,
+              "Bytes": 234
+            },
+            {
+              "Sender": 8,
+              "Receiver": 2,
+              "Bytes": 234
+            }
+           ]
+        //https://api.myjson.com/bins/188eho
+        this.http.get('https://api.myjson.com/bins/7hw5g').subscribe(activity => {
+            this.heatMapDataSet = testData;
+            this.histroGramChart();
+        });
+    }
 
-        var x = d3.scaleLinear()
-            .domain([0, width])
-            .range([0, width]);
+    histroGramChart() {
+        //https://api.myjson.com/bins/fkyjo
+        //https://api.myjson.com/bins/7hw5g
+        this.http.get('https://api.myjson.com/bins/ghzl8').subscribe(activity => {
+            this.histogramDataSet = activity.json();
+        });
+    }
 
-        var y = d3.scaleLinear()
-            .domain([0, height])
-            .range([0, height]);
-        console.log("d3",d3)
-        var treemap = d3.treemap()
-        // treemap.children(function(d, depth) { return depth ? null : d._children; })
-        // treemap.sort(function(a, b) { return a.value - b.value; })
-        // treemap.ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
-        // treemap.round(false);
-
-        var svg = d3.select("#chart").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.bottom + margin.top)
-            .style("margin-left", -margin.left + "px")
-            .style("margin.right", -margin.right + "px")
-        .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .style("shape-rendering", "crispEdges");
-
-        var grandparent = svg.append("g")
-            .attr("class", "grandparent");
-
-        grandparent.append("rect")
-            .attr("y", -margin.top)
-            .attr("width", width)
-            .attr("height", margin.top);
-
-        grandparent.append("text")
-            .attr("x", 6)
-            .attr("y", 6 - margin.top)
-            .attr("dy", ".75em");
-            console.log("TEST JSON",grandparent)
-
-            d3.json("https://codepen.io/boars/pen/7958d57f25d20fae4e606732adbccf73.js").then((root) => {
-                
-                initialize(root);
-                accumulate(root);
-                layout(root);
-                display(root);
-              
-                function initialize(root) {
-                  root.x = root.y = 0;
-                  root.dx = width;
-                  root.dy = height;
-                  root.depth = 0;
-                }
-              
-                // Aggregate the values for internal nodes. This is normally done by the
-                // treemap layout, but not here because of our custom implementation.
-                // We also take a snapshot of the original children (_children) to avoid
-                // the children being overwritten when when layout is computed.
-                function accumulate(d) {
-                  return (d._children = d.children)
-                      ? d.value = d.children.reduce(function(p, v) { return p + accumulate(v); }, 0)
-                      : d.value;
-                }
-              
-                // Compute the treemap layout recursively such that each group of siblings
-                // uses the same size (1×1) rather than the dimensions of the parent cell.
-                // This optimizes the layout for the current zoom state. Note that a wrapper
-                // object is created for the parent node for each group of siblings so that
-                // the parent’s dimensions are not discarded as we recurse. Since each group
-                // of sibling was laid out in 1×1, we must rescale to fit using absolute
-                // coordinates. This lets us use a viewport to zoom.
-                function layout(d) {
-                  if (d._children) {
-                    // treemap(d._children);
-                    d._children.forEach((c)=> {
-                      c.x = d.x + c.x * d.dx;
-                      c.y = d.y + c.y * d.dy;
-                      c.dx *= d.dx;
-                      c.dy *= d.dy;
-                      c.parent = d;
-                      layout(c);
-                    });
-                  }
-                }
-              
-                function display(d) {
-                  grandparent
-                      .datum(d.parent)
-                      .on("click", transition)
-                    .select("text")
-                      .text(name(d));
-              
-                  var g1 = svg.insert("g", ".grandparent")
-                      .datum(d)
-                      .attr("class", "depth");
-              
-                  var g = g1.selectAll("g")
-                      .data(d._children)
-                    .enter().append("g");
-              
-                  g.filter(function(d) { return d._children; })
-                      .classed("children", true)
-                      .on("click", transition);
-              
-                  g.selectAll(".child")
-                      .data(function(d) { return d._children || [d]; })
-                    .enter().append("rect")
-                      .attr("class", "child")
-                      .call(rect);
-              
-                  g.append("rect")
-                      .attr("class", "parent")
-                      .call(rect)
-                    .append("title")
-                      .text(function(d) { return formatNumber(d.value); });
-              
-                  g.append("text")
-                      .attr("dy", ".75em")
-                      .text(function(d) { return d.name; })
-                      .call(text);
-              
-                  function transition(d) {
-                    if (transitioning || !d) return;
-                    transitioning = true;
-              
-                    var g2 = display(d),
-                        t1 = g1.transition().duration(750),
-                        t2 = g2.transition().duration(750);
-              
-                    // Update the domain only after entering new elements.
-                    x.domain([d.x, d.x + d.dx]);
-                    y.domain([d.y, d.y + d.dy]);
-              
-                    // Enable anti-aliasing during the transition.
-                    svg.style("shape-rendering", null);
-              
-                    // Draw child nodes on top of parent nodes.
-                    svg.selectAll(".depth").sort(function(a, b) { return a.depth - b.depth; });
-              
-                    // Fade-in entering text.
-                    g2.selectAll("text").style("fill-opacity", 0);
-              
-                    // Transition to the new view.
-                    t1.selectAll("text").call(text).style("fill-opacity", 0);
-                    t2.selectAll("text").call(text).style("fill-opacity", 1);
-                    t1.selectAll("rect").call(rect);
-                    t2.selectAll("rect").call(rect);
-              
-                    // Remove the old node when the transition is finished.
-                    t1.remove().each("end", function() {
-                      svg.style("shape-rendering", "crispEdges");
-                      transitioning = false;
-                    });
-                  }
-              
-                  return g;
-                }
-              
-                function text(text) {
-                  text.attr("x", function(d) { return x(d.x) + 6; })
-                      .attr("y", function(d) { return y(d.y) + 6; });
-                }
-              
-                function rect(rect) {
-                  rect.attr("x", function(d) { return x(d.x); })
-                      .attr("y", function(d) { return y(d.y); })
-                      .attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
-                      .attr("height", function(d) { return y(d.y + d.dy) - y(d.y); });
-                }
-              
-                function name(d) {
-                  return d.parent
-                      ? name(d.parent) + "." + d.name
-                      : d.name;
-                }
-            });
-
+    treeMapChart() {
+        
+        this.http.get('https://api.myjson.com/bins/8j8ac').subscribe(activity => {
+            this.treeMapChartSet = activity.json();
+            this.treeMapShowStatus = true;
+        });
     }
 
     usageChart() {
-        
+        var width = 300;
+        var height = 300;
         var svg = d3.select("#generateGraph"),
             width = +svg.attr("width"),
             height = +svg.attr("height");
@@ -550,7 +703,14 @@ export class VisualComponent implements OnInit {
                     }
                 });
             console.log("123123",root)
-    
+            var chars = '0123456789ABCDEF'.split('');
+
+            var randomColor = function () {
+            var color = '#';
+            for (var i = 0; i < 6; i++)
+            color += chars[Math.floor(Math.random() * 16)];
+            return color;
+            };
             var node = svg.selectAll(".node")
                 .data(pack(root).leaves())
                 .enter().append("g")
@@ -560,7 +720,7 @@ export class VisualComponent implements OnInit {
             node.append("circle")
                 .attr("id", function(d) { return d.id; })
                 .attr("r", function(d) { return d.r; })
-                .style("fill", function(d) { return color(d.package); });
+                .style("fill", randomColor());
     
             node.append("clipPath")
                 .attr("id", function(d) { return "clip-" + d.id; })
@@ -574,7 +734,8 @@ export class VisualComponent implements OnInit {
                 .enter().append("tspan")
                 .attr("x", 0)
                 .attr("y", function(d, i, nodes) { return 13 + (i - nodes.length / 2 - 0.5) * 10; })
-                .text(function(d) { return d; });
+                .text(function(d) { return d; })
+                .style("fill", "#f00");
     
             node.append("title")
                 .text(function(d) { return d.id + "\n" + format(d.value); });
@@ -589,6 +750,13 @@ export class VisualComponent implements OnInit {
         
         
         // });
+    }
+
+    SLchart() {
+        this.http.get('https://api.myjson.com/bins/ht54c').subscribe(activity => {
+            this.sparklinesSetData = activity.json();
+        });
+
     }
 
 }

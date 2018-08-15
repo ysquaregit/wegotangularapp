@@ -2,9 +2,12 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import * as $ from 'jquery/dist/jquery.min.js';
 import {HttpModule} from '@angular/http';
 import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import * as highcharts from 'highcharts';
+import * as highchartsHeatmap from 'highcharts/modules/heatmap';
 // import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
 import {
@@ -67,14 +70,22 @@ import {PingService} from "./services/ping.service";
 import {ArchwizardModule} from 'ng2-archwizard/dist';
 import {ModalDialogModule} from 'ngx-modal-dialog';
 import {Ng2SmartTableModule} from "ng2-smart-table";
+import {appVisualPieChartComponent} from "./components/visuals/pie-chart/pie-chart.component";
+import {appVisualHeatMapComponent} from "./components/visuals/heat-map/heat-map.component";
+import {appVisualHistogramChartComponent} from "./components/visuals/histogram-chart/histogram-chart.component";
+import {appVisualTreemapChartComponent} from "./components/visuals/treemap-chart/treemap-chart.component";
+import {appVisualsparklineComponent} from "./components/visuals/sparkline-chart/sparkline-chart.component";
+
 
 declare let require: any;
 export function highchartsFactory() {
-    const hc = require('highcharts');
-    const dd = require('highcharts/modules/drilldown');
-    dd(hc);
+    // const hc = require('highcharts');
+    // const dd = require('highcharts/modules/drilldown');
+    // dd(hc);
 
-    return hc;
+    // return hc;
+    highchartsHeatmap(highcharts);
+    return highcharts;
   }
 
 
@@ -109,7 +120,12 @@ export function highchartsFactory() {
         BwellIntelligenceWidgetComponent,
         BwellControlWidgetComponent,
         RegisterComponent,
-        StatusComponent
+        StatusComponent,
+        appVisualPieChartComponent,
+        appVisualHeatMapComponent,
+        appVisualHistogramChartComponent,
+        appVisualTreemapChartComponent,
+        appVisualsparklineComponent
 
     ],
     imports: [

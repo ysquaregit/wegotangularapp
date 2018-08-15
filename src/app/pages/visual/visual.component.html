@@ -10,10 +10,6 @@
                         <h4 class="glyphicon glyphicon-plane"></h4>
                         <br/>Pie
                     </a>
-                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='heatMap'}" (click)="open('heatMap')">
-                        <h4 class="glyphicon glyphicon-road"></h4>
-                        <br/>Heat Map / Histogram
-                    </a>
                     <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='tree'}" (click)="open('tree')">
                         <h4 class="glyphicon glyphicon-home"></h4>
                         <br/>Tree Map
@@ -30,35 +26,157 @@
                         <h4 class="glyphicon glyphicon-credit-card"></h4>
                         <br/>Usage Chart
                     </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='heatMap'}" (click)="open('heatMap')">
+                        <h4 class="glyphicon glyphicon-road"></h4>
+                        <br/>Heat Map / Histogram
+                    </a>
                     <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='ganttChart'}" (click)="open('ganttChart')">
                         <h4 class="glyphicon glyphicon-credit-card"></h4>
-                        <br/>Usage Chart
+                        <br/>Gantt Chart
                     </a>
                 </div>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
-                <!-- flight section -->
+                <div class="clearfix"></div>
+                <!-- Pie chart section -->
                 <div class="bhoechie-tab-content" [ngClass]="{'active':navActive==='pie'}">
-                    <chart [options]="options"></chart>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>From Date:</label>
+                                <p-calendar [(ngModel)]="fromdateValue"
+                                dateFormat="dd.mm.yy"></p-calendar>
+                            </div>
+                            <div class="col-md-3 pull-left">
+                                    <label>To Date:</label>
+                                <p-calendar [(ngModel)]="toateValue"
+                                    dateFormat="dd.mm.yy"></p-calendar>
+                            </div>
+                        </div>
+                    <app-visuals-pie-chart [(data)]="options"></app-visuals-pie-chart>
+                </div>
+                <!-- Heat Map section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='heatMap'}" *ngIf="navActive=='heatMap'">
+                        
+
+                        <div class="row">
+                                <div class="col-md-3">
+                                    <label>From Date:</label>
+                                    <p-calendar [(ngModel)]="fromdateValue"
+                                    dateFormat="dd.mm.yy"></p-calendar>
+                                </div>
+                                <div class="col-md-2">
+                                        <label>To Date:</label>
+                                    <p-calendar [(ngModel)]="toateValue"
+                                        dateFormat="dd.mm.yy"></p-calendar>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary">1 Week Before</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary">2 Week Before</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary">1 Month Before</button>
+                                </div>
+                            </div>
+                    <div *ngIf="heatMapDataSet.length > 0">
+                        <app-visuals-heat-map [(data)]="heatMapDataSet"></app-visuals-heat-map>
+                    </div>
+                    <!-- <div class="col-md-6" *ngIf="histogramDataSet.length > 0">
+                        <app-visuals-histogram-chart [(data)]="histogramDataSet"></app-visuals-histogram-chart>
+                    </div> -->
                 </div>
                 <!-- train section -->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='heatMap'}">
-                    <div class="feature" id="chart"></div>
-                </div>
-                <!-- train section -->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='RTS'}">
-                    {{RTSChartOptions | json}}
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='RTS'}" [hidden]="navActive!='RTS'">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>From Date:</label>
+                                <p-calendar [(ngModel)]="fromdateValue"
+                                dateFormat="dd.mm.yy"></p-calendar>
+                            </div>
+                            <div class="col-md-3">
+                                    <label>To Date:</label>
+                                <p-calendar [(ngModel)]="toateValue"
+                                    dateFormat="dd.mm.yy"></p-calendar>
+                            </div>
+                        </div>
                     <span *ngFor="let person of RTSChartFinalData">
                         <chart [options]="person"></chart>
                     </span>
                 </div>
-                <!-- train section -->
+                <!-- train section  *ngIf="navActive=='usageChart'"-->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='usageChart'}">
-                    <svg width="960" height="960" font-family="sans-serif" font-size="10" text-anchor="middle" id="generateGraph"></svg>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>From Date:</label>
+                                <p-calendar [(ngModel)]="fromdateValue"
+                                dateFormat="dd.mm.yy"></p-calendar>
+                            </div>
+                            <div class="col-md-3">
+                                    <label>To Date:</label>
+                                <p-calendar [(ngModel)]="toateValue"
+                                    dateFormat="dd.mm.yy"></p-calendar>
+                            </div>
+                        </div>
+                    <svg width="500" height="500" font-family="sans-serif" font-size="10" text-anchor="middle" id="generateGraph"></svg>
                 </div>
                 <!-- train section -->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}">
-                    <chart [options]="Ganttoptions"></chart>
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}" [hidden]="navActive!='ganttChart'">
+                        
+                        <div class="row">
+                                <div class="col-md-3">
+                                    <label>From Date:</label>
+                                    <p-calendar [(ngModel)]="fromdateValue"
+                                    dateFormat="dd.mm.yy"></p-calendar>
+                                </div>
+                                <div class="col-md-2">
+                                        <label>To Date:</label>
+                                    <p-calendar [(ngModel)]="toateValue"
+                                        dateFormat="dd.mm.yy"></p-calendar>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary">1 Week Before</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary">2 Week Before</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary">1 Month Before</button>
+                                </div>
+                            </div>
+                    <!-- <chart [(options)]="Ganttoptions"></chart> -->
+                    <div id="ganttChartContainer"></div>
+                </div>
+
+                <!-- train section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='tree'}" *ngIf="navActive=='tree' && treeMapShowStatus && treeMapChartSet.children.length > 0"><div class="row">
+                        <div class="col-md-3">
+                            <label>From Date:</label>
+                            <p-calendar [(ngModel)]="fromdateValue"
+                            dateFormat="dd.mm.yy"></p-calendar>
+                        </div>
+                        <div class="col-md-3">
+                                <label>To Date:</label>
+                            <p-calendar [(ngModel)]="toateValue"
+                                dateFormat="dd.mm.yy"></p-calendar>
+                        </div>
+                    </div>
+                   <app-visuals-treemap-chart [(data)] ="treeMapChartSet"></app-visuals-treemap-chart>
+                </div>
+                <!-- train section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='SL'}" *ngIf="navActive=='SL' && sparklinesSetData.length > 0">
+                        <div class="row">
+                                <div class="col-md-3">
+                                    <label>From Date:</label>
+                                    <p-calendar [(ngModel)]="fromdateValue"
+                                    dateFormat="dd.mm.yy"></p-calendar>
+                                </div>
+                                <div class="col-md-3">
+                                        <label>To Date:</label>
+                                    <p-calendar [(ngModel)]="toateValue"
+                                        dateFormat="dd.mm.yy"></p-calendar>
+                                </div>
+                        <app-visuals-sparkline-chart [data]="['132','34','32',60,'50']"></app-visuals-sparkline-chart>
                 </div>
             </div>
         </div>

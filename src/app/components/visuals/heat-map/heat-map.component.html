@@ -1,0 +1,9 @@
+<div class="col-md-7">
+    <div class="appHeatMap" id="appHeatMap"></div>
+</div>
+<div class="col-md-4" *ngIf="histogramDataSet.length > 0">
+    <app-visuals-histogram-chart [(data)]="histogramDataSet"></app-visuals-histogram-chart>
+</div>
+<!-- <div id="heatmap"></div> -->
+
+<!-- <div id="container" style="height: 400px; min-width: 310px; max-width: 800px; margin: 0 auto"></div> -->

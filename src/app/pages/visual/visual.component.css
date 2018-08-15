@@ -82,10 +82,10 @@ div.bhoechie-tab-container{
     font-weight: bold;
   }
   
-  rect {
+  /* rect {
     fill: none;
     stroke: #fff;
-  }
+  } */
   
   rect.parent,
   .grandparent rect {
@@ -107,9 +107,23 @@ div.bhoechie-tab-container{
   
   .children rect.parent {
     fill: #bbb;
-    fill-opacity: .5;
+    fill-opacity: 1;
   }
   
   .children:hover rect.child {
     fill: #bbb;
+  }
+  .sparklinesdata svg g path {
+    fill: none;
+    stroke: red;
+  } 
+
+  .treemapChart div .node {
+      border: solid 1px white;
+      font: 10px sans-serif;
+      line-height: 12px;
+      overflow: hidden;
+      position: absolute;
+      text-indent: 2px;
+      color: #000;
   }

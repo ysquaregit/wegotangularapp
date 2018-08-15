@@ -1,0 +1,15 @@
+  .active {
+    fill: red;
+  }
+  
+  .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            color:white;
+            padding: 8px;
+            font: 10px sans-serif;
+            background: black;
+            border: solid 1px #aaa;
+            pointer-events: none;
+  }
