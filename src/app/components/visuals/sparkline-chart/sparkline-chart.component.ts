@@ -17,6 +17,7 @@ export class appVisualsparklineComponent implements OnInit {
     checkDate:Date;
     fromdateValue: Date;
     todateValue: Date;
+    histogramDataSet:Array<any>=[]
     constructor() {
         
     }
@@ -24,6 +25,9 @@ export class appVisualsparklineComponent implements OnInit {
     ngOnInit() {
         console.log("Sparklines data")
         this.sparklinesGenerator();
+        var newJSON = 
+        [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
+            this.histogramDataSet = newJSON;//activity.json();
     }
 
     sparklinesGenerator() {
@@ -138,7 +142,7 @@ export class appVisualsparklineComponent implements OnInit {
                     .attr("class", "point")
                     .attr("cx", function(d, i) { return x(i) })
                     .attr("cy", function(d, i) { return h - y(d) })
-                    .attr("r", function(d, i) { return (i === (data.length - 1) || i === 0) ? 5 : 0; });
+                    .attr("r", function(d, i) { return (i === (data.length - 1) || i === 0) ? 5 : 5; });
         
             // Append the line to the group
             g.append("svg:path").attr("d", line(data));

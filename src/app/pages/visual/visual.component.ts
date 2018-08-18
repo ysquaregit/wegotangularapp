@@ -124,7 +124,7 @@ export class VisualComponent implements OnInit {
     pieChart() {
         this.options = [{
             name: 'Sources 1',
-            y: 61.41,
+            y: 61.41
         }, {
             name: 'Sources 2',
             y: 11.84
@@ -133,7 +133,9 @@ export class VisualComponent implements OnInit {
             y: 10.85
         }, {
             name: 'Sources 4',
-            y: 500
+            y: 500,
+            selected: true,
+            sliced: true
         }, {
             name: 'Sources 5',
             y: 250
@@ -141,10 +143,46 @@ export class VisualComponent implements OnInit {
     }
 
     RTSChart() {
+        $('#container').bind('mousemove touchmove touchstart', function (e) {
+            var chart,
+                point,
+                i,
+                event;
+        
+            for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+                chart = Highcharts.charts[i];
+                // Find coordinates within the chart
+                event = chart.pointer.normalize(e.originalEvent);
+                // Get the hovered point
+                point = chart.series[0].searchPoint(event, true);
+        
+                if (point) {
+                    point.highlight(e);
+                }
+            }
+        });
+        /**
+         * Override the reset function, we don't need to hide the tooltips and
+         * crosshairs.
+         */
+        Highcharts.Pointer.prototype.reset = function () {
+            return undefined;
+        };
+        
+        /**
+         * Highlight a point by showing tooltip, setting hover state and draw crosshair
+         */
+        Highcharts.Point.prototype.highlight = function (event) {
+            event = this.series.chart.pointer.normalize(event);
+            this.onMouseOver(); // Show the hover marker
+            this.series.chart.tooltip.refresh(this); // Show the tooltip
+            this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair
+        };
         let headers: Headers = new Headers({
             'Content-Type': 'application/json'
         });
-        this.http.get('https://api.myjson.com/bins/awsj8').subscribe(activity => {
+        //https://api.myjson.com/bins/pn21g awsj8 
+        this.http.get('https://api.myjson.com/bins/qex4k').subscribe(activity => {
             var chartColor;
             activity.json().datasets.forEach((dataset,i) => {
                 if(dataset.name == "Raw") {
@@ -178,11 +216,16 @@ export class VisualComponent implements OnInit {
                     xAxis: {
                         crosshair: true,
                         dateTimeLabelFormats: {
-                            minute: '%H:%M'
+                            minute: '%H'
                         },
                         labels: {
-                            format: '{value} m'
-                        }
+                            format: '{value}'
+                        },
+                        tickInterval:8,
+                        categories: activity.json().xData,
+                        events: {
+                            setExtremes: this.syncExtremes
+                        },
                     },
                     yAxis: [{
                         title: {
@@ -195,18 +238,9 @@ export class VisualComponent implements OnInit {
                             format: '{value} K/l'
                         }
                     }],
-                    // legend: {
-                    //         align: 'center',
-                    //         verticalAlign: 'bottom',
-                    //         layout: 'vertical',
-                    //         x: 30,
-                    //         y: 0,
-            
-                    //     itemStyle: {
-                    //         color: '#ffffff',
-                    //         fontSize: '14px'
-                    //     }
-                    // },
+                    legend: {
+                        enabled: true,
+                    },
                     plotOptions: {
                         series: {
                             pointStart: 0,
@@ -226,6 +260,26 @@ export class VisualComponent implements OnInit {
         });
     }
 
+    syncExtremes(e) {
+        var thisChart = this.chart;
+    
+        if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+            Highcharts.each(Highcharts.charts, function (chart) {
+                if (chart !== thisChart) {
+                    if (chart.xAxis[0].setExtremes) { // It is null while updating
+                        chart.xAxis[0].setExtremes(
+                            e.min,
+                            e.max,
+                            undefined,
+                            false,
+                            { trigger: 'syncExtremes' }
+                        );
+                    }
+                }
+            });
+        }
+    }
+
     ganttChart() {
         var category_json = [{"name":"Pump 9","data":[{"x":1374019200000,"y":0,"label":"Pump 9","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":0,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":0,"label":"Pump 9","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":0,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 8","data":[{"x":1374019200000,"y":1,"label":"Pump 8","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":1,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":1,"label":"Pump 8","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":1,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 7","data":[{"x":1374019200000,"y":2,"label":"Pump 7","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":2,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":2,"label":"Pump 7","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":2,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 6","data":[{"x":1374019200000,"y":3,"label":"Pump 6","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":3,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":3,"label":"Pump 6","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":3,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 5","data":[{"x":1374019200000,"y":4,"label":"Pump 5","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":4,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":4,"label":"Pump 5","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":4,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 4","data":[{"x":1376784000000,"y":5,"label":"Pump 4","from":1376784000000,"to":1434931200000},{"x":1434931200000,"y":5,"from":1376784000000,"to":1434931200000}]},{"name":"Pump 3","data":[{"x":1308182400000,"y":6,"label":"Pump 3","from":1308182400000,"to":1334966400000},{"x":1334966400000,"y":6,"from":1308182400000,"to":1334966400000},[1355486400000,null],{"x":1376006400000,"y":6,"label":"Pump 3","from":1376006400000,"to":1434931200000},{"x":1434931200000,"y":6,"from":1376006400000,"to":1434931200000}]},{"name":"Pump 2- Should be null","data":[]},{"name":"Pump 1","data":[{"x":1277078400000,"y":8,"label":"Pump 1","from":1277078400000,"to":1434844800000},{"x":1434844800000,"y":8,"from":1277078400000,"to":1434844800000}]}];
         
@@ -239,7 +293,11 @@ export class VisualComponent implements OnInit {
             },
 
             xAxis: {
-                type: 'time'
+                // type: 'timestamp',
+                // dateTimeLabelFormats: {
+                //     minute: '%H'
+                // },
+                //categories: ['12','1','2','3','4','5','6','7','8','9','10','11','12','1','2','3','4','5','6','7','8','9','10','11']
             },
 
             yAxis: {
@@ -270,7 +328,7 @@ export class VisualComponent implements OnInit {
                 startOnTick: false,
                 endOnTick: false,
                 title: {
-                    text: 'Criteria'
+                    text: 'Sources'
                 },
                 minPadding: 0.2,
                 maxPadding: 0.2,
@@ -647,9 +705,9 @@ export class VisualComponent implements OnInit {
               "Bytes": 234
             }
            ]
-        //https://api.myjson.com/bins/188eho
-        this.http.get('https://api.myjson.com/bins/7hw5g').subscribe(activity => {
-            this.heatMapDataSet = testData;
+        //https://api.myjson.com/bins/188eho 7hw5g https://api.myjson.com/bins/dopr8
+        this.http.get('https://api.myjson.com/bins/dopr8').subscribe(activity => {
+            this.heatMapDataSet = activity.json();
             this.histroGramChart();
         });
     }
@@ -679,18 +737,14 @@ export class VisualComponent implements OnInit {
 
         var format = d3.format(",d");
 
-        var color = d3.scaleOrdinal(d3.schemeCategory20c);
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
 
         var pack = d3.pack()
             .size([width, height])
             .padding(1.5);
-
-        
-
-        d3.csv("http://localhost:4200/assets/datauser.csv").then((d) => {
-            console.log("DATA promise",d)
-            // d.value = +d.value;
-            // if (d.value) return d;
+        var jsonData = [{"id":"Block1-Flat-101","value":200},{"id":"Block1-Flat-102","value":300},{"id":"Block1-Flat-103","value":534},{"id":"Block1-Flat-104","value":432},{"id":"Block2-Flat-201","value":243},{"id":"Block2-Flat-202","value":123}];
+        generateData(jsonData);
+        function generateData(d) {
             try {
                 var root = d3.hierarchy({children: d})
                 .sum(function(d) { return d.value; })
@@ -720,7 +774,7 @@ export class VisualComponent implements OnInit {
             node.append("circle")
                 .attr("id", function(d) { return d.id; })
                 .attr("r", function(d) { return d.r; })
-                .style("fill", randomColor());
+                .style("fill", function(d) { return color(d.package); });
     
             node.append("clipPath")
                 .attr("id", function(d) { return "clip-" + d.id; })
@@ -735,7 +789,7 @@ export class VisualComponent implements OnInit {
                 .attr("x", 0)
                 .attr("y", function(d, i, nodes) { return 13 + (i - nodes.length / 2 - 0.5) * 10; })
                 .text(function(d) { return d; })
-                .style("fill", "#f00");
+                .style("fill", "#000");
     
             node.append("title")
                 .text(function(d) { return d.id + "\n" + format(d.value); });
@@ -743,13 +797,8 @@ export class VisualComponent implements OnInit {
             catch(error) {
                 console.log("Caught the error",error);
             }
-        });
-        // }, function(error, classes) {
-        //     console.log("error classes",classes)
-        // if (error) throw error;
+        }
         
-        
-        // });
     }
 
     SLchart() {

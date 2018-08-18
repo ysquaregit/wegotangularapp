@@ -1,51 +1,55 @@
 <table id="table-sparkline" class="table table-bordered">
         <thead>
             <tr>
-                <th>    </th>
-                <th>Income</th>
-                <th>Income per quarter</th>
-                <th>Costs</th>
-                <th>Costs per quarter</th>
+                <th>Sources</th>
+                <th>Total</th>
+                <th>Overall Performance</th>
+                <th>Variance</th>
+                <th>Final Week Performance</th>
             </tr>
         </thead>
         <tbody id="tbody-sparkline">
             <tr>
-                <th>Alabama</th>
+                <th>Source 1</th>
                 <td>254</td>
                 <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
-                <td>296</td>
-                <td><div class="js-report-sparkline" data-range-low-color="red" data-range-high-color="blue" style="width: 250px">[0.3767,0.8800,2.1001,1.1000,1.300,0.8800,2.1476]</div></td>
+                <td><i class="glyphicon glyphicon glyphicon-triangle-top status_green"></i> 88%</td>
+                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
             </tr>
             <tr>
-                <th>Alabama</th>
+                <th>Source 2</th>
                 <td>254</td>
                 <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
-                <td>296</td>
-                <td><div class="js-report-sparkline" data-range-low-color="red" data-range-high-color="blue" style="width: 250px">[0.3767,0.8800,2.1001,1.1000,1.300,0.8800,2.1476]</div></td>
-            </tr>
-
-            <tr>
-                <th>Alabama</th>
-                <td>254</td>
-                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
-                <td>296</td>
-                <td><div class="js-report-sparkline" data-range-low-color="red" data-range-high-color="blue" style="width: 250px">[0.3767,0.8800,2.1001,1.1000,1.300,0.8800,2.1476]</div></td>
+                <td><i class="glyphicon glyphicon glyphicon-triangle-bottom status_red"></i> 16%</td>
+                
+                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
             </tr>
 
             <tr>
-                <th>Alabama</th>
+                <th>Source 3</th>
                 <td>254</td>
-                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
-                <td>296</td>
-                <td><div class="js-report-sparkline" data-range-low-color="red" data-range-high-color="blue" style="width: 250px">[0.3767,0.8800,2.1001,1.1000,1.300,0.8800,2.1476]</div></td>
+                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.4123,0.521,0.432,0.987,0.456,0.763]</div></td>
+                <td><i class="glyphicon glyphicon glyphicon-triangle-bottom status_red"></i> 33%</td>
+                
+                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
             </tr>
 
             <tr>
-                <th>Alabama</th>
+                <th>Source 4</th>
+                <td>254</td>
+                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.234,0.345,0.876,0.456,0.243,0.123]</div></td>
+                <td><i class="glyphicon glyphicon glyphicon-triangle-top status_green"></i> 55%</td>
+                
+                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
+            </tr>
+
+            <tr>
+                <th>Source 5</th>
                 <td>254</td>
                 <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
-                <td>296</td>
-                <td><div class="js-report-sparkline" data-range-low-color="red" data-range-high-color="blue" style="width: 250px">[0.3767,0.8800,2.1001,1.1000,1.300,0.8800,2.1476]</div></td>
+                <td><i class="glyphicon glyphicon glyphicon-triangle-top status_green"></i> 99%</td>
+                
+                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
             </tr>
         </tbody>
     </table>

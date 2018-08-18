@@ -10,6 +10,8 @@ import * as d3Hierarchy from 'd3-hierarchy';
 })
 export class appVisualHistogramChartComponent implements OnInit {
     @Input() data: Array<any> = [];
+    height:number;
+    width:number;
     options: Object;
     bytes: number;
     constructor() {
@@ -69,9 +71,9 @@ export class appVisualHistogramChartComponent implements OnInit {
     createHistogram(data, maxBin, binInc, title) {
         // A formatter for counts.
         var formatCount = d3.format(",.0f");
-        var totalWidth = 800;
-        var totalHeight = 600;
-        var margin = {top: 40, right: 60, bottom: 50, left: 70},
+        var totalWidth = 400;
+        var totalHeight = 400;
+        var margin = {top: 140, right:20, bottom:40, left:20},
             width = totalWidth - margin.left - margin.right,
             height = totalHeight - margin.top - margin.bottom;
         

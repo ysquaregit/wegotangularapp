@@ -144,3 +144,15 @@ thead th {
   right: 5px;
   top: 13px;
 }
+.status_red {
+  color:red;
+    font-size: 1.3em;
+    position: relative;
+    top: 3px;
+}
+.status_green {
+  color: green;
+    font-size: 1.3em;
+    position: relative;
+    top: 3px;
+}

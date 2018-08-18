@@ -55,7 +55,7 @@
                     <app-visuals-pie-chart [(data)]="options"></app-visuals-pie-chart>
                 </div>
                 <!-- Heat Map section -->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='heatMap'}" *ngIf="navActive=='heatMap'">
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='heatMap'}" [hidden]="navActive!='heatMap'">
                         
 
                         <div class="row">
@@ -68,15 +68,6 @@
                                         <label>To Date:</label>
                                     <p-calendar [(ngModel)]="toateValue"
                                         dateFormat="dd.mm.yy"></p-calendar>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary">1 Week Before</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary">2 Week Before</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary">1 Month Before</button>
                                 </div>
                             </div>
                     <div *ngIf="heatMapDataSet.length > 0">
@@ -105,7 +96,7 @@
                     </span>
                 </div>
                 <!-- train section  *ngIf="navActive=='usageChart'"-->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='usageChart'}">
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='usageChart'}" [hidden]="navActive!='usageChart'">
                         <div class="row">
                             <div class="col-md-3">
                                 <label>From Date:</label>
@@ -122,26 +113,16 @@
                 </div>
                 <!-- train section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}" [hidden]="navActive!='ganttChart'">
-                        
                         <div class="row">
                                 <div class="col-md-3">
                                     <label>From Date:</label>
                                     <p-calendar [(ngModel)]="fromdateValue"
                                     dateFormat="dd.mm.yy"></p-calendar>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                         <label>To Date:</label>
                                     <p-calendar [(ngModel)]="toateValue"
                                         dateFormat="dd.mm.yy"></p-calendar>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary">1 Week Before</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary">2 Week Before</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary">1 Month Before</button>
                                 </div>
                             </div>
                     <!-- <chart [(options)]="Ganttoptions"></chart> -->
@@ -149,7 +130,8 @@
                 </div>
 
                 <!-- train section -->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='tree'}" *ngIf="navActive=='tree' && treeMapShowStatus && treeMapChartSet.children.length > 0"><div class="row">
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='tree'}" *ngIf="navActive=='tree' && treeMapShowStatus && treeMapChartSet.children.length > 0">
+                    <div class="row">
                         <div class="col-md-3">
                             <label>From Date:</label>
                             <p-calendar [(ngModel)]="fromdateValue"
@@ -176,6 +158,13 @@
                                     <p-calendar [(ngModel)]="toateValue"
                                         dateFormat="dd.mm.yy"></p-calendar>
                                 </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary">Last Week</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary">Last Month</button>
+                                </div>
+                            </div>
                         <app-visuals-sparkline-chart [data]="['132','34','32',60,'50']"></app-visuals-sparkline-chart>
                 </div>
             </div>

@@ -21,11 +21,9 @@ export class appVisualPieChartComponent implements OnInit {
         this.options = {
             chart: { 
                 type: 'pie',
-                margin: [50, 0, 0, 20],
-                spacingTop: 0,
-                spacingBottom: 0,
-                spacingLeft: 0,
-                spacingRight: 0
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
             },
             title : {
                 text: 'pie chart'
@@ -39,7 +37,10 @@ export class appVisualPieChartComponent implements OnInit {
                     size:'100%',
                     dataLabels: {
                         enabled: true
-                    }
+                    },
+                    slicedOffset: 20,
+                    allowPointSelect: false,
+                    cursor: 'pointer'
                 }
             }
         };
