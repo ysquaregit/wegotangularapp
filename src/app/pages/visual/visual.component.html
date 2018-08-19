@@ -91,9 +91,14 @@
                                     dateFormat="dd.mm.yy"></p-calendar>
                             </div>
                         </div>
-                    <span *ngFor="let person of RTSChartFinalData">
+                    <!-- <span *ngFor="let person of RTSChartFinalData">
                         <chart [options]="person"></chart>
-                    </span>
+                    </span> -->
+                    <div id="STPChartContainer">
+                    <div class="STPChartContainer0"></div>
+                    <div class="STPChartContainer1"></div>
+                    <div class="STPChartContainer2"></div>
+                    </div>
                 </div>
                 <!-- train section  *ngIf="navActive=='usageChart'"-->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='usageChart'}" [hidden]="navActive!='usageChart'">

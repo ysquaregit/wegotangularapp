@@ -141,22 +141,153 @@ export class VisualComponent implements OnInit {
     }
 
     RTSChart() {
-        $('#container').bind('mousemove touchmove touchstart', function (e) {
+        // $('#container').bind('mousemove touchmove touchstart', function (e) {
+        //     var chart,
+        //         point,
+        //         i,
+        //         event;
+        
+        //     for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+        //         chart = Highcharts.charts[i];
+        //         // Find coordinates within the chart
+        //         event = chart.pointer.normalize(e.originalEvent);
+        //         // Get the hovered point
+        //         point = chart.series[0].searchPoint(event, true);
+        
+        //         if (point) {
+        //             point.highlight(e);
+        //         }
+        //     }
+        // });
+        // /**
+        //  * Override the reset function, we don't need to hide the tooltips and
+        //  * crosshairs.
+        //  */
+        // Highcharts.Pointer.prototype.reset = function () {
+        //     return undefined;
+        // };
+        
+        // /**
+        //  * Highlight a point by showing tooltip, setting hover state and draw crosshair
+        //  */
+        // Highcharts.Point.prototype.highlight = function (event) {
+        //     event = this.series.chart.pointer.normalize(event);
+        //     this.onMouseOver(); // Show the hover marker
+        //     this.series.chart.tooltip.refresh(this); // Show the tooltip
+        //     this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair
+        // };
+        // let headers: Headers = new Headers({
+        //     'Content-Type': 'application/json'
+        // });
+        // //https://api.myjson.com/bins/pn21g awsj8 
+        // this.http.get('https://api.myjson.com/bins/qex4k').subscribe(activity => {
+        //     var chartColor;
+        //     activity.json().datasets.forEach((dataset,i) => {
+        //         if(dataset.name == "Raw") {
+        //             chartColor = "#89CFF0";
+        //         }
+        //         else if(dataset.name == "Treated") {
+        //             chartColor = "#32CD32";
+        //         }
+        //         else {
+        //             chartColor = "rgba(67,67,72,0.3)";
+        //         }
+        //         this.RTSChartOptions = {
+        //             chart: {
+        //                 type: dataset.type,           
+        //                 zoomType: 'x',
+        //                 height: 300
+        //             },
+        //             title: {
+        //                 text: dataset.name,       
+        //             },
+        //             tooltip: {
+        //                 shared: true,  
+        //                 xDateFormat: '%m/%d/%Y',  
+        //                 valueDecimals: 2,
+        //                 crosshairs: true,
+        //                 backgroundColor: 'rgba(0, 0, 0, 0.85)',
+        //                 style: {
+        //                     color: '#F0F0F0'
+        //                 }
+        //             },          
+        //             xAxis: {
+        //                 crosshair: true,
+        //                 dateTimeLabelFormats: {
+        //                     minute: '%H'
+        //                 },
+        //                 labels: {
+        //                     format: '{value}'
+        //                 },
+        //                 tickInterval:8,
+        //                 categories: activity.json().xData,
+        //                 events: {
+        //                     setExtremes: this.syncExtremes
+        //                 },
+        //             },
+        //             yAxis: [{
+        //                 title: {
+        //                     text: dataset.Name
+        //                 },
+        //                 height: 200,
+        //                 lineWidth: 2,
+        //                 top: 0,
+        //                 labels: {
+        //                     format: '{value} K/l'
+        //                 }
+        //             }],
+        //             legend: {
+        //                 enabled: true,
+        //             },
+        //             plotOptions: {
+        //                 series: {
+        //                     pointStart: 0,
+        //                     color: '#2B908F'
+        //                 }
+        //             },
+        //             series: [{
+        //                 name: dataset.Name,
+        //                 data: dataset.data,
+        //                 yAxis : 0,
+        //                 color: chartColor,//Highcharts.getOptions().colors[i],
+        //                 fillOpacity: 0.3
+        //             }]
+        //         };  
+        //         this.RTSChartFinalData.push(this.RTSChartOptions);
+        //     });
+        // });
+        /*
+        The purpose of this demo is to demonstrate how multiple charts on the same page
+        can be linked through DOM and Highcharts events and API methods. It takes a
+        standard Highcharts config with a small variation for each data set, and a
+        mouse/touch event handler to bind the charts together.
+        */
+
+
+
+        /**
+         * In order to synchronize tooltips and crosshairs, override the
+         * built-in events with handlers defined on the parent element.
+         */
+        $('#STPChartContainer').bind('mousemove touchmove touchstart', function (e) {
             var chart,
                 point,
                 i,
                 event;
-        
+            console.log("Highcharts.charts",Highcharts.charts)
             for (i = 0; i < Highcharts.charts.length; i = i + 1) {
-                chart = Highcharts.charts[i];
-                // Find coordinates within the chart
-                event = chart.pointer.normalize(e.originalEvent);
-                // Get the hovered point
-                point = chart.series[0].searchPoint(event, true);
-        
-                if (point) {
-                    point.highlight(e);
+                if(Highcharts.charts[i]) {
+                    chart = Highcharts.charts[i];
+                        // Find coordinates within the chart
+                        event = chart.pointer.normalize(e.originalEvent);
+                        // Get the hovered point
+                        point = chart.series[0].searchPoint(event, true);
+
+                        if (point) {
+                            point.highlight(e);
+                        }
                 }
+                
             }
         });
         /**
@@ -166,7 +297,7 @@ export class VisualComponent implements OnInit {
         Highcharts.Pointer.prototype.reset = function () {
             return undefined;
         };
-        
+
         /**
          * Highlight a point by showing tooltip, setting hover state and draw crosshair
          */
@@ -176,86 +307,125 @@ export class VisualComponent implements OnInit {
             this.series.chart.tooltip.refresh(this); // Show the tooltip
             this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair
         };
-        let headers: Headers = new Headers({
-            'Content-Type': 'application/json'
-        });
-        //https://api.myjson.com/bins/pn21g awsj8 
-        this.http.get('https://api.myjson.com/bins/qex4k').subscribe(activity => {
-            var chartColor;
-            activity.json().datasets.forEach((dataset,i) => {
-                if(dataset.name == "Raw") {
-                    chartColor = "#89CFF0";
-                }
-                else if(dataset.name == "Treated") {
-                    chartColor = "#32CD32";
-                }
-                else {
-                    chartColor = "rgba(67,67,72,0.3)";
-                }
-                this.RTSChartOptions = {
-                    chart: {
-                        type: dataset.type,           
-                        zoomType: 'x',
-                        height: 300
-                    },
-                    title: {
-                        text: dataset.name,       
-                    },
-                    tooltip: {
-                        shared: true,  
-                        xDateFormat: '%m/%d/%Y',  
-                        valueDecimals: 2,
-                        crosshairs: true,
-                        backgroundColor: 'rgba(0, 0, 0, 0.85)',
-                        style: {
-                            color: '#F0F0F0'
+
+        /**
+         * Synchronize zooming through the setExtremes event handler.
+         */
+        function syncExtremes(e) {
+            var thisChart = this.chart;
+
+            if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+                console.log("Highcharts.chartsHighcharts.charts",Highcharts.charts)
+                Highcharts.each(Highcharts.charts, function (chart) {
+                    if (chart !== thisChart) {
+                        if (chart.xAxis[0].setExtremes) { // It is null while updating
+                            chart.xAxis[0].setExtremes(
+                                e.min,
+                                e.max,
+                                undefined,
+                                false,
+                                { trigger: 'syncExtremes' }
+                            );
                         }
-                    },          
-                    xAxis: {
-                        crosshair: true,
-                        dateTimeLabelFormats: {
-                            minute: '%H'
-                        },
-                        labels: {
-                            format: '{value}'
-                        },
-                        tickInterval:8,
-                        categories: activity.json().xData,
-                        events: {
-                            setExtremes: this.syncExtremes
-                        },
-                    },
-                    yAxis: [{
-                        title: {
-                            text: dataset.Name
-                        },
-                        height: 200,
-                        lineWidth: 2,
-                        top: 0,
-                        labels: {
-                            format: '{value} K/l'
-                        }
-                    }],
-                    legend: {
-                        enabled: true,
-                    },
-                    plotOptions: {
-                        series: {
-                            pointStart: 0,
-                            color: '#2B908F'
-                        }
-                    },
-                    series: [{
-                        name: dataset.Name,
-                        data: dataset.data,
-                        yAxis : 0,
-                        color: chartColor,//Highcharts.getOptions().colors[i],
-                        fillOpacity: 0.3
-                    }]
-                };  
-                this.RTSChartFinalData.push(this.RTSChartOptions);
-            });
-        });
+                    }
+                });
+            }
+        }
+        $(".highcharts-container").remove();
+        // Get the data. The contents of the data file can be viewed at
+        $.getJSON(
+            'https://api.myjson.com/bins/qex4k',
+            function (activity) {
+                let chartColor;
+                $.each(activity.datasets, function (i, dataset) {
+                    if(dataset.name == "Raw") {
+                        chartColor = "#89CFF0";
+                    }
+                    else if(dataset.name == "Treated") {
+                        chartColor = "#32CD32";
+                    }
+                    else {
+                        chartColor = "rgba(67,67,72,0.3)";
+                    }
+                    // Add X values
+                    dataset.data = Highcharts.map(dataset.data, function (val, j) {
+                        return [activity.xData[j], val];
+                    });
+                    
+                    var $container = $('.STPChartContainer'+i)
+                    $('<div id="chart' + i + '">').appendTo('.STPChartContainer');
+                    
+                    var chart = new Highcharts.Chart({
+                            chart: {
+                                marginLeft: 40, // Keep all charts left aligned
+                                spacingTop: 20,
+                                spacingBottom: 20,
+                                renderTo:$container[0],
+                                height:300
+
+                            },
+                            title: {
+                                text: dataset.name,
+                                align: 'left',
+                                margin: 0,
+                                x: 30
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            xAxis: {
+                                crosshair: true,
+                                events: {
+                                   setExtremes: syncExtremes
+                                },
+                                
+                                labels: {
+                                    format: '{value}'
+                                },
+                                tickInterval:8,
+                                categories: activity.xData,
+                            },
+                            yAxis: {
+                                title: {
+                                    text: null
+                                }
+                            },
+                            tooltip: {
+                                positioner: function () {
+                                    return {
+                                        // right aligned
+                                        x: this.chart.chartWidth - this.label.width,
+                                        y: 10 // align to title
+                                    };
+                                },
+                                borderWidth: 0,
+                                backgroundColor: 'none',
+                                pointFormat: '{point.y}',
+                                headerFormat: '',
+                                shadow: false,
+                                style: {
+                                    fontSize: '18px'
+                                },
+                                valueDecimals: dataset.valueDecimals
+                            },
+                            series: [{
+                                data: dataset.data,
+                                name: dataset.name,
+                                type: dataset.type,
+                                color: chartColor,//Highcharts.getOptions().colors[i],
+                                fillOpacity: 0.3,
+                                tooltip: {
+                                    valueSuffix: ' ' + dataset.unit
+                                }
+                            }]
+                        });
+                        
+                });
+            }
+        );
     }
 
     syncExtremes(e) {
