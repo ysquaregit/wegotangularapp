@@ -133,9 +133,7 @@ export class VisualComponent implements OnInit {
             y: 10.85
         }, {
             name: 'Sources 4',
-            y: 500,
-            selected: true,
-            sliced: true
+            y: 500
         }, {
             name: 'Sources 5',
             y: 250
@@ -281,91 +279,300 @@ export class VisualComponent implements OnInit {
     }
 
     ganttChart() {
-        var category_json = [{"name":"Pump 9","data":[{"x":1374019200000,"y":0,"label":"Pump 9","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":0,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":0,"label":"Pump 9","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":0,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 8","data":[{"x":1374019200000,"y":1,"label":"Pump 8","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":1,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":1,"label":"Pump 8","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":1,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 7","data":[{"x":1374019200000,"y":2,"label":"Pump 7","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":2,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":2,"label":"Pump 7","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":2,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 6","data":[{"x":1374019200000,"y":3,"label":"Pump 6","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":3,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":3,"label":"Pump 6","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":3,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 5","data":[{"x":1374019200000,"y":4,"label":"Pump 5","from":1374019200000,"to":1400630400000},{"x":1400630400000,"y":4,"from":1374019200000,"to":1400630400000},[1412596800000,null],{"x":1424563200000,"y":4,"label":"Pump 5","from":1424563200000,"to":1434931200000},{"x":1434931200000,"y":4,"from":1424563200000,"to":1434931200000}]},{"name":"Pump 4","data":[{"x":1376784000000,"y":5,"label":"Pump 4","from":1376784000000,"to":1434931200000},{"x":1434931200000,"y":5,"from":1376784000000,"to":1434931200000}]},{"name":"Pump 3","data":[{"x":1308182400000,"y":6,"label":"Pump 3","from":1308182400000,"to":1334966400000},{"x":1334966400000,"y":6,"from":1308182400000,"to":1334966400000},[1355486400000,null],{"x":1376006400000,"y":6,"label":"Pump 3","from":1376006400000,"to":1434931200000},{"x":1434931200000,"y":6,"from":1376006400000,"to":1434931200000}]},{"name":"Pump 2- Should be null","data":[]},{"name":"Pump 1","data":[{"x":1277078400000,"y":8,"label":"Pump 1","from":1277078400000,"to":1434844800000},{"x":1434844800000,"y":8,"from":1277078400000,"to":1434844800000}]}];
+        // var category_json = [{"name":"Pump 1","data":[{"x":1,"y":0,"label":"60 K/l","from":1,"to":3},{"x":1,"y":0,"from":1,"to":3},{"x":7,"y":0,"from":7,"label":"50 K/l","to":10},{"x":7,"y":0,"from":7,"to":10}]},{"name":"Pump 2","data":[{"x":3,"y":1,"label":"60 K/l","from":3,"to":5},{"x":7,"y":1,"from":7,"to":10}]},{"name":"Pump 3","data":[{"x":6,"y":2,"label":"50 K/l","from":6,"to":12},{"x":14,"y":2,"from":14,"to":19}]},{"name":"Pump 4","data":[{"x":9,"y":3,"label":"80%","from":9,"to":15},{"x":19,"y":3,"from":19,"to":23}]}]
         
-        var chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'ganttChartContainer'
-            },
+        // var chart = new Highcharts.Chart({
+        //     chart: {
+        //         renderTo: 'ganttChartContainer'
+        //     },
 
-            title: {
-                text: 'On / Off Status'
-            },
+        //     title: {
+        //         text: 'On / Off Status'
+        //     },
 
-            xAxis: {
-                // type: 'timestamp',
-                // dateTimeLabelFormats: {
-                //     minute: '%H'
-                // },
-                //categories: ['12','1','2','3','4','5','6','7','8','9','10','11','12','1','2','3','4','5','6','7','8','9','10','11']
-            },
-
-            yAxis: {
-
-             categories: ['Pump 1',
-                          'Pump 2',
-                          'Pump 3',
-                          'Pump 4',
-                          'Pump 5',
-                          'Pump 6',
-                          'Pump 7',
-                          'Pump 8',
-                          'Pump 9'],
-                tickInterval: 1,            
-                tickPixelInterval: 200,
-                labels: {
-                    style: {
-                        color: '#525151',
-                        font: '12px Helvetica',
-                        fontWeight: 'bold'
-                    },
-                   /* formatter: function() {
-                        if (tasks[this.value]) {
-                            return tasks[this.value].name;
-                        }
-                    }*/
-                },
-                startOnTick: false,
-                endOnTick: false,
-                title: {
-                    text: 'Sources'
-                },
-                minPadding: 0.2,
-                maxPadding: 0.2,
-                fontSize:'15px'
+        //     xAxis: {
                 
-            },
+        //     },
 
-            legend: {
-                enabled: false
-            },
-            tooltip: {
-                // formatter: function() {
-                //     return '<b>'+ tasks[this.y].name + '</b><br/>' +
-                //         Highcharts.dateFormat('%m-%d-%Y', this.point.options.from)  +
-                //         ' - ' + Highcharts.dateFormat('%m-%d-%Y', this.point.options.to); 
-                // }
-            },
+        //     yAxis: {
 
-            plotOptions: {
-                line: {
-                    lineWidth: 10,
-                    marker: {
-                        enabled: false
+        //      categories: ['Pump 1',
+        //                   'Pump 2',
+        //                   'Pump 3',
+        //                   'Pump 4',
+        //                   'Pump 5',
+        //                   'Pump 6',
+        //                   'Pump 7',
+        //                   'Pump 8',
+        //                   'Pump 9'],
+        //         tickInterval: 1,            
+        //         tickPixelInterval: 200,
+        //         labels: {
+        //             style: {
+        //                 color: '#525151',
+        //                 font: '12px Helvetica',
+        //                 fontWeight: 'bold'
+        //             },
+        //            /* formatter: function() {
+        //                 if (tasks[this.value]) {
+        //                     return tasks[this.value].name;
+        //                 }
+        //             }*/
+        //         },
+        //         startOnTick: false,
+        //         endOnTick: false,
+        //         title: {
+        //             text: 'Sources'
+        //         },
+        //         minPadding: 0.2,
+        //         maxPadding: 0.2,
+        //         fontSize:'15px'
+                
+        //     },
+
+        //     legend: {
+        //         enabled: false
+        //     },
+        //     labels: {
+        //         enabled: false
+        //     },
+        //     tooltip: {
+        //         // formatter: function() {
+        //         //     return '<b>'+ tasks[this.y].name + '</b><br/>' +
+        //         //         Highcharts.dateFormat('%m-%d-%Y', this.point.options.from)  +
+        //         //         ' - ' + Highcharts.dateFormat('%m-%d-%Y', this.point.options.to); 
+        //         // }
+        //     },
+
+        //     plotOptions: {
+        //         line: {
+        //             lineWidth: 10,
+        //             marker: {
+        //                 enabled: false
+        //             },
+        //             dataLabels: {
+        //                 enabled: true,
+        //                 align: 'left',
+        //                 formatter: function() {
+        //                     return this.point.options && this.point.options.label;
+        //                 }
+        //             }
+        //         }
+        //     },
+
+        //     series: category_json
+
+        // });	
+        $(function () {
+            // Define tasks
+            var tasks = [{
+                name: 'Pump 1',
+                intervals: [{ // From-To pairs
+                    from: 3,
+                    to: 6,
+                    label: '65 K/l'
+                }]
+            }, {
+                name: 'Pump 2',
+                intervals: [{ // From-To pairs
+                    from: 10,
+                    to: 18,
+                    label: '75 K/l'
+                }]
+            }, {
+                name: 'Pump 3',
+                intervals: [{ // From-To pairs
+                    from: 5,
+                    to: 14,
+                    label: '91 K/l'
+                }, {
+                    from: 14,
+                    to: 23,
+                    label: '64 K/l'
+                }]
+            }, {
+                name: 'Pump 4',
+                intervals: [{ // From-To pairs
+                    from: 9,
+                    to: 18,
+                    label: '83 K/l'
+                }]
+            }, {
+                name: 'Pump 5',
+                intervals: [{ // From-To pairs
+                    from: 12,
+                    to: 19,
+                    label: '75 K/l'
+                }, {
+                    from: 9,
+                    to: 16,
+                    label: '87 K/l'
+                }]
+            }, {
+                name: 'Pump 6',
+                intervals: [{ // From-To pairs
+                    from: 13,
+                    to: 22,
+                    label: '92 K/l'
+                }, {
+                    from: 16,
+                    to: 22,
+                    label: '74 K/l'
+                }]
+            }, {
+                name: 'Pump 7',
+                intervals: [{ // From-To pairs
+                    from: 12,
+                    to: 18,
+                    label: '74 K/l'
+                }, {
+                    from: 19,
+                    to: 24,
+                    label: '47 K/l'
+                }]
+            }];
+
+            // Define milestones
+            /*var milestones = [{
+                name: 'Get to bed',
+                time: Date.UTC(0, 0, 0, 22),
+                task: 1,
+                marker: {
+                    symbol: 'triangle',
+                    lineWidth: 1,
+                    lineColor: 'black',
+                    radius: 8
+                }
+            }];
+             */
+            // re-structure the tasks into line seriesvar series = [];
+            var series = [];
+            $.each(tasks.reverse(), function(i, task) {
+                var item = {
+                    name: task.name,
+                    data: []
+                };
+                $.each(task.intervals, function(j, interval) {
+                    item.data.push({
+                        x: interval.from,
+                        y: i,
+                        label: interval.label,
+                        from: interval.from,
+                        to: interval.to
+                    }, {
+                        x: interval.to,
+                        y: i,
+                        from: interval.from,
+                        to: interval.to
+                    });
+                    
+                    // add a null value between intervals
+                    if (task.intervals[j + 1]) {
+                        item.data.push(
+                            [(interval.to + task.intervals[j + 1].from) / 2, null]
+                        );
+                    }
+
+                });
+
+                series.push(item);
+            });
+
+            // restructure the milestones
+            /*$.each(milestones, function(i, milestone) {
+                var item = Highcharts.extend(milestone, {
+                    data: [[
+                        milestone.time,
+                        milestone.task
+                    ]],
+                    type: 'scatter'
+                });
+                series.push(item);
+            });
+             */
+
+            // create the chart
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'ganttChartContainer'
+                },
+
+                title: {
+                    text: ''
+                },
+
+                xAxis: {
+                    //type: 'datetime'
+                    min:0,
+                    tickInterval:1,
+                    title: {
+                        text: 'Hours'
                     },
-                    dataLabels: {
-                        enabled: true,
-                        align: 'left',
-                        formatter: function() {
-                            return this.point.options && this.point.options.label;
+                },
+
+                yAxis: {
+
+                 categories: ['Pump 7',
+                              'Pump 6',
+                              'Pump 5',
+                              'Pump 4',
+                              'Pump 3',
+                              'Pump 2',
+                              'Pump 1'],
+                    tickInterval: 1,            
+                    tickPixelInterval: 200,
+                    labels: {
+                        style: {
+                            color: '#525151',
+                            font: '12px Helvetica',
+                            fontWeight: 'bold'
+                        },
+                       /* formatter: function() {
+                            if (tasks[this.value]) {
+                                return tasks[this.value].name;
+                            }
+                        }*/
+                    },
+                    startOnTick: false,
+                    endOnTick: false,
+                    title: {
+                        text: 'Sources'
+                    },
+                    minPadding: 0.2,
+                    maxPadding: 0.2,
+                    fontSize:'15px'
+                    
+                },
+
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    formatter: function() {
+                        return '<b>'+ tasks[this.y].name + '</b><br/>'+'<b>'+ this.point.options.label + '</b><br/>' 
+                    }
+                },
+
+                plotOptions: {
+                    line: {
+                        lineWidth: 10,
+                        marker: {
+                            enabled: false
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            align: 'left',
+                            formatter: function() {
+                                return this.point.options && this.point.options.label;
+                            }
                         }
                     }
-                }
-            },
+                },
 
-            series: category_json
+                series: series
 
-        });		 
+            });		   
+    });	 
     }
 
 
@@ -742,7 +949,8 @@ export class VisualComponent implements OnInit {
         var pack = d3.pack()
             .size([width, height])
             .padding(1.5);
-        var jsonData = [{"id":"Block1-Flat-101","value":200},{"id":"Block1-Flat-102","value":300},{"id":"Block1-Flat-103","value":534},{"id":"Block1-Flat-104","value":432},{"id":"Block2-Flat-201","value":243},{"id":"Block2-Flat-202","value":123}];
+        var jsonData = [{"id":"Block1-Flat-101-0","value":56.63298119757329},{"id":"Block1-Flat-101-1","value":74.37366805536479},{"id":"Block1-Flat-101-2","value":68.24353381966657},{"id":"Block1-Flat-101-3","value":64.05421506904483},{"id":"Block1-Flat-101-4","value":31.155789103154383},{"id":"Block1-Flat-101-5","value":58.30109022522291},{"id":"Block1-Flat-101-6","value":95.22744567267817},{"id":"Block1-Flat-101-7","value":92.65933387574651},{"id":"Block1-Flat-101-8","value":94.17975485094836},{"id":"Block1-Flat-101-9","value":90.6055182703745},{"id":"Block1-Flat-101-10","value":94.02129450831659},{"id":"Block1-Flat-101-11","value":30.535641249803373},{"id":"Block1-Flat-101-12","value":9.304030749468273},{"id":"Block1-Flat-101-13","value":41.078394592097396},{"id":"Block1-Flat-101-14","value":7.761954796337344},{"id":"Block1-Flat-101-15","value":8.46144279216689},{"id":"Block1-Flat-101-16","value":57.614729063414565},{"id":"Block1-Flat-101-17","value":70.187166486876},{"id":"Block1-Flat-101-18","value":83.66518903950484},{"id":"Block1-Flat-101-19","value":54.19991296537729},{"id":"Block1-Flat-101-20","value":63.03840928183309},{"id":"Block1-Flat-101-21","value":89.07384852381472},{"id":"Block1-Flat-101-22","value":12.389481608542159},{"id":"Block1-Flat-101-23","value":135.03168331008575},{"id":"Block1-Flat-101-24","value":15.107208263172828},{"id":"Block1-Flat-101-25","value":80.26235994171564},{"id":"Block1-Flat-101-26","value":74.9359424254268},{"id":"Block1-Flat-101-27","value":92.1091286789481},{"id":"Block1-Flat-101-28","value":41.90167668095767},{"id":"Block1-Flat-101-29","value":24.41591043666311},{"id":"Block1-Flat-101-30","value":18.980478559589262},{"id":"Block1-Flat-101-31","value":72.97824888583601},{"id":"Block1-Flat-101-32","value":32.33764009272538},{"id":"Block1-Flat-101-33","value":70.3742242220071},{"id":"Block1-Flat-101-34","value":80.9845877728746},{"id":"Block1-Flat-101-35","value":24.02427879512023},{"id":"Block1-Flat-101-36","value":47.40923577921672},{"id":"Block1-Flat-101-37","value":32.42416557399445},{"id":"Block1-Flat-101-38","value":158.74749169113139},{"id":"Block1-Flat-101-39","value":35.30682566906087},{"id":"Block1-Flat-101-40","value":94.5936536946105},{"id":"Block1-Flat-101-41","value":5.660713381113509},{"id":"Block1-Flat-101-42","value":59.22241425939648},{"id":"Block1-Flat-101-43","value":77.49002572882195},{"id":"Block1-Flat-101-44","value":16.53549261200489},{"id":"Block1-Flat-101-45","value":16.48885761832752},{"id":"Block1-Flat-101-46","value":61.94003818442585},{"id":"Block1-Flat-101-47","value":72.28974559205335},{"id":"Block1-Flat-101-48","value":68.31992900158716},{"id":"Block1-Flat-101-49","value":812.90708401826022},{"id":"Block1-Flat-101-50","value":53.553744569091364},{"id":"Block1-Flat-101-51","value":77.45805068979871},{"id":"Block1-Flat-101-52","value":3.5938583715641004},{"id":"Block1-Flat-101-53","value":91.17023096432771},{"id":"Block1-Flat-101-54","value":54.85982898370721},{"id":"Block1-Flat-101-55","value":29.916894770406532},{"id":"Block1-Flat-101-56","value":68.6317036508496},{"id":"Block1-Flat-101-57","value":77.83821010302051},{"id":"Block1-Flat-101-58","value":17.422049411776133},{"id":"Block1-Flat-101-59","value":36.094314044358725},{"id":"Block1-Flat-101-60","value":9.878006591034719},{"id":"Block1-Flat-101-61","value":93.68293499923483},{"id":"Block1-Flat-101-62","value":78.645787954173},{"id":"Block1-Flat-101-63","value":57.99829369029988},{"id":"Block1-Flat-101-64","value":69.51405234751758},{"id":"Block1-Flat-101-65","value":34.11841238070655},{"id":"Block1-Flat-101-66","value":197.40851484499277},{"id":"Block1-Flat-101-67","value":52.59274957106449},{"id":"Block1-Flat-101-68","value":12.25640862162865},{"id":"Block1-Flat-101-69","value":15.969129541589172},{"id":"Block1-Flat-101-70","value":32.161939682437534},{"id":"Block1-Flat-101-71","value":99.710776112164},{"id":"Block1-Flat-101-72","value":47.93567137169937},{"id":"Block1-Flat-101-73","value":85.79807160690493},{"id":"Block1-Flat-101-74","value":45.434028312545884},{"id":"Block1-Flat-101-75","value":17.1968519822602},{"id":"Block1-Flat-101-76","value":60.153040746149784},{"id":"Block1-Flat-101-77","value":62.81808527184396},{"id":"Block1-Flat-101-78","value":72.48240956334988},{"id":"Block1-Flat-101-79","value":16.26509583846317},{"id":"Block1-Flat-101-80","value":76.36329681218919},{"id":"Block1-Flat-101-81","value":93.14181317839524},{"id":"Block1-Flat-101-82","value":57.29818558507466},{"id":"Block1-Flat-101-83","value":58.17904593566908},{"id":"Block1-Flat-101-84","value":7.76082136965389},{"id":"Block1-Flat-101-85","value":84.3231903871893},{"id":"Block1-Flat-101-86","value":24.106531866605657},{"id":"Block1-Flat-101-87","value":35.410985001435265},{"id":"Block1-Flat-101-88","value":54.860621206257576},{"id":"Block1-Flat-101-89","value":58.04677803594899},{"id":"Block1-Flat-101-90","value":4.9785974107708615},{"id":"Block1-Flat-101-91","value":96.77892615383979},{"id":"Block1-Flat-101-92","value":100.2110080040093},{"id":"Block1-Flat-101-93","value":19.590579354416494},{"id":"Block1-Flat-101-94","value":43.8756993977872},{"id":"Block1-Flat-101-95","value":55.511163238064896},{"id":"Block1-Flat-101-96","value":72.71130407674691},{"id":"Block1-Flat-101-97","value":97.46113032061511},{"id":"Block1-Flat-101-98","value":21.172125239854875},{"id":"Block1-Flat-101-99","value":150.95187537724183}];
+
         generateData(jsonData);
         function generateData(d) {
             try {

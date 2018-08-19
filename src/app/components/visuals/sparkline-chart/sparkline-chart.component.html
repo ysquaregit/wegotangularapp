@@ -12,44 +12,36 @@
             <tr>
                 <th>Source 1</th>
                 <td>254</td>
-                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
+                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347,0.4123,0.521,0.432,0.987,0.456,0.763]</div></td>
                 <td><i class="glyphicon glyphicon glyphicon-triangle-top status_green"></i> 88%</td>
-                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
+                <td><span id="Hcontainer1" style="width:200px; height: 100px;"></span></td>
             </tr>
+
             <tr>
                 <th>Source 2</th>
                 <td>254</td>
-                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
-                <td><i class="glyphicon glyphicon glyphicon-triangle-bottom status_red"></i> 16%</td>
+                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.4123,0.521,0.432,0.987,0.456,0.763,0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
+                <td><i class="glyphicon glyphicon glyphicon-triangle-bottom status_red"></i> 33%</td>
                 
-                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
+                <td><span id="Hcontainer2" style="width:200px; height: 100px;"></span></td>
             </tr>
 
             <tr>
                 <th>Source 3</th>
                 <td>254</td>
-                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.4123,0.521,0.432,0.987,0.456,0.763]</div></td>
-                <td><i class="glyphicon glyphicon glyphicon-triangle-bottom status_red"></i> 33%</td>
+                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.234,0.345,0.876,0.456,0.243,0.123,0.4123,0.521,0.432,0.987,0.456,0.763]</div></td>
+                <td><i class="glyphicon glyphicon glyphicon-triangle-top status_green"></i> 55%</td>
                 
-                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
+                <td><span id="Hcontainer3" style="width:200px; height: 100px;"></span></td>
             </tr>
 
             <tr>
                 <th>Source 4</th>
                 <td>254</td>
-                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.234,0.345,0.876,0.456,0.243,0.123]</div></td>
-                <td><i class="glyphicon glyphicon glyphicon-triangle-top status_green"></i> 55%</td>
-                
-                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
-            </tr>
-
-            <tr>
-                <th>Source 5</th>
-                <td>254</td>
-                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347]</div></td>
+                <td><div class="js-report-sparkline" data-range-low-color="orange" data-range-high-color="green">[0.0297,0.0267,0.0312,0.0330,0.0386,0.0347,0.4123,0.521,0.432,0.987,0.456,0.763]</div></td>
                 <td><i class="glyphicon glyphicon glyphicon-triangle-top status_green"></i> 99%</td>
                 
-                <td><app-visuals-histogram-chart [(data)]="histogramDataSet" *ngIf="histogramDataSet.length > 0"></app-visuals-histogram-chart></td>
+                <td><span id="Hcontainer4" style="width:200px; height: 100px;"></span></td>
             </tr>
         </tbody>
     </table>

@@ -391,16 +391,17 @@ export class appVisualHeatMapComponent implements OnInit {
               }
             },
             colorAxis: {
-              stops: [
-                /* [0, '#20255A'],
-                [0.5, '#4B8EE2'],
-                [0.9, '#AAEBFF']  */ 
-                [0, '#AAEBFF'],
-                [0.5, '#4B8EE2'],
-                [0.9, '#20255A']
-              ],
+              // stops: [
+              //   /* [0, '#20255A'],
+              //   [0.5, '#4B8EE2'],
+              //   [0.9, '#AAEBFF']  */ 
+              //   [0, '#AAEBFF'],
+              //   [0.5, '#4B8EE2'],
+              //   [0.9, '#20255A']
+              // ],
+              minColor: '#FFFFFF',
               min: 1,
-              max: 40
+              max: 60
             },
             
             series: [{
@@ -408,7 +409,7 @@ export class appVisualHeatMapComponent implements OnInit {
               borderWidth: 2,
               tooltip: {
                 headerFormat: 'Water Consumption<br/>',
-                pointFormat: '{point.x} {point.y} <b>{point.value} K/L</b>'
+                pointFormat: '<b>{point.value} K/L</b>'
               },
               events: {
                 click: function (event) {

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
+import * as $ from 'jquery/dist/jquery.min.js';
 import * as d3 from 'd3';
 import * as d3Hierarchy from 'd3-hierarchy';
 
@@ -19,13 +20,13 @@ export class appVisualHistogramChartComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log("Histogram data",this.data);
+        console.log("Histogram data",JSON.stringify(this.data));
         this.histogram(this.data);
     }
 
     histogram(json) {
-        var maxBin = 40;
-        var binInc = 10;
+        var maxBin = 10;
+        var binInc = 2;
 
         // transform data that is already binned into data
         // that is better for use in D3
@@ -73,7 +74,7 @@ export class appVisualHistogramChartComponent implements OnInit {
         var formatCount = d3.format(",.0f");
         var totalWidth = 400;
         var totalHeight = 400;
-        var margin = {top: 140, right:20, bottom:40, left:20},
+        var margin = {top: 140, right:20, bottom:40, left:40},
             width = totalWidth - margin.left - margin.right,
             height = totalHeight - margin.top - margin.bottom;
         
@@ -82,7 +83,10 @@ export class appVisualHistogramChartComponent implements OnInit {
             binArray.push(i);
         }
         var binTicks = [];
+        console.log("maxBin",maxBin)
+        console.log("maxBin",binInc)
         for (var i = 0; i < maxBin + binInc; i += binInc) {
+            console.log("binTicks",i)
             binTicks.push(i);
         }
         
@@ -104,7 +108,8 @@ export class appVisualHistogramChartComponent implements OnInit {
         // var yAxis = d3.svg.axis()
         //     .scale(y)
         //     .orient("left");
-        
+       
+        $('#appHistoGramChart').empty();
         var svg = d3.select("#appHistoGramChart").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -152,7 +157,7 @@ export class appVisualHistogramChartComponent implements OnInit {
             .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom - 15) + ")")
             //.attr("dy", "1em")
             .attr("text-anchor", "middle")
-            .text("Time (minutes)");
+            .text("Time (hours)");
             
         svg.append("text")
             .attr("class", "y label")
@@ -161,7 +166,7 @@ export class appVisualHistogramChartComponent implements OnInit {
             .attr("x", 0 - (height / 2))
             .attr("dy", "1em")
             .attr("text-anchor", "middle")
-            .text("Count");
+            .text("Water Consumption (k/l)");
             
         // Add title to chart
         svg.append("text")

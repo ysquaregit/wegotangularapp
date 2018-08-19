@@ -4,6 +4,8 @@ import * as d3 from 'd3';
 import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
 import * as Highcharts from 'highcharts/highcharts.js';
+import * as highchartsHeatmap from 'highcharts/modules/heatmap';
+import * as highchartMore from 'highcharts/highcharts-more.src.js';
 
 @Component({
     selector: 'app-visuals-sparkline-chart',
@@ -18,6 +20,7 @@ export class appVisualsparklineComponent implements OnInit {
     fromdateValue: Date;
     todateValue: Date;
     histogramDataSet:Array<any>=[]
+    testArray:Array<any>=[]
     constructor() {
         
     }
@@ -28,61 +31,24 @@ export class appVisualsparklineComponent implements OnInit {
         var newJSON = 
         [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
             this.histogramDataSet = newJSON;//activity.json();
+        this.testArray = ["123","234","543","345","645"]
     }
 
     sparklinesGenerator() {
-        // var wind = [Math.random()*100,Math.random()*100,Math.random()*100,Math.random()*100]
-        // var power = [50,40,1120,310]
-
-
-        // var w = 100, h = 100;
-
-        // var yWind = d3.scaleLinear().domain([d3.min(wind), d3.max(wind)]).range([0 , h]);
-        // //,
-        // // yPower = d3.scale.linear().domain([d3.min(power), d3.max(power)]).range([0 , h]),
-        // var x = d3.scaleLinear().domain([0, wind.length]).range([0, w])
-
-        // var vis = d3.select(".sparklinesdata")
-        //     .append("svg:svg")
-        //     .attr("width", w)
-        //     .attr("height", h)
-        // var g = vis.append("svg:g")
-        //     .attr("transform", "translate(0, " + h     +")");
-
-        // var lineWind = d3.line()
-        //     .x(function(d,i) { return x(i); })
-        //     .y(function(d) { return -1 * yWind(d) });
-
-        // //var linePower = d3.svg.line()
-        // //    .x(function(d,i) { return x(i); })
-        // //    .y(function(d) { return -1 * yPower(d); });
-        //     g.append("svg:path").attr("d", lineWind(wind)).attr('class', 'wind');
-        
-        // // g.append("svg:path").attr("d", linePower(power)).attr('class', 'power');
         $('.js-report-sparkline').each(function(sparklineId) {
             var th = $(this)
-        
-                // Instead of splitting with "," we are passing the data in JSON format
-                // Because splitting may cause getting datas as string
-                // And that breaks scale calculators
-                // Also this chain clears the HTML content
                 var data = $.parseJSON(
                     th.data("sparkline-data", th.text())
                        .text('')
                        .data("sparkline-data")
                 ),
         
-                // Get width and height of the container
                 w = th.width(),
                 h = th.height(),
         
-                // Setting the margins
-                // You may set different margins for X/Y
                 xMargin = 30,
                 yMargin = 15,
         
-                // Scale functions
-                // Setting the range with the margin
                 y = d3.scaleLinear()
                             .domain([d3.min(data), d3.max(data)])
                             .range([yMargin, h - yMargin]),
@@ -90,52 +56,35 @@ export class appVisualsparklineComponent implements OnInit {
                             .domain([0, data.length - 1])
                             .range([xMargin, w - xMargin]),
         
-                // Scale functions for creating the gradient fill/stroke
-                // Calculating the color according to data in the range of colors
-                // That user has passed with the data-range-[high-low]-color attributes
                 gradientY = d3.scaleLinear()
                                     .domain([d3.min(data), d3.max(data)])
                                     .range([th.data("range-low-color"), th.data("range-high-color")]),
         
-                // This is a different margin than the one for the chart
-                // Setting the gradient stops from 0% to 100% will cause wrong color ranges
-                // Because data points are positioned in the center of containing rect
                 percentageMargin = 100 / data.length,
                 percentageX = d3.scaleLinear()
                                       .domain([0, data.length - 1])
                                       .range([percentageMargin, 100 - percentageMargin]),
         
-                // Create S
                 container = d3.select(this).append("div"),
         
-                // Create tooltip
                 tooltip = container
                     .append("div")
                     .attr("class", "chart-tooltip"),
         
-                // Create SVG object and set dimensions
                 vis = container
                     .append("svg:svg")
                     .attr("width", w)
                     .attr("height", h)
         
-                // Create the group object and set styles for gradient definition
-                // Which is about to add in a few lines
                 var g = vis.append("svg:g")
                         .attr("stroke", "url(#sparkline-gradient-" + sparklineId + ")")
                         .attr("fill", "url(#sparkline-gradient-" + sparklineId + ")"),
         
-                // Create the line
-                // Using cardinal interpolation because we need
-                // The line to pass on every point
                 line = d3.line()
                     .x(function(d, i) { return x(i); })
                     .y(function(d) { return h - y(d); })
                     .curve(d3.curveCardinal),
         
-                // Create points
-                // We are only creating points for first and last data
-                  // Because that looks cooler :)
                 points = g.selectAll(".point")
                     .data(data)
                     .enter().append("svg:circle")
@@ -144,18 +93,13 @@ export class appVisualsparklineComponent implements OnInit {
                     .attr("cy", function(d, i) { return h - y(d) })
                     .attr("r", function(d, i) { return (i === (data.length - 1) || i === 0) ? 5 : 5; });
         
-            // Append the line to the group
             g.append("svg:path").attr("d", line(data));
         
-            // Bind calculator functions to tooltip
             th.find(".chart-tooltip").data({
                 calcY: y,
                 calcX: x
             });
         
-            // Create the gradient effect
-            // This is where the magic happens
-            // We get datas and create gradient stops with calculated colors
             vis.append("svg:defs")
                 .append("svg:linearGradient")
                 .attr("id", "sparkline-gradient-" + sparklineId)
@@ -170,12 +114,6 @@ export class appVisualsparklineComponent implements OnInit {
                     return "stop-color:" + gradientY(d) + ";stop-opacity:1";
                 });
         
-            // Creating invisible rectangles for a better hover interaction
-            // Because otherwise user would need to hover to the line or point
-            // Which is a terrible experience
-            // Creating full height invisible bars and binding mouse events
-            // To do some special stuff like showing data or adding classes to
-            // The point in the targeted area
             var rect = g.selectAll(".bar-rect")
                 .data(data)
                 .enter().append("svg:rect")
@@ -214,6 +152,180 @@ export class appVisualsparklineComponent implements OnInit {
             function formatTooltip(d, i) {
                 return '<div class="title">' + d + '</div>'
             }
+        });
+        setTimeout(() => {
+           this.generateHistoGramData();
+        }, 3000);
+        
+    }
+
+    generateHistoGramData() {
+        
+        
+        Highcharts.chart('Hcontainer1', {
+            chart:{
+                width:200,
+                height:100
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12'],
+                title:{
+                    'text':'Hours'
+                },
+                padding:0,
+                visible:false
+            },
+            yAxis:{
+                visible:false
+            },
+            legend: {
+                enabled:false
+            },
+            plotOptions: {
+                series: {
+                    pointPadding: 0,
+                    groupPadding:0
+                }
+            },
+            series: [{
+                type: 'column',
+                data: [5, 2, 4, 3, 3,1,3,2,5,6,7,7]
+            }]
+        });
+        Highcharts.chart('Hcontainer2', {
+            chart:{
+                width:200,
+                height:100
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12'],
+                title:{
+                    'text':'Hours'
+                },
+                padding:0,
+                visible:false
+            },
+            yAxis:{
+                visible:false
+            },
+            legend: {
+                enabled:false
+            },
+            plotOptions: {
+                series: {
+                    pointPadding: 0,
+                    groupPadding:0
+                }
+            },
+            series: [{
+                type: 'column',
+                data: [2, 3, 5, 7, 2,3,1,3,5,6,7]
+            }]
+        });
+        Highcharts.chart('Hcontainer3', {
+            chart:{
+                width:200,
+                height:100
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12'],
+                title:{
+                    'text':'Hours'
+                },
+                padding:0,
+                visible:false
+            },
+            yAxis:{
+                visible:false
+            },
+            legend: {
+                enabled:false
+            },
+            plotOptions: {
+                series: {
+                    pointPadding: 0,
+                    groupPadding:0
+                }
+            },
+            series: [{
+                type: 'column',
+                data: [9, 2, 5, 7, 4,1,3,4,5,8,7,9]
+            }]
+        });
+        Highcharts.chart('Hcontainer4', {
+            chart:{
+                width:200,
+                height:100
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12'],
+                title:{
+                    'text':'Hours'
+                },
+                padding:0,
+                visible:false
+            },
+            yAxis:{
+                visible:false
+            },
+            legend: {
+                enabled:false
+            },
+            plotOptions: {
+                series: {
+                    pointPadding: 0,
+                    groupPadding:0
+                }
+            },
+            series: [{
+                type: 'column',
+                data: [3, 2, 1, 3, 4,1,3,4,5,6,7,7]
+            }]
+        });
+        Highcharts.chart('Hcontainer5', {
+            chart:{
+                width:200,
+                height:100
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12'],
+                title:{
+                    'text':'Hours'
+                },
+                padding:0,
+                visible:false
+            },
+            yAxis:{
+                visible:false
+            },
+            legend: {
+                enabled:false
+            },
+            plotOptions: {
+                series: {
+                    pointPadding: 0,
+                    groupPadding:0
+                }
+            },
+            series: [{
+                type: 'column',
+                data: [3, 2, 1, 3, 4,1,3,4,5,6,7,7]
+            }]
         });
     }
 
