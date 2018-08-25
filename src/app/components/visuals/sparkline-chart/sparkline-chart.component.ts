@@ -43,8 +43,8 @@ export class appVisualsparklineComponent implements OnInit {
                        .data("sparkline-data")
                 ),
         
-                w = th.width(),
-                h = th.height(),
+                w = 200,
+                h = 100,
         
                 xMargin = 30,
                 yMargin = 15,
@@ -65,7 +65,7 @@ export class appVisualsparklineComponent implements OnInit {
                                       .domain([0, data.length - 1])
                                       .range([percentageMargin, 100 - percentageMargin]),
         
-                container = d3.select(this).append("div"),
+                container = d3.select(this),
         
                 tooltip = container
                     .append("div")
@@ -91,7 +91,7 @@ export class appVisualsparklineComponent implements OnInit {
                     .attr("class", "point")
                     .attr("cx", function(d, i) { return x(i) })
                     .attr("cy", function(d, i) { return h - y(d) })
-                    .attr("r", function(d, i) { return (i === (data.length - 1) || i === 0) ? 5 : 5; });
+                    .attr("r", function(d, i) { return (i === (data.length - 1) || i === 0) ? 2 : 2; });
         
             g.append("svg:path").attr("d", line(data));
         
@@ -192,7 +192,7 @@ export class appVisualsparklineComponent implements OnInit {
             },
             series: [{
                 type: 'column',
-                data: [5, 2, 4, 3, 3,1,3,2,5,6,7,7]
+                data: [5, 2, 4, 3, 3,1,3,2]
             }]
         });
         Highcharts.chart('Hcontainer2', {
@@ -225,7 +225,7 @@ export class appVisualsparklineComponent implements OnInit {
             },
             series: [{
                 type: 'column',
-                data: [2, 3, 5, 7, 2,3,1,3,5,6,7]
+                data: [2, 3, 5, 7, 2,3,1]
             }]
         });
         Highcharts.chart('Hcontainer3', {
@@ -258,7 +258,7 @@ export class appVisualsparklineComponent implements OnInit {
             },
             series: [{
                 type: 'column',
-                data: [9, 2, 5, 7, 4,1,3,4,5,8,7,9]
+                data: [9, 2, 5, 7, 4,1,3]
             }]
         });
         Highcharts.chart('Hcontainer4', {
@@ -291,7 +291,7 @@ export class appVisualsparklineComponent implements OnInit {
             },
             series: [{
                 type: 'column',
-                data: [3, 2, 1, 3, 4,1,3,4,5,6,7,7]
+                data: [3, 2, 1, 3, 4,1,7]
             }]
         });
         Highcharts.chart('Hcontainer5', {
@@ -324,7 +324,7 @@ export class appVisualsparklineComponent implements OnInit {
             },
             series: [{
                 type: 'column',
-                data: [3, 2, 1, 3, 4,1,3,4,5,6,7,7]
+                data: [3, 2, 1, 3, 4,1,3]
             }]
         });
     }

@@ -181,6 +181,10 @@ a:active {
         z-index: 1020;
     }
 
+    .mydp .selectorarrow .header {
+        position: relative !important;
+    }  
+
     /* Layout Fixed - Inner Wrapper */
     html.fixed .inner-wrapper {
         padding-top: 110px;

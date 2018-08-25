@@ -39,37 +39,31 @@
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
                 <div class="clearfix"></div>
                 <!-- Pie chart section -->
-                <div class="bhoechie-tab-content" [ngClass]="{'active':navActive==='pie'}">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>From Date:</label>
-                                <p-calendar [(ngModel)]="fromdateValue"
-                                dateFormat="dd.mm.yy"></p-calendar>
-                            </div>
-                            <div class="col-md-3 pull-left">
-                                    <label>To Date:</label>
-                                <p-calendar [(ngModel)]="toateValue"
-                                    dateFormat="dd.mm.yy"></p-calendar>
-                            </div>
+                <div class="bhoechie-tab-content" [ngClass]="{'active':navActive==='pie'}" [hidden]="navActive!='pie'">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>From Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
+                        <div class="col-md-3 pull-left">
+                            <label>To Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                        </div>
+                    </div>
                     <app-visuals-pie-chart [(data)]="options"></app-visuals-pie-chart>
                 </div>
                 <!-- Heat Map section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='heatMap'}" [hidden]="navActive!='heatMap'">
-                        
-
-                        <div class="row">
-                                <div class="col-md-3">
-                                    <label>From Date:</label>
-                                    <p-calendar [(ngModel)]="fromdateValue"
-                                    dateFormat="dd.mm.yy"></p-calendar>
-                                </div>
-                                <div class="col-md-2">
-                                        <label>To Date:</label>
-                                    <p-calendar [(ngModel)]="toateValue"
-                                        dateFormat="dd.mm.yy"></p-calendar>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>From Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-3 pull-left">
+                            <label>To Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                        </div>
+                    </div>
                     <div *ngIf="heatMapDataSet.length > 0">
                         <app-visuals-heat-map [(data)]="heatMapDataSet"></app-visuals-heat-map>
                     </div>
@@ -79,21 +73,16 @@
                 </div>
                 <!-- train section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='RTS'}" [hidden]="navActive!='RTS'">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>From Date:</label>
-                                <p-calendar [(ngModel)]="fromdateValue"
-                                dateFormat="dd.mm.yy"></p-calendar>
-                            </div>
-                            <div class="col-md-3">
-                                    <label>To Date:</label>
-                                <p-calendar [(ngModel)]="toateValue"
-                                    dateFormat="dd.mm.yy"></p-calendar>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>From Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
-                    <!-- <span *ngFor="let person of RTSChartFinalData">
-                        <chart [options]="person"></chart>
-                    </span> -->
+                        <div class="col-md-3 pull-left">
+                            <label>To Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                        </div>
+                    </div>
                     <div id="STPChartContainer">
                     <div class="STPChartContainer0"></div>
                     <div class="STPChartContainer1"></div>
@@ -102,35 +91,30 @@
                 </div>
                 <!-- train section  *ngIf="navActive=='usageChart'"-->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='usageChart'}" [hidden]="navActive!='usageChart'">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>From Date:</label>
-                                <p-calendar [(ngModel)]="fromdateValue"
-                                dateFormat="dd.mm.yy"></p-calendar>
-                            </div>
-                            <div class="col-md-3">
-                                    <label>To Date:</label>
-                                <p-calendar [(ngModel)]="toateValue"
-                                    dateFormat="dd.mm.yy"></p-calendar>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>From Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
+                        <div class="col-md-3 pull-left">
+                            <label>To Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                        </div>
+                    </div>
                     <svg width="500" height="500" font-family="sans-serif" font-size="10" text-anchor="middle" id="generateGraph"></svg>
                 </div>
                 <!-- train section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}" [hidden]="navActive!='ganttChart'">
-                        <div class="row">
-                                <div class="col-md-3">
-                                    <label>From Date:</label>
-                                    <p-calendar [(ngModel)]="fromdateValue"
-                                    dateFormat="dd.mm.yy"></p-calendar>
-                                </div>
-                                <div class="col-md-3">
-                                        <label>To Date:</label>
-                                    <p-calendar [(ngModel)]="toateValue"
-                                        dateFormat="dd.mm.yy"></p-calendar>
-                                </div>
-                            </div>
-                    <!-- <chart [(options)]="Ganttoptions"></chart> -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>From Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-3 pull-left">
+                            <label>To Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                        </div>
+                    </div>
                     <div id="ganttChartContainer"></div>
                 </div>
 
@@ -139,38 +123,37 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label>From Date:</label>
-                            <p-calendar [(ngModel)]="fromdateValue"
-                            dateFormat="dd.mm.yy"></p-calendar>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
-                        <div class="col-md-3">
-                                <label>To Date:</label>
-                            <p-calendar [(ngModel)]="toateValue"
-                                dateFormat="dd.mm.yy"></p-calendar>
+                        <div class="col-md-3 pull-left">
+                            <label>To Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                     </div>
                    <app-visuals-treemap-chart [(data)] ="treeMapChartSet"></app-visuals-treemap-chart>
                 </div>
                 <!-- train section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='SL'}" *ngIf="navActive=='SL' && sparklinesSetData.length > 0">
-                        <div class="row">
-                                <div class="col-md-3">
-                                    <label>From Date:</label>
-                                    <p-calendar [(ngModel)]="fromdateValue"
-                                    dateFormat="dd.mm.yy"></p-calendar>
-                                </div>
-                                <div class="col-md-3">
-                                        <label>To Date:</label>
-                                    <p-calendar [(ngModel)]="toateValue"
-                                        dateFormat="dd.mm.yy"></p-calendar>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary">Last Week</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary">Last Month</button>
-                                </div>
+                    <!-- <div class="row">
+                        <div class="col-md-3">
+                            <label>From Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-3 pull-left">
+                            <label>To Date:</label>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                        </div>
+                    </div> -->
+                    <div class="col-md-3">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                Last 
+                                <input class="form-control" type="text" placeholder="Enter the week number(Max-52)" size="3" title="Enter the week number(Max-52)">  Week(s)
                             </div>
-                        <app-visuals-sparkline-chart [data]="['132','34','32',60,'50']"></app-visuals-sparkline-chart>
+                        </form>
+                    </div>
+                    <br/>
+                    <app-visuals-sparkline-chart [data]="['132','34','32',60,'50']"></app-visuals-sparkline-chart>
                 </div>
             </div>
         </div>

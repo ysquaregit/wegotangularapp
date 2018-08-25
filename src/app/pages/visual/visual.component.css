@@ -127,3 +127,7 @@ div.bhoechie-tab-container{
       text-indent: 2px;
       color: #000;
   }
+
+  div#STPChartContainer {
+    display: flow-root;
+}

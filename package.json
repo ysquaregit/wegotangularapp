@@ -12,6 +12,8 @@
   },
   "private": true,
   "dependencies": {
+    "@amcharts/amcharts3-angular": "github:amcharts/amcharts3-angular2",
+    "@amcharts/amcharts4": "^4.0.0-beta.47",
     "@angular/animations": "^4.4.4",
     "@angular/cdk": "github:angular/cdk-builds",
     "@angular/common": "^4.2.0",
@@ -41,6 +43,7 @@
     "highcharts-heatmap": "^0.1.7",
     "jwt-decode": "^2.2.0",
     "momentjs": "^2.0.0",
+    "mydatepicker": "^2.6.5",
     "ng2-archwizard": "^2.1.0",
     "ng2-bs3-modal": "^0.13.0",
     "ng2-completer": "^2.0.8",

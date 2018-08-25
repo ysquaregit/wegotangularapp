@@ -101,11 +101,11 @@ thead th {
   box-sizing: border-box;
 }
 .js-report-sparkline path {
-  stroke-width: 3;
+  stroke-width: 1;
   fill: none;
 }
 .js-report-sparkline .point {
-  stroke-width: 2;
+  stroke-width: 1;
   transition: all 0.3s;
 }
 .js-report-sparkline .bar-rect {
@@ -113,7 +113,7 @@ thead th {
   stroke: none;
 }
 .js-report-sparkline .point.hover {
-  stroke-width: 4;
+  stroke-width: 1;
 }
 .js-report-sparkline .chart-container {
   position: relative;
@@ -161,7 +161,7 @@ thead th {
   color: gray;
   min-height: 2em;
 }
-#table-sparkline {
+/* #table-sparkline {
   margin: 0 auto;
   border-collapse: collapse;
 }
@@ -178,13 +178,11 @@ td, th {
 thead th {
   border-top: 2px solid gray;
   border-bottom: 2px solid gray;
-}
-.highcharts-tooltip>span {
+} */
+/* .highcharts-tooltip>span {
   background: white;
   border: 1px solid silver;
   border-radius: 3px;
   box-shadow: 1px 1px 2px #888;
   padding: 8px;
-}
-
-
+} */

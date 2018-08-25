@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import * as $ from 'jquery/dist/jquery.min.js';
 import {HttpModule} from '@angular/http';
+import { MyDatePickerModule } from 'mydatepicker';
 import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import * as highcharts from 'highcharts';
@@ -152,7 +153,8 @@ export function highchartsFactory() {
         ModalDialogModule.forRoot(),
         Ng2SmartTableModule,
         // ChartModule.forRoot(require('highcharts'))
-        ChartModule
+        ChartModule,
+        MyDatePickerModule
     ],
     providers: [
         AuthService, 

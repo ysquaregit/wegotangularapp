@@ -3,6 +3,11 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import * as d3 from 'd3';
 import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
+am4core.useTheme(am4themes_animated);
 
 @Component({
     selector: 'app-visuals-treemap-chart',
@@ -22,3034 +27,3098 @@ export class appVisualTreemapChartComponent implements OnInit {
     ngOnInit() {
         console.log("treemap data",this.data);
         //var data = d3.nest().key(function(d) { return d.region; }).key(function(d) { return d.subregion; }).entries(this.data);
-        this.main();
+        //this.main();
+        this.generateAmcharts();
         
+    }
+
+    generateAmcharts() {
+      let chart = am4core.create("chartdiv", am4charts.TreeMap);
+      console.log("chartdiv",chart)
+      
+
+        var testData = [{"name":"Block 1","children":[{"name":"Flat 101","value":100},{"name":"Flat 102","value":107},{"name":"Flat 103","value":154},{"name":"Flat 104","value":420}]},{"name":"Block 2","children":[{"name":"Flat 101","value":130},{"name":"Flat 102","value":117},{"name":"Flat 103","value":124},{"name":"Flat 104","value":450},{"name":"Flat 105","value":324},{"name":"Flat 106","value":215},{"name":"Flat 201","value":430},{"name":"Flat 202","value":322},{"name":"Flat 203","value":241},{"name":"Flat 204","value":153},{"name":"Flat 205","value":132},{"name":"Flat 206","value":322}]},{"name":"Block 3","children":[{"name":"Flat 101","value":150},{"name":"Flat 102","value":137},{"name":"Flat 103","value":174},{"name":"Flat 104","value":490},{"name":"Flat 105","value":304},{"name":"Flat 106","value":275},{"name":"Flat 201","value":429},{"name":"Flat 202","value":372},{"name":"Flat 203","value":243},{"name":"Flat 204","value":144}]},{"name":"Block 4","children":[{"name":"Flat 101","value":123},{"name":"Flat 102","value":345},{"name":"Flat 103","value":2345},{"name":"Flat 104","value":23}]},{"name":"Block 5","children":[{"name":"Flat 101","value":232},{"name":"Flat 102","value":42},{"name":"Flat 103","value":324},{"name":"Flat 104","value":345},{"name":"Flat 105","value":123},{"name":"Flat 106","value":465},{"name":"Flat 201","value":756},{"name":"Flat 202","value":567},{"name":"Flat 203","value":687},{"name":"Flat 204","value":798},{"name":"Flat 205","value":987},{"name":"Flat 206","value":567}]},{"name":"Block 6","children":[{"name":"Flat 101","value":879},{"name":"Flat 102","value":453},{"name":"Flat 103","value":64},{"name":"Flat 104","value":453},{"name":"Flat 105","value":345},{"name":"Flat 106","value":978},{"name":"Flat 201","value":567},{"name":"Flat 202","value":567},{"name":"Flat 203","value":53},{"name":"Flat 204","value":65}]}]
+
+        chart.data = testData;
+
+        /* Define data fields */
+        chart.navigationBar = new am4charts.NavigationBar();
+        chart.homeText = "Total Flat Consumption";
+        chart.colors.step = 3;
+        chart.dataFields.value = "value";
+        chart.dataFields.name = "name";
+        chart.dataFields.children = "children";
+        // chart.legend = new am4charts.Legend();
+        chart.maxLevels = 1;
+        // chart.zoomable = true;
+        // level 0 series template
+        var level0SeriesTemplate = chart.seriesTemplates.create("0");
+        level0SeriesTemplate.strokeWidth = 2;
+
+        // by default only current level series bullets are visible, but as we need brand bullets to be visible all the time, we modify it's hidden state
+        // level0SeriesTemplate.bulletsContainer.hiddenState.properties.opacity = 0.8;
+        // level0SeriesTemplate.bulletsContainer.hiddenState.properties.visible = true;
+        var bullet0 = level0SeriesTemplate.bullets.push(
+          new am4charts.LabelBullet()
+        );
+        bullet0.locationX = 0.5;
+        bullet0.locationY = 0.5;
+        bullet0.label.text = "{name}";
+        bullet0.label.fill = am4core.color("#ffffff");
+        level0SeriesTemplate.columns.template.fillOpacity = 1;
+        level0SeriesTemplate.strokeWidth = 2;
+        // create hover state
+        // var hoverState = level0SeriesTemplate.columns.template.states.create("hover");
+        
+        
+        // level1 series template
+        var level1SeriesTemplate = chart.seriesTemplates.create("1");
+        var bullet1 = level1SeriesTemplate.bullets.push(
+          new am4charts.LabelBullet()
+        );
+        bullet1.locationX = 0.5;
+        bullet1.locationY = 0.5;
+        bullet1.label.text = "{name} - {value} k/l";
+        bullet1.label.fill = am4core.color("#ffffff");
+        // level1SeriesTemplate.columns.template.fillOpacity = 0;
+        
+
+        // // level2 series template
+        var level2SeriesTemplate = chart.seriesTemplates.create("2");
+        var bullet2 = level2SeriesTemplate.bullets.push(
+          new am4charts.LabelBullet()
+        );
+        bullet2.locationX = 0.5;
+        bullet2.locationY = 0.5;
+        bullet2.label.text = "{name} - {value} k/l";
+        bullet2.label.fill = am4core.color("#ffffff");
+
     }
 
     main() {
         var data = {
-          "shortName": "Total Site Consumption",
+          "name": "Total Site Consumption",
           "children": [
             {
-              "shortName": "Block 1",
-              "size": null,
+              "name": "Block 1",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 100,
+                  "name": "Flat 101",
+                  "value": 100,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 107,
+                  "name": "Flat 102",
+                  "value": 107,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 154,
+                  "name": "Flat 103",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 354,
+                  "name": "Flat 105",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 342,
+                  "name": "Flat 206",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 420,
+                  "name": "Flat 301",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 132,
+                  "name": "Flat 302",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 321,
+                  "name": "Flat 304",
+                  "value": 321,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 500,
+                  "name": "Flat 305",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 420,
+                  "name": "Flat 306",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 420,
+                  "name": "Flat 402",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 423,
+                  "name": "Flat 404",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 245,
+                  "name": "Flat 406",
+                  "value": 245,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 2",
-              "size": null,
+              "name": "Block 2",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 130,
+                  "name": "Flat 101",
+                  "value": 130,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 117,
+                  "name": "Flat 102",
+                  "value": 117,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 124,
+                  "name": "Flat 103",
+                  "value": 124,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 450,
+                  "name": "Flat 104",
+                  "value": 450,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 324,
+                  "name": "Flat 105",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 215,
+                  "name": "Flat 106",
+                  "value": 215,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 430,
+                  "name": "Flat 201",
+                  "value": 430,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 322,
+                  "name": "Flat 202",
+                  "value": 322,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 241,
+                  "name": "Flat 203",
+                  "value": 241,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 153,
+                  "name": "Flat 204",
+                  "value": 153,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 322,
+                  "name": "Flat 206",
+                  "value": 322,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 410,
+                  "name": "Flat 301",
+                  "value": 410,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 122,
+                  "name": "Flat 302",
+                  "value": 122,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 415,
+                  "name": "Flat 303",
+                  "value": 415,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 341,
+                  "name": "Flat 304",
+                  "value": 341,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 530,
+                  "name": "Flat 305",
+                  "value": 530,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 410,
+                  "name": "Flat 306",
+                  "value": 410,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 442,
+                  "name": "Flat 401",
+                  "value": 442,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 450,
+                  "name": "Flat 402",
+                  "value": 450,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 423,
+                  "name": "Flat 404",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 410,
+                  "name": "Flat 405",
+                  "value": 410,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 255,
+                  "name": "Flat 406",
+                  "value": 255,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 3",
-              "size": null,
+              "name": "Block 3",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 170,
+                  "name": "Flat 101",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 147,
+                  "name": "Flat 102",
+                  "value": 147,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 164,
+                  "name": "Flat 103",
+                  "value": 164,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 480,
+                  "name": "Flat 104",
+                  "value": 480,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 344,
+                  "name": "Flat 105",
+                  "value": 344,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 295,
+                  "name": "Flat 106",
+                  "value": 295,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 440,
+                  "name": "Flat 201",
+                  "value": 440,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 392,
+                  "name": "Flat 202",
+                  "value": 392,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 293,
+                  "name": "Flat 203",
+                  "value": 293,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 104,
+                  "name": "Flat 204",
+                  "value": 104,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 322,
+                  "name": "Flat 206",
+                  "value": 322,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 410,
+                  "name": "Flat 301",
+                  "value": 410,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 152,
+                  "name": "Flat 302",
+                  "value": 152,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 475,
+                  "name": "Flat 303",
+                  "value": 475,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 391,
+                  "name": "Flat 304",
+                  "value": 391,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 530,
+                  "name": "Flat 305",
+                  "value": 530,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 490,
+                  "name": "Flat 306",
+                  "value": 490,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 462,
+                  "name": "Flat 401",
+                  "value": 462,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 430,
+                  "name": "Flat 402",
+                  "value": 430,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 493,
+                  "name": "Flat 403",
+                  "value": 493,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 423,
+                  "name": "Flat 404",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 400,
+                  "name": "Flat 405",
+                  "value": 400,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 295,
+                  "name": "Flat 406",
+                  "value": 295,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 4",
-              "size": null,
+              "name": "Block 4",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 190,
+                  "name": "Flat 101",
+                  "value": 190,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 103,
+                  "name": "Flat 102",
+                  "value": 103,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 164,
+                  "name": "Flat 103",
+                  "value": 164,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 304,
+                  "name": "Flat 105",
+                  "value": 304,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 235,
+                  "name": "Flat 106",
+                  "value": 235,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 470,
+                  "name": "Flat 201",
+                  "value": 470,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 302,
+                  "name": "Flat 202",
+                  "value": 302,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 203,
+                  "name": "Flat 203",
+                  "value": 203,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 184,
+                  "name": "Flat 204",
+                  "value": 184,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 122,
+                  "name": "Flat 205",
+                  "value": 122,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 312,
+                  "name": "Flat 206",
+                  "value": 312,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 480,
+                  "name": "Flat 301",
+                  "value": 480,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 162,
+                  "name": "Flat 302",
+                  "value": 162,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 485,
+                  "name": "Flat 303",
+                  "value": 485,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 301,
+                  "name": "Flat 304",
+                  "value": 301,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 530,
+                  "name": "Flat 305",
+                  "value": 530,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 420,
+                  "name": "Flat 306",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 492,
+                  "name": "Flat 401",
+                  "value": 492,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 400,
+                  "name": "Flat 402",
+                  "value": 400,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 493,
+                  "name": "Flat 403",
+                  "value": 493,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 403,
+                  "name": "Flat 404",
+                  "value": 403,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 421,
+                  "name": "Flat 405",
+                  "value": 421,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 249,
+                  "name": "Flat 406",
+                  "value": 249,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 5",
-              "size": null,
+              "name": "Block 5",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 140,
+                  "name": "Flat 101",
+                  "value": 140,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 137,
+                  "name": "Flat 102",
+                  "value": 137,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 124,
+                  "name": "Flat 103",
+                  "value": 124,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 490,
+                  "name": "Flat 104",
+                  "value": 490,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 384,
+                  "name": "Flat 105",
+                  "value": 384,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 215,
+                  "name": "Flat 106",
+                  "value": 215,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 460,
+                  "name": "Flat 201",
+                  "value": 460,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 312,
+                  "name": "Flat 202",
+                  "value": 312,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 223,
+                  "name": "Flat 203",
+                  "value": 223,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 184,
+                  "name": "Flat 204",
+                  "value": 184,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 192,
+                  "name": "Flat 205",
+                  "value": 192,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 322,
+                  "name": "Flat 206",
+                  "value": 322,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 470,
+                  "name": "Flat 301",
+                  "value": 470,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 192,
+                  "name": "Flat 302",
+                  "value": 192,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 425,
+                  "name": "Flat 303",
+                  "value": 425,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 331,
+                  "name": "Flat 304",
+                  "value": 331,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 509,
+                  "name": "Flat 305",
+                  "value": 509,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 427,
+                  "name": "Flat 306",
+                  "value": 427,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 425,
+                  "name": "Flat 402",
+                  "value": 425,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 412,
+                  "name": "Flat 403",
+                  "value": 412,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 429,
+                  "name": "Flat 404",
+                  "value": 429,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 427,
+                  "name": "Flat 405",
+                  "value": 427,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 265,
+                  "name": "Flat 406",
+                  "value": 265,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 6",
-              "size": null,
+              "name": "Block 6",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 150,
+                  "name": "Flat 101",
+                  "value": 150,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 137,
+                  "name": "Flat 102",
+                  "value": 137,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 174,
+                  "name": "Flat 103",
+                  "value": 174,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 490,
+                  "name": "Flat 104",
+                  "value": 490,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 304,
+                  "name": "Flat 105",
+                  "value": 304,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 275,
+                  "name": "Flat 106",
+                  "value": 275,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 429,
+                  "name": "Flat 201",
+                  "value": 429,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 372,
+                  "name": "Flat 202",
+                  "value": 372,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 144,
+                  "name": "Flat 204",
+                  "value": 144,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 456,
+                  "name": "Flat 205",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 332,
+                  "name": "Flat 206",
+                  "value": 332,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 422,
+                  "name": "Flat 301",
+                  "value": 422,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 112,
+                  "name": "Flat 302",
+                  "value": 112,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 425,
+                  "name": "Flat 303",
+                  "value": 425,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 325,
+                  "name": "Flat 304",
+                  "value": 325,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 467,
+                  "name": "Flat 305",
+                  "value": 467,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 490,
+                  "name": "Flat 306",
+                  "value": 490,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 492,
+                  "name": "Flat 401",
+                  "value": 492,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 430,
+                  "name": "Flat 402",
+                  "value": 430,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 423,
+                  "name": "Flat 403",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 413,
+                  "name": "Flat 404",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 440,
+                  "name": "Flat 405",
+                  "value": 440,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 275,
+                  "name": "Flat 406",
+                  "value": 275,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 7",
-              "size": null,
+              "name": "Block 7",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 190,
+                  "name": "Flat 101",
+                  "value": 190,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 147,
+                  "name": "Flat 102",
+                  "value": 147,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 124,
+                  "name": "Flat 103",
+                  "value": 124,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 490,
+                  "name": "Flat 104",
+                  "value": 490,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 304,
+                  "name": "Flat 105",
+                  "value": 304,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 304,
+                  "name": "Flat 201",
+                  "value": 304,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 304,
+                  "name": "Flat 202",
+                  "value": 304,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 432,
+                  "name": "Flat 203",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 304,
+                  "name": "Flat 204",
+                  "value": 304,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 432,
+                  "name": "Flat 205",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 304,
+                  "name": "Flat 206",
+                  "value": 304,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 420,
+                  "name": "Flat 301",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 432,
+                  "name": "Flat 302",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 432,
+                  "name": "Flat 304",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 456,
+                  "name": "Flat 305",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 432,
+                  "name": "Flat 306",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 465,
+                  "name": "Flat 401",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 432,
+                  "name": "Flat 402",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 342,
+                  "name": "Flat 404",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 432,
+                  "name": "Flat 405",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 432,
+                  "name": "Flat 406",
+                  "value": 432,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 8",
-              "size": null,
+              "name": "Block 8",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 243,
+                  "name": "Flat 101",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 432,
+                  "name": "Flat 102",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 243,
+                  "name": "Flat 103",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 243,
+                  "name": "Flat 105",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 243,
+                  "name": "Flat 201",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 432,
+                  "name": "Flat 204",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 243,
+                  "name": "Flat 205",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 342,
+                  "name": "Flat 206",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 243,
+                  "name": "Flat 301",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 354,
+                  "name": "Flat 302",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 243,
+                  "name": "Flat 303",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 321,
+                  "name": "Flat 304",
+                  "value": 321,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 243,
+                  "name": "Flat 305",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 420,
+                  "name": "Flat 306",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 243,
+                  "name": "Flat 401",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 245,
+                  "name": "Flat 402",
+                  "value": 245,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 243,
+                  "name": "Flat 404",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 243,
+                  "name": "Flat 406",
+                  "value": 243,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 9",
-              "size": null,
+              "name": "Block 9",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 476,
+                  "name": "Flat 101",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 243,
+                  "name": "Flat 102",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 324,
+                  "name": "Flat 103",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 243,
+                  "name": "Flat 104",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 324,
+                  "name": "Flat 105",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 324,
+                  "name": "Flat 201",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 324,
+                  "name": "Flat 203",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 324,
+                  "name": "Flat 205",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 453,
+                  "name": "Flat 206",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 324,
+                  "name": "Flat 301",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 453,
+                  "name": "Flat 302",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 467,
+                  "name": "Flat 303",
+                  "value": 467,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 453,
+                  "name": "Flat 304",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 467,
+                  "name": "Flat 305",
+                  "value": 467,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 420,
+                  "name": "Flat 306",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 467,
+                  "name": "Flat 401",
+                  "value": 467,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 420,
+                  "name": "Flat 402",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 467,
+                  "name": "Flat 403",
+                  "value": 467,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 354,
+                  "name": "Flat 404",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 467,
+                  "name": "Flat 405",
+                  "value": 467,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 354,
+                  "name": "Flat 406",
+                  "value": 354,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 10",
-              "size": null,
+              "name": "Block 10",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 354,
+                  "name": "Flat 101",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 346,
+                  "name": "Flat 102",
+                  "value": 346,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 154,
+                  "name": "Flat 103",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 476,
+                  "name": "Flat 105",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 476,
+                  "name": "Flat 201",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 453,
+                  "name": "Flat 202",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 476,
+                  "name": "Flat 203",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 453,
+                  "name": "Flat 204",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 453,
+                  "name": "Flat 206",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 487,
+                  "name": "Flat 301",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 453,
+                  "name": "Flat 302",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 487,
+                  "name": "Flat 304",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 232,
+                  "name": "Flat 305",
+                  "value": 232,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 487,
+                  "name": "Flat 306",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 420,
+                  "name": "Flat 402",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 423,
+                  "name": "Flat 404",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 245,
+                  "name": "Flat 406",
+                  "value": 245,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 11",
-              "size": null,
+              "name": "Block 11",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 346,
+                  "name": "Flat 101",
+                  "value": 346,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 107,
+                  "name": "Flat 102",
+                  "value": 107,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 456,
+                  "name": "Flat 103",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 346,
+                  "name": "Flat 104",
+                  "value": 346,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 354,
+                  "name": "Flat 105",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 456,
+                  "name": "Flat 106",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 456,
+                  "name": "Flat 202",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 456,
+                  "name": "Flat 204",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 456,
+                  "name": "Flat 206",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 500,
+                  "name": "Flat 301",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 345,
+                  "name": "Flat 302",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 456,
+                  "name": "Flat 303",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 345,
+                  "name": "Flat 304",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 500,
+                  "name": "Flat 305",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 345,
+                  "name": "Flat 306",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 354,
+                  "name": "Flat 401",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 345,
+                  "name": "Flat 402",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 354,
+                  "name": "Flat 404",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 453,
+                  "name": "Flat 405",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 354,
+                  "name": "Flat 406",
+                  "value": 354,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 12",
-              "size": null,
+              "name": "Block 12",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 453,
+                  "name": "Flat 101",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 289,
+                  "name": "Flat 102",
+                  "value": 289,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 453,
+                  "name": "Flat 103",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 289,
+                  "name": "Flat 105",
+                  "value": 289,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 289,
+                  "name": "Flat 202",
+                  "value": 289,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 465,
+                  "name": "Flat 203",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 289,
+                  "name": "Flat 204",
+                  "value": 289,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 465,
+                  "name": "Flat 205",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 343,
+                  "name": "Flat 206",
+                  "value": 343,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 465,
+                  "name": "Flat 301",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 132,
+                  "name": "Flat 302",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 343,
+                  "name": "Flat 303",
+                  "value": 343,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 432,
+                  "name": "Flat 304",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 343,
+                  "name": "Flat 305",
+                  "value": 343,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 432,
+                  "name": "Flat 306",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 354,
+                  "name": "Flat 401",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 420,
+                  "name": "Flat 402",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 354,
+                  "name": "Flat 403",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 476,
+                  "name": "Flat 404",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 354,
+                  "name": "Flat 405",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 476,
+                  "name": "Flat 406",
+                  "value": 476,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 13",
-              "size": null,
+              "name": "Block 13",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 476,
+                  "name": "Flat 101",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 264,
+                  "name": "Flat 102",
+                  "value": 264,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 476,
+                  "name": "Flat 103",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 264,
+                  "name": "Flat 105",
+                  "value": 264,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 264,
+                  "name": "Flat 201",
+                  "value": 264,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 453,
+                  "name": "Flat 202",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 264,
+                  "name": "Flat 203",
+                  "value": 264,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 453,
+                  "name": "Flat 205",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 342,
+                  "name": "Flat 206",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 453,
+                  "name": "Flat 301",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 132,
+                  "name": "Flat 302",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 453,
+                  "name": "Flat 303",
+                  "value": 453,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 432,
+                  "name": "Flat 304",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 500,
+                  "name": "Flat 305",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 432,
+                  "name": "Flat 306",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 465,
+                  "name": "Flat 401",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 324,
+                  "name": "Flat 402",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 324,
+                  "name": "Flat 404",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 324,
+                  "name": "Flat 406",
+                  "value": 324,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 14",
-              "size": null,
+              "name": "Block 14",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 324,
+                  "name": "Flat 101",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 107,
+                  "name": "Flat 102",
+                  "value": 107,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 324,
+                  "name": "Flat 103",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 324,
+                  "name": "Flat 105",
+                  "value": 324,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 354,
+                  "name": "Flat 201",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 354,
+                  "name": "Flat 203",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 354,
+                  "name": "Flat 205",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 432,
+                  "name": "Flat 206",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 354,
+                  "name": "Flat 301",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 432,
+                  "name": "Flat 302",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 432,
+                  "name": "Flat 304",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 345,
+                  "name": "Flat 305",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 432,
+                  "name": "Flat 306",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 345,
+                  "name": "Flat 402",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 345,
+                  "name": "Flat 404",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 345,
+                  "name": "Flat 406",
+                  "value": 345,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 15",
-              "size": null,
+              "name": "Block 15",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 456,
+                  "name": "Flat 101",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 432,
+                  "name": "Flat 102",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 154,
+                  "name": "Flat 103",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 432,
+                  "name": "Flat 105",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 432,
+                  "name": "Flat 201",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 432,
+                  "name": "Flat 204",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 432,
+                  "name": "Flat 206",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 420,
+                  "name": "Flat 301",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 432,
+                  "name": "Flat 302",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 432,
+                  "name": "Flat 304",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 435,
+                  "name": "Flat 305",
+                  "value": 435,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 432,
+                  "name": "Flat 306",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 435,
+                  "name": "Flat 402",
+                  "value": 435,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 435,
+                  "name": "Flat 403",
+                  "value": 435,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 435,
+                  "name": "Flat 404",
+                  "value": 435,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 432,
+                  "name": "Flat 405",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 439,
+                  "name": "Flat 406",
+                  "value": 439,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 16",
-              "size": null,
+              "name": "Block 16",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 170,
+                  "name": "Flat 101",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 439,
+                  "name": "Flat 102",
+                  "value": 439,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 154,
+                  "name": "Flat 103",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 170,
+                  "name": "Flat 104",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 354,
+                  "name": "Flat 105",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 170,
+                  "name": "Flat 106",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 170,
+                  "name": "Flat 202",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 170,
+                  "name": "Flat 204",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 170,
+                  "name": "Flat 206",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 420,
+                  "name": "Flat 301",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 170,
+                  "name": "Flat 302",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 170,
+                  "name": "Flat 304",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 345,
+                  "name": "Flat 305",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 170,
+                  "name": "Flat 306",
+                  "value": 170,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 345,
+                  "name": "Flat 402",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 435,
+                  "name": "Flat 404",
+                  "value": 435,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 345,
+                  "name": "Flat 405",
+                  "value": 345,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 435,
+                  "name": "Flat 406",
+                  "value": 435,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 17",
-              "size": null,
+              "name": "Block 17",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 387,
+                  "name": "Flat 101",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 107,
+                  "name": "Flat 102",
+                  "value": 107,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 387,
+                  "name": "Flat 103",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 354,
+                  "name": "Flat 105",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 387,
+                  "name": "Flat 106",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 500,
+                  "name": "Flat 201",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 387,
+                  "name": "Flat 202",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 456,
+                  "name": "Flat 203",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 500,
+                  "name": "Flat 204",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 456,
+                  "name": "Flat 206",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 420,
+                  "name": "Flat 301",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 456,
+                  "name": "Flat 302",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 456,
+                  "name": "Flat 304",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 500,
+                  "name": "Flat 305",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 456,
+                  "name": "Flat 306",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 500,
+                  "name": "Flat 401",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 456,
+                  "name": "Flat 402",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 500,
+                  "name": "Flat 404",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 500,
+                  "name": "Flat 406",
+                  "value": 500,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 18",
-              "size": null,
+              "name": "Block 18",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 487,
+                  "name": "Flat 101",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 107,
+                  "name": "Flat 102",
+                  "value": 107,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 487,
+                  "name": "Flat 103",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 487,
+                  "name": "Flat 105",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 265,
+                  "name": "Flat 106",
+                  "value": 265,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 487,
+                  "name": "Flat 201",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 487,
+                  "name": "Flat 203",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 487,
+                  "name": "Flat 205",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 342,
+                  "name": "Flat 206",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 487,
+                  "name": "Flat 301",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 132,
+                  "name": "Flat 302",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 487,
+                  "name": "Flat 303",
+                  "value": 487,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 321,
+                  "name": "Flat 304",
+                  "value": 321,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 356,
+                  "name": "Flat 305",
+                  "value": 356,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 420,
+                  "name": "Flat 306",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 356,
+                  "name": "Flat 401",
+                  "value": 356,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 420,
+                  "name": "Flat 402",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 356,
+                  "name": "Flat 403",
+                  "value": 356,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 476,
+                  "name": "Flat 404",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 356,
+                  "name": "Flat 405",
+                  "value": 356,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 356,
+                  "name": "Flat 406",
+                  "value": 356,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 19",
-              "size": null,
+              "name": "Block 19",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 476,
+                  "name": "Flat 101",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 498,
+                  "name": "Flat 102",
+                  "value": 498,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 154,
+                  "name": "Flat 103",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 498,
+                  "name": "Flat 104",
+                  "value": 498,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 354,
+                  "name": "Flat 105",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 498,
+                  "name": "Flat 106",
+                  "value": 498,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 387,
+                  "name": "Flat 202",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 387,
+                  "name": "Flat 204",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 132,
+                  "name": "Flat 205",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 387,
+                  "name": "Flat 206",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 420,
+                  "name": "Flat 301",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 387,
+                  "name": "Flat 302",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 387,
+                  "name": "Flat 304",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 500,
+                  "name": "Flat 305",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 387,
+                  "name": "Flat 306",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 387,
+                  "name": "Flat 402",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 387,
+                  "name": "Flat 404",
+                  "value": 387,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 387,
+                  "name": "Flat 406",
+                  "value": 387,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 20",
-              "size": null,
+              "name": "Block 20",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 476,
+                  "name": "Flat 101",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 336,
+                  "name": "Flat 102",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 365,
+                  "name": "Flat 103",
+                  "value": 365,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 365,
+                  "name": "Flat 105",
+                  "value": 365,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 336,
+                  "name": "Flat 106",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 336,
+                  "name": "Flat 202",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 336,
+                  "name": "Flat 204",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 336,
+                  "name": "Flat 205",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 342,
+                  "name": "Flat 206",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 336,
+                  "name": "Flat 301",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 132,
+                  "name": "Flat 302",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 336,
+                  "name": "Flat 303",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 336,
+                  "name": "Flat 304",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 500,
+                  "name": "Flat 305",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 420,
+                  "name": "Flat 306",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 336,
+                  "name": "Flat 401",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 420,
+                  "name": "Flat 402",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 336,
+                  "name": "Flat 403",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 336,
+                  "name": "Flat 404",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 336,
+                  "name": "Flat 406",
+                  "value": 336,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 21",
-              "size": null,
+              "name": "Block 21",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 456,
+                  "name": "Flat 101",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 107,
+                  "name": "Flat 102",
+                  "value": 107,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 154,
+                  "name": "Flat 103",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 456,
+                  "name": "Flat 104",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 354,
+                  "name": "Flat 105",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 336,
+                  "name": "Flat 106",
+                  "value": 336,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 456,
+                  "name": "Flat 203",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 456,
+                  "name": "Flat 205",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 342,
+                  "name": "Flat 206",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 456,
+                  "name": "Flat 301",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 132,
+                  "name": "Flat 302",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 456,
+                  "name": "Flat 304",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 500,
+                  "name": "Flat 305",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 456,
+                  "name": "Flat 306",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 456,
+                  "name": "Flat 402",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 456,
+                  "name": "Flat 404",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 245,
+                  "name": "Flat 406",
+                  "value": 245,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 22",
-              "size": null,
+              "name": "Block 22",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 476,
+                  "name": "Flat 101",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 107,
+                  "name": "Flat 102",
+                  "value": 107,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 154,
+                  "name": "Flat 103",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 476,
+                  "name": "Flat 104",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 354,
+                  "name": "Flat 105",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 476,
+                  "name": "Flat 106",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 243,
+                  "name": "Flat 203",
+                  "value": 243,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 423,
+                  "name": "Flat 205",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 476,
+                  "name": "Flat 206",
+                  "value": 476,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 420,
+                  "name": "Flat 301",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 423,
+                  "name": "Flat 302",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 465,
+                  "name": "Flat 303",
+                  "value": 465,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 423,
+                  "name": "Flat 304",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 500,
+                  "name": "Flat 305",
+                  "value": 500,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 423,
+                  "name": "Flat 306",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 423,
+                  "name": "Flat 402",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 354,
+                  "name": "Flat 403",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 423,
+                  "name": "Flat 404",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 354,
+                  "name": "Flat 405",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 354,
+                  "name": "Flat 406",
+                  "value": 354,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 23",
-              "size": null,
+              "name": "Block 23",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 354,
+                  "name": "Flat 101",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 256,
+                  "name": "Flat 102",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 154,
+                  "name": "Flat 103",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 256,
+                  "name": "Flat 104",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 354,
+                  "name": "Flat 105",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 256,
+                  "name": "Flat 106",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 256,
+                  "name": "Flat 202",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 256,
+                  "name": "Flat 203",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 256,
+                  "name": "Flat 205",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 342,
+                  "name": "Flat 206",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 256,
+                  "name": "Flat 301",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 132,
+                  "name": "Flat 302",
+                  "value": 132,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 256,
+                  "name": "Flat 303",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 321,
+                  "name": "Flat 304",
+                  "value": 321,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 256,
+                  "name": "Flat 305",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 420,
+                  "name": "Flat 306",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 432,
+                  "name": "Flat 401",
+                  "value": 432,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 256,
+                  "name": "Flat 402",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 413,
+                  "name": "Flat 403",
+                  "value": 413,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 423,
+                  "name": "Flat 404",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 256,
+                  "name": "Flat 405",
+                  "value": 256,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 354,
+                  "name": "Flat 406",
+                  "value": 354,
                   "children": []
                 }
               ]
             },
             {
-              "shortName": "Block 24",
-              "size": null,
+              "name": "Block 24",
+              "value": null,
               "children": [
                 {
-                  "shortName": "Flat 101",
-                  "size": 354,
+                  "name": "Flat 101",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 102",
-                  "size": 107,
+                  "name": "Flat 102",
+                  "value": 107,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 103",
-                  "size": 354,
+                  "name": "Flat 103",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 104",
-                  "size": 420,
+                  "name": "Flat 104",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 105",
-                  "size": 456,
+                  "name": "Flat 105",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 106",
-                  "size": 354,
+                  "name": "Flat 106",
+                  "value": 354,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 201",
-                  "size": 420,
+                  "name": "Flat 201",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 202",
-                  "size": 342,
+                  "name": "Flat 202",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 203",
-                  "size": 456,
+                  "name": "Flat 203",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 204",
-                  "size": 154,
+                  "name": "Flat 204",
+                  "value": 154,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 205",
-                  "size": 456,
+                  "name": "Flat 205",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 206",
-                  "size": 342,
+                  "name": "Flat 206",
+                  "value": 342,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 301",
-                  "size": 420,
+                  "name": "Flat 301",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 302",
-                  "size": 456,
+                  "name": "Flat 302",
+                  "value": 456,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 303",
-                  "size": 489,
+                  "name": "Flat 303",
+                  "value": 489,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 304",
-                  "size": 321,
+                  "name": "Flat 304",
+                  "value": 321,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 305",
-                  "size": 489,
+                  "name": "Flat 305",
+                  "value": 489,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 306",
-                  "size": 420,
+                  "name": "Flat 306",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 401",
-                  "size": 489,
+                  "name": "Flat 401",
+                  "value": 489,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 402",
-                  "size": 420,
+                  "name": "Flat 402",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 403",
-                  "size": 489,
+                  "name": "Flat 403",
+                  "value": 489,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 404",
-                  "size": 423,
+                  "name": "Flat 404",
+                  "value": 423,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 405",
-                  "size": 420,
+                  "name": "Flat 405",
+                  "value": 420,
                   "children": []
                 },
                 {
-                  "shortName": "Flat 406",
-                  "size": 489,
+                  "name": "Flat 406",
+                  "value": 489,
                   "children": []
                 }
               ]
@@ -3137,7 +3206,7 @@ export class appVisualTreemapChartComponent implements OnInit {
               }
                             
                     var root = d3.hierarchy(data)
-                        .eachBefore(function(d) { d.id = (d.parent ? d.parent.id + "." : "") + d.data.shortName; })
+                        .eachBefore(function(d) { d.id = (d.parent ? d.parent.id + "." : "") + d.data.name; })
                         .sum((d) => d.size)
                         .sort(function(a, b) {
                         console.log('initial root sort a ' + a.value + ' b ' + b.value);
@@ -3225,11 +3294,11 @@ export class appVisualTreemapChartComponent implements OnInit {
                 .attr("class", "child")
                 .call(rect)
               .append("title")
-                .text(function(d) { return d.data.shortName + " (" + formatNumber(d.value) + " K/l)"; });
+                .text(function(d) { return d.data.name + " (" + formatNumber(d.value) + " K/l)"; });
           
             children.append("text")
                 .attr("class", "ctext")
-                .text(function(d) { return d.data.shortName; })
+                .text(function(d) { return d.data.name; })
                 .call(text2);
           
             g.append("rect")
@@ -3243,7 +3312,7 @@ export class appVisualTreemapChartComponent implements OnInit {
                 .attr("dy", ".75em")
               
               t.append("tspan")
-                .text(function(d) { return d.data.shortName +' ('+ formatNumber(d.value)+' K/l)'});
+                .text(function(d) { return d.data.name +' ('+ formatNumber(d.value)+' K/l)'});
               // t.append("tspan")
               //   .attr("dy", "1.0em")
               //   .attr("font-size","1em")
@@ -3251,7 +3320,7 @@ export class appVisualTreemapChartComponent implements OnInit {
               t.call(text);
               
               g.selectAll("rect")
-                .style("fill", function(d) { return color(d.data.shortName); });
+                .style("fill", function(d) { return color(d.data.name); });
               
               
           
@@ -3333,8 +3402,8 @@ export class appVisualTreemapChartComponent implements OnInit {
           
             function name(d) {
               return d.parent
-                  ? name(d.parent) + " / " + d.data.shortName + " (" + formatNumber(d.value) + ")"
-                  : d.data.shortName + " (" + formatNumber(d.value) + ")";
+                  ? name(d.parent) + " / " + d.data.name + " (" + formatNumber(d.value) + ")"
+                  : d.data.name + " (" + formatNumber(d.value) + ")";
             }
     }
 

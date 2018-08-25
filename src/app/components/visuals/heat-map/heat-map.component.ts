@@ -6,6 +6,7 @@ import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
 import * as Highcharts from 'highcharts/highcharts.js';
 import * as highchartsHeatmap from 'highcharts/modules/heatmap';
+import * as highchartMore from 'highcharts/highcharts-more.src.js';
 
 @Component({
     selector: 'app-visuals-heat-map',
@@ -436,7 +437,44 @@ export class appVisualHeatMapComponent implements OnInit {
             var newJSON = 
             [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
             this.histogramDataSet = newJSON;//activity.json();
+
+            Highcharts.chart('Hcontainer1', {
+              chart:{
+                  width:500,
+                  height:300
+              },
+              title: {
+                  text: ''
+              },
+              xAxis: {
+                  categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24'],
+                  title:{
+                      'text':'Hours'
+                  },
+                  padding:0,
+                  visible:true,
+                  tickInterval:1,
+                  min:0
+              },
+              yAxis:{
+                  visible:true
+              },
+              legend: {
+                  enabled:false
+              },
+              plotOptions: {
+                  series: {
+                      pointPadding: 0,
+                      groupPadding:0
+                  }
+              },
+              series: [{
+                  type: 'column',
+                  data: [5, 2, 4, 3, 3,1,3,2,5,6,7,7,4,5,6,3,5,7,8,9,9,7,5,4,3]
+              }]
+          });
         });
+
     }
       
 

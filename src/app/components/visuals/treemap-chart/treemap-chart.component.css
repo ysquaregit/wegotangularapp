@@ -11,3 +11,8 @@ form {
     position: absolute;
     text-indent: 2px;
   }
+
+  #chartdiv {
+    width: 100%;
+    height: 600px;
+  }
