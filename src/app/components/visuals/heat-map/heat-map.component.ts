@@ -340,6 +340,15 @@ export class appVisualHeatMapComponent implements OnInit {
         console.log(chartData);
         var chartData = martixOutput;
         let heatMapContainer = $('#heatMapContainer').width()
+        // Highcharts.wrap(Highcharts.seriesTypes.heatmap.prototype, 'translate', function (proceed) {
+        //     proceed.apply(this, [].slice.call(arguments, 1));
+    
+        //     Highcharts.each(this.points, function (point) {
+        //         // Adapt here the size and position of each cell
+        //         point.shapeArgs.height /= 2;
+        //         point.shapeArgs.y += point.shapeArgs.height / 2;
+        //     });
+        // });
         $(function () {
           new Highcharts.Chart({
             chart: {

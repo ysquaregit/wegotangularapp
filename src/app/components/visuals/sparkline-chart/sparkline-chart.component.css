@@ -146,15 +146,15 @@ thead th {
 }
 .status_red {
   color:red;
-    font-size: 1.3em;
+    font-size: 1.8em;
     position: relative;
-    top: 3px;
+    top: 6px;
 }
 .status_green {
   color: green;
-    font-size: 1.3em;
     position: relative;
-    top: 3px;
+    top: 6px;
+    font-size: 1.8em;
 }
 #result {
   text-align: right;
@@ -186,3 +186,10 @@ thead th {
   box-shadow: 1px 1px 2px #888;
   padding: 8px;
 } */
+/* #table-sparkline tr td{
+  width: 10px;
+} */
+
+#table-sparkline .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+  vertical-align: middle !important;
+}

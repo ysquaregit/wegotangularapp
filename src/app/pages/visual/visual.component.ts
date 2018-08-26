@@ -699,7 +699,7 @@ export class VisualComponent implements OnInit {
 
                 series.push(item);
             });
-
+            console.log("series",series)
             // restructure the milestones
             /*$.each(milestones, function(i, milestone) {
                 var item = Highcharts.extend(milestone, {
