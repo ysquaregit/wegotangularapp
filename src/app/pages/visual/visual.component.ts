@@ -672,7 +672,8 @@ export class VisualComponent implements OnInit {
             $.each(tasks.reverse(), function(i, task) {
                 var item = {
                     name: task.name,
-                    data: []
+                    data: [],
+                    color: '#FF0000'
                 };
                 $.each(task.intervals, function(j, interval) {
                     item.data.push({
@@ -712,7 +713,16 @@ export class VisualComponent implements OnInit {
                 series.push(item);
             });
              */
-
+            Highcharts.setOptions({
+                colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                    return {
+                        stops: [
+                            [12, color],
+                            [19, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                        ]
+                    };
+                })
+            });
             // create the chart
             var chart = new Highcharts.Chart({
                 chart: {

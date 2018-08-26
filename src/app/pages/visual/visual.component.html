@@ -8,31 +8,31 @@
                 <div class="list-group">
                     <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='pie'}" (click)="open('pie')">
                         <h4 class="glyphicon glyphicon-plane"></h4>
-                        <br/>Pie
-                    </a>
-                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='tree'}" (click)="open('tree')">
-                        <h4 class="glyphicon glyphicon-home"></h4>
-                        <br/>Tree Map
-                    </a>
-                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='heatMap'}" (click)="open('heatMap')">
-                        <h4 class="glyphicon glyphicon-road"></h4>
-                        <br/>Heat Map / Histogram
-                    </a>
-                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='RTS'}" (click)="open('RTS')">
-                        <h4 class="glyphicon glyphicon-cutlery"></h4>
-                        <br/>Raw / Treated /STP
+                        <br/>Sources
                     </a>
                     <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='SL'}" (click)="open('SL')">
                         <h4 class="glyphicon glyphicon-credit-card"></h4>
-                        <br/>Sparkline
-                    </a>
-                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='usageChart'}" (click)="open('usageChart')">
-                        <h4 class="glyphicon glyphicon-credit-card"></h4>
-                        <br/>Usage Chart
+                        <br/>Sources Trend
                     </a>
                     <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='ganttChart'}" (click)="open('ganttChart')">
                         <h4 class="glyphicon glyphicon-credit-card"></h4>
-                        <br/>Gantt Chart
+                        <br/>Pump Yield
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='RTS'}" (click)="open('RTS')">
+                        <h4 class="glyphicon glyphicon-cutlery"></h4>
+                        <br/>Water Demand
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='tree'}" (click)="open('tree')">
+                        <h4 class="glyphicon glyphicon-home"></h4>
+                        <br/>Block Level
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='usageChart'}" (click)="open('usageChart')">
+                        <h4 class="glyphicon glyphicon-credit-card"></h4>
+                        <br/>High Users
+                    </a>
+                    <a href="javascript:;" class="list-group-item" [ngClass]="{'active':navActive==='heatMap'}" (click)="open('heatMap')">
+                        <h4 class="glyphicon glyphicon-road"></h4>
+                        <br/>Water Map
                     </a>
                 </div>
             </div>
@@ -147,8 +147,8 @@
                     <div class="col-md-3">
                         <form class="form-inline">
                             <div class="form-group">
-                                Last 
-                                <input class="form-control" type="text" placeholder="Enter the week number(Max-52)" size="3" title="Enter the week number(Max-52)">  Week(s)
+                                <b>Last </b>
+                                <input class="form-control" type="number" placeholder="Enter the week number(Max-52)" size="6" title="Enter the week number(Max-52)" min="0" max="52">  Week(s)
                             </div>
                         </form>
                     </div>
