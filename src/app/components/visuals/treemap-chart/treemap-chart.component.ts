@@ -3,11 +3,14 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import * as d3 from 'd3';
 import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+// import * as am4core from "@amcharts/amcharts4/core";
+// import * as am4charts from "@amcharts/amcharts4/charts";
+// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import * as Highcharts from 'highcharts/highcharts.js';
+import * as highchartMore from 'highcharts/highcharts-more.src.js';
+import Tree from 'highcharts/modules/treemap';
 
-am4core.useTheme(am4themes_animated);
+// am4core.useTheme(am4themes_animated);
 
 @Component({
     selector: 'app-visuals-treemap-chart',
@@ -33,65 +36,96 @@ export class appVisualTreemapChartComponent implements OnInit {
     }
 
     generateAmcharts() {
-      let chart = am4core.create("chartdiv", am4charts.TreeMap);
-      console.log("chartdiv",chart)
-      
+      $.getJSON('https://api.myjson.com/bins/8damo', function (data) {
 
-        var testData = [{"name":"Block 1","children":[{"name":"Flat 101","value":100},{"name":"Flat 102","value":107},{"name":"Flat 103","value":154},{"name":"Flat 104","value":420}]},{"name":"Block 2","children":[{"name":"Flat 101","value":130},{"name":"Flat 102","value":117},{"name":"Flat 103","value":124},{"name":"Flat 104","value":450},{"name":"Flat 105","value":324},{"name":"Flat 106","value":215},{"name":"Flat 201","value":430},{"name":"Flat 202","value":322},{"name":"Flat 203","value":241},{"name":"Flat 204","value":153},{"name":"Flat 205","value":132},{"name":"Flat 206","value":322}]},{"name":"Block 3","children":[{"name":"Flat 101","value":150},{"name":"Flat 102","value":137},{"name":"Flat 103","value":174},{"name":"Flat 104","value":490},{"name":"Flat 105","value":304},{"name":"Flat 106","value":275},{"name":"Flat 201","value":429},{"name":"Flat 202","value":372},{"name":"Flat 203","value":243},{"name":"Flat 204","value":144}]},{"name":"Block 4","children":[{"name":"Flat 101","value":123},{"name":"Flat 102","value":345},{"name":"Flat 103","value":2345},{"name":"Flat 104","value":23}]},{"name":"Block 5","children":[{"name":"Flat 101","value":232},{"name":"Flat 102","value":42},{"name":"Flat 103","value":324},{"name":"Flat 104","value":345},{"name":"Flat 105","value":123},{"name":"Flat 106","value":465},{"name":"Flat 201","value":756},{"name":"Flat 202","value":567},{"name":"Flat 203","value":687},{"name":"Flat 204","value":798},{"name":"Flat 205","value":987},{"name":"Flat 206","value":567}]},{"name":"Block 6","children":[{"name":"Flat 101","value":879},{"name":"Flat 102","value":453},{"name":"Flat 103","value":64},{"name":"Flat 104","value":453},{"name":"Flat 105","value":345},{"name":"Flat 106","value":978},{"name":"Flat 201","value":567},{"name":"Flat 202","value":567},{"name":"Flat 203","value":53},{"name":"Flat 204","value":65}]}]
+  var points = [],
+    regionP,
+    regionVal,
+    regionI = 0,
+    countryP,
+    countryI,
+    causeP,
+    causeI,
+    region,
+    country,
+    cause,
+    causeName = {
+      'Communicable & other Group I': 'Communicable diseases',
+      'Noncommunicable diseases': 'Non-communicable diseases',
+      'Injuries': 'Injuries'
+    };
 
-        chart.data = testData;
+  for (region in data) {
+    if (data.hasOwnProperty(region)) {
+      regionVal = 0;
+      regionP = {
+        id: 'id_' + regionI,
+        name: region,
+        color: Highcharts.getOptions().colors[regionI]
+      };
+      countryI = 0;
+      for (country in data[region]) {
+        if (data[region].hasOwnProperty(country)) {
+          countryP = {
+            id: regionP.id + '_' + countryI,
+            name: country,
+            parent: regionP.id
+          };
+          points.push(countryP);
+          causeI = 0;
+          for (cause in data[region][country]) {
+            if (data[region][country].hasOwnProperty(cause)) {
+              causeP = {
+                id: countryP.id + '_' + causeI,
+                name: cause,
+                parent: countryP.id,
+                value: Math.round(+data[region][country][cause])
+              };
+              regionVal += causeP.value;
+              points.push(causeP);
+              causeI = causeI + 1;
+            }
+          }
+          countryI = countryI + 1;
+        }
+      }
+      regionP.value = Math.round(regionVal / countryI);
+      points.push(regionP);
+      regionI = regionI + 1;
+    }
+  }
+  console.log("points",points)
+  new Highcharts.Chart({
+    chart:{
+      renderTo: 'chartdiv',
+    },
+    series: [{
+      type: 'treemap',
+      layoutAlgorithm: 'squarified',
+      allowDrillToNode: true,
+      animationLimit: 1000,
+      dataLabels: {
+        enabled: false
+      },
+      levelIsConstant: false,
+      levels: [{
+        level: 1,
+        dataLabels: {
+          enabled: true
+        },
+        borderWidth: 5
+      }],
+      data: points
+    }],
+    subtitle: {
+      text: ''
+    },
+    title: {
+      text: ''
+    }
+  });
 
-        /* Define data fields */
-        chart.navigationBar = new am4charts.NavigationBar();
-        chart.homeText = "Total Flat Consumption";
-        chart.colors.step = 3;
-        chart.dataFields.value = "value";
-        chart.dataFields.name = "name";
-        chart.dataFields.children = "children";
-        // chart.legend = new am4charts.Legend();
-        chart.maxLevels = 1;
-        // chart.zoomable = true;
-        // level 0 series template
-        var level0SeriesTemplate = chart.seriesTemplates.create("0");
-        level0SeriesTemplate.strokeWidth = 2;
-
-        // by default only current level series bullets are visible, but as we need brand bullets to be visible all the time, we modify it's hidden state
-        // level0SeriesTemplate.bulletsContainer.hiddenState.properties.opacity = 0.8;
-        // level0SeriesTemplate.bulletsContainer.hiddenState.properties.visible = true;
-        var bullet0 = level0SeriesTemplate.bullets.push(
-          new am4charts.LabelBullet()
-        );
-        bullet0.locationX = 0.5;
-        bullet0.locationY = 0.5;
-        bullet0.label.text = "{name}";
-        bullet0.label.fill = am4core.color("#ffffff");
-        level0SeriesTemplate.columns.template.fillOpacity = 1;
-        level0SeriesTemplate.strokeWidth = 2;
-        // create hover state
-        // var hoverState = level0SeriesTemplate.columns.template.states.create("hover");
-        
-        
-        // level1 series template
-        var level1SeriesTemplate = chart.seriesTemplates.create("1");
-        var bullet1 = level1SeriesTemplate.bullets.push(
-          new am4charts.LabelBullet()
-        );
-        bullet1.locationX = 0.5;
-        bullet1.locationY = 0.5;
-        bullet1.label.text = "{name} - {value} k/l";
-        bullet1.label.fill = am4core.color("#ffffff");
-        // level1SeriesTemplate.columns.template.fillOpacity = 0;
-        
-
-        // // level2 series template
-        var level2SeriesTemplate = chart.seriesTemplates.create("2");
-        var bullet2 = level2SeriesTemplate.bullets.push(
-          new am4charts.LabelBullet()
-        );
-        bullet2.locationX = 0.5;
-        bullet2.locationY = 0.5;
-        bullet2.label.text = "{name} - {value} k/l";
-        bullet2.label.fill = am4core.color("#ffffff");
+});
 
     }
 

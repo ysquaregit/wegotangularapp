@@ -9,6 +9,7 @@ import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import * as highcharts from 'highcharts';
 import * as highchartsHeatmap from 'highcharts/modules/heatmap';
+import Tree from 'highcharts/modules/treemap';
 // import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
 import {
@@ -84,9 +85,18 @@ export function highchartsFactory() {
     // const dd = require('highcharts/modules/drilldown');
     // dd(hc);
 
-    // return hc;
-    highchartsHeatmap(highcharts);
-    return highcharts;
+    // // return hc;
+    // highchartsHeatmap(highcharts);
+    // // Tree(highcharts)
+    // return highcharts;
+    var hc = require('highcharts');
+    var hcm = require('highcharts/highcharts-more');
+    var hm = require('highcharts/modules/heatmap');
+    var hr = require('highcharts/modules/treemap');
+    hcm(hc);
+    hm(hc);
+    hr(hc);
+    return hc;
   }
 
 
