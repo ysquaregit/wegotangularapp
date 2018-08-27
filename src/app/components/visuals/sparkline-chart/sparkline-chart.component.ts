@@ -190,6 +190,11 @@ export class appVisualsparklineComponent implements OnInit {
                     groupPadding:0
                 }
             },
+            tooltip: {
+                formatter: function() {
+                  return '<strong>Value: </strong>'+ this.x;
+                }
+            },
             series: [{
                 type: 'column',
                 data: [5, 2, 4, 3, 3,1,3,2]
@@ -221,6 +226,11 @@ export class appVisualsparklineComponent implements OnInit {
                 series: {
                     pointPadding: 0,
                     groupPadding:0
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                  return '<strong>Value: </strong>'+ this.x;
                 }
             },
             series: [{
@@ -256,6 +266,11 @@ export class appVisualsparklineComponent implements OnInit {
                     groupPadding:0
                 }
             },
+            tooltip: {
+                formatter: function() {
+                  return '<strong>Value: </strong>'+ this.x;
+                }
+            },
             series: [{
                 type: 'column',
                 data: [9, 2, 5, 7, 4,1,3]
@@ -289,6 +304,11 @@ export class appVisualsparklineComponent implements OnInit {
                     groupPadding:0
                 }
             },
+            tooltip: {
+                formatter: function() {
+                  return '<strong>Value: </strong>'+ this.x;
+                }
+            },
             series: [{
                 type: 'column',
                 data: [3, 2, 1, 3, 4,1,7]
@@ -320,6 +340,11 @@ export class appVisualsparklineComponent implements OnInit {
                 series: {
                     pointPadding: 0,
                     groupPadding:0
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                  return '<strong>Value: </strong>'+ this.x;
                 }
             },
             series: [{

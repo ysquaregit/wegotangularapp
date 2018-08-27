@@ -477,6 +477,11 @@ export class appVisualHeatMapComponent implements OnInit {
                       groupPadding:0
                   }
               },
+              tooltip: {
+                  formatter: function() {
+                    return '<strong>Value: </strong>'+ this.x;
+                  }
+              },
               series: [{
                   type: 'column',
                   data: [5, 2, 4, 3, 3,1,3,2,5,6,7,7,4,5,6,3,5,7,8,9,9,7,5,4,3]
