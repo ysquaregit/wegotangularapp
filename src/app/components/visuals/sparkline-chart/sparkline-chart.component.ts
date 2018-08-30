@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output,ViewEncapsulation} from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 import * as d3 from 'd3';
-import * as d3Hierarchy from 'd3-hierarchy';
+// import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
 import * as Highcharts from 'highcharts/highcharts.js';
 import * as highchartsHeatmap from 'highcharts/modules/heatmap';
@@ -49,19 +49,19 @@ export class appVisualsparklineComponent implements OnInit {
                 xMargin = 30,
                 yMargin = 15,
         
-                y = d3.scaleLinear()
+                y = d3.scale.linear()
                             .domain([d3.min(data), d3.max(data)])
                             .range([yMargin, h - yMargin]),
-                x = d3.scaleLinear()
+                x = d3.scale.linear()
                             .domain([0, data.length - 1])
                             .range([xMargin, w - xMargin]),
         
-                gradientY = d3.scaleLinear()
+                gradientY = d3.scale.linear()
                                     .domain([d3.min(data), d3.max(data)])
                                     .range([th.data("range-low-color"), th.data("range-high-color")]),
         
                 percentageMargin = 100 / data.length,
-                percentageX = d3.scaleLinear()
+                percentageX =d3.scale.linear()
                                       .domain([0, data.length - 1])
                                       .range([percentageMargin, 100 - percentageMargin]),
         
@@ -80,17 +80,17 @@ export class appVisualsparklineComponent implements OnInit {
                         .attr("stroke", "url(#sparkline-gradient-" + sparklineId + ")")
                         .attr("fill", "url(#sparkline-gradient-" + sparklineId + ")"),
         
-                line = d3.line()
+                line = d3.svg.line()
+                    .interpolate("cardinal")
                     .x(function(d, i) { return x(i); })
-                    .y(function(d) { return h - y(d); })
-                    .curve(d3.curveCardinal),
+                    .y(function<dataType>(d) { return h - y(d); }),
         
                 points = g.selectAll(".point")
                     .data(data)
                     .enter().append("svg:circle")
                     .attr("class", "point")
                     .attr("cx", function(d, i) { return x(i) })
-                    .attr("cy", function(d, i) { return h - y(d) })
+                    .attr("cy", function<dataType>(d, i) { return h - y(d) })
                     .attr("r", function(d, i) { return (i === (data.length - 1) || i === 0) ? 2 : 2; });
         
             g.append("svg:path").attr("d", line(data));
@@ -110,7 +110,7 @@ export class appVisualsparklineComponent implements OnInit {
                 .enter()
                 .append("svg:stop").attr('offset', function(d, i) {
                     return ((percentageX(i))) + "%";
-                }).attr("style", function(d) {
+                }).attr("style", function<dataType>(d) {
                     return "stop-color:" + gradientY(d) + ";stop-opacity:1";
                 });
         

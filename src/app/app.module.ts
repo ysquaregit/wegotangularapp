@@ -74,7 +74,7 @@ import {ModalDialogModule} from 'ngx-modal-dialog';
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import {appVisualPieChartComponent} from "./components/visuals/pie-chart/pie-chart.component";
 import {appVisualHeatMapComponent} from "./components/visuals/heat-map/heat-map.component";
-import {appVisualHistogramChartComponent} from "./components/visuals/histogram-chart/histogram-chart.component";
+// import {appVisualHistogramChartComponent} from "./components/visuals/histogram-chart/histogram-chart.component";
 import {appVisualTreemapChartComponent} from "./components/visuals/treemap-chart/treemap-chart.component";
 import {appVisualsparklineComponent} from "./components/visuals/sparkline-chart/sparkline-chart.component";
 
@@ -134,7 +134,7 @@ export function highchartsFactory() {
         StatusComponent,
         appVisualPieChartComponent,
         appVisualHeatMapComponent,
-        appVisualHistogramChartComponent,
+        // appVisualHistogramChartComponent,
         appVisualTreemapChartComponent,
         appVisualsparklineComponent
 

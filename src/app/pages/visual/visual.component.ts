@@ -31,7 +31,7 @@ import {
     Message
 } from 'primeng/primeng';
 import * as d3 from 'd3';
-import * as d3Hierarchy from 'd3-hierarchy';
+// import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
 import * as Highcharts from 'highcharts/highcharts.js';
 
@@ -61,6 +61,7 @@ export class VisualComponent implements OnInit {
     fromdateValue: Date;
     toateValue: Date;
     treeMapShowStatus = false;
+    RTSCHARTStatus= false;
 
     private width: number;
     private height: number;
@@ -319,27 +320,30 @@ export class VisualComponent implements OnInit {
          * In order to synchronize tooltips and crosshairs, override the
          * built-in events with handlers defined on the parent element.
          */
-        $('#STPChartContainer').bind('mousemove touchmove touchstart', function(e) {
-            var chart,
-                point,
-                i,
-                event;
-            console.log("Highcharts.charts", Highcharts.charts)
-            for (i = 0; i < Highcharts.charts.length; i = i + 1) {
-                if (Highcharts.charts[i]) {
-                    chart = Highcharts.charts[i];
-                    // Find coordinates within the chart
-                    event = chart.pointer.normalize(e.originalEvent);
-                    // Get the hovered point
-                    point = chart.series[0].searchPoint(event, true);
-
-                    if (point) {
-                        point.highlight(e);
+        setTimeout(() => {
+            $('#STPChartContainer').bind('mousemove touchmove touchstart', function(e) {
+                var chart,
+                    point,
+                    i,
+                    event;
+                console.log("Highcharts.charts", Highcharts.charts)
+                for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+                    if (Highcharts.charts[i]) {
+                        chart = Highcharts.charts[i];
+                        // Find coordinates within the chart
+                        event = chart.pointer.normalize(e.originalEvent);
+                        // Get the hovered point
+                        point = chart.series[0].searchPoint(event, true);
+    
+                        if (point) {
+                            point.highlight(e);
+                        }
                     }
+    
                 }
-
-            }
-        });
+            });
+        }, 2000);
+        
         /**
          * Override the reset function, we don't need to hide the tooltips and
          * crosshairs.
@@ -383,6 +387,7 @@ export class VisualComponent implements OnInit {
             }
         }
         $(".highcharts-container").remove();
+        this.RTSCHARTStatus = true;
         // Get the data. The contents of the data file can be viewed at
         $.getJSON(
             'https://api.myjson.com/bins/qex4k',
@@ -673,7 +678,13 @@ export class VisualComponent implements OnInit {
                 var item = {
                     name: task.name,
                     data: [],
-                    color: '#FF0000'
+                    color: {
+                        linearGradient: [500,0,0,500],
+                        stops: [
+                            [0, Highcharts.getOptions().colors[i]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[i]).setOpacity(0).get('rgba')]
+                        ]
+                    }
                 };
                 $.each(task.intervals, function(j, interval) {
                     item.data.push({
@@ -713,16 +724,7 @@ export class VisualComponent implements OnInit {
                 series.push(item);
             });
              */
-            Highcharts.setOptions({
-                colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
-                    return {
-                        stops: [
-                            [12, color],
-                            [19, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-                        ]
-                    };
-                })
-            });
+            
             // create the chart
             var chart = new Highcharts.Chart({
                 chart: {
@@ -1169,402 +1171,73 @@ export class VisualComponent implements OnInit {
     }
 
     usageChart() {
-        var width = 300;
-        var height = 300;
-        var svg = d3.select("#generateGraph"),
-            width = +svg.attr("width"),
-            height = +svg.attr("height");
+        var diameter = 500,
+    format = d3.format(",d"),
+    color = d3.scale.category20c();
 
-        var format = d3.format(",d");
+    var bubble = d3.layout.pack()
+        .sort(null)
+        .size([diameter, diameter])
+        .padding(1.5);
 
-        var color = d3.scaleOrdinal(d3.schemeCategory10);
+    var svg = d3.select("#generateGraph").append("svg")
+        .attr("width", diameter)
+        .attr("height", diameter)
+        .attr("class", "bubble");
+        
+    var tooltip = d3.select("#generateGraph")
+        .append("div")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .style("color", "white")
+        .style("padding", "8px")
+        .style("background-color", "rgba(0, 0, 0, 0.75)")
+        .style("border-radius", "6px")
+        .style("font", "12px sans-serif")
+        .text("tooltip");
 
-        var pack = d3.pack()
-            .size([width, height])
-            .padding(1.5);
-        var jsonData = [{
-            "id": "Block1-Flat-101-0",
-            "value": 56.63298119757329
-        }, {
-            "id": "Block1-Flat-101-1",
-            "value": 74.37366805536479
-        }, {
-            "id": "Block1-Flat-101-2",
-            "value": 68.24353381966657
-        }, {
-            "id": "Block1-Flat-101-3",
-            "value": 64.05421506904483
-        }, {
-            "id": "Block1-Flat-101-4",
-            "value": 31.155789103154383
-        }, {
-            "id": "Block1-Flat-101-5",
-            "value": 58.30109022522291
-        }, {
-            "id": "Block1-Flat-101-6",
-            "value": 95.22744567267817
-        }, {
-            "id": "Block1-Flat-101-7",
-            "value": 92.65933387574651
-        }, {
-            "id": "Block1-Flat-101-8",
-            "value": 94.17975485094836
-        }, {
-            "id": "Block1-Flat-101-9",
-            "value": 90.6055182703745
-        }, {
-            "id": "Block1-Flat-101-10",
-            "value": 94.02129450831659
-        }, {
-            "id": "Block1-Flat-101-11",
-            "value": 30.535641249803373
-        }, {
-            "id": "Block1-Flat-101-12",
-            "value": 9.304030749468273
-        }, {
-            "id": "Block1-Flat-101-13",
-            "value": 41.078394592097396
-        }, {
-            "id": "Block1-Flat-101-14",
-            "value": 7.761954796337344
-        }, {
-            "id": "Block1-Flat-101-15",
-            "value": 8.46144279216689
-        }, {
-            "id": "Block1-Flat-101-16",
-            "value": 57.614729063414565
-        }, {
-            "id": "Block1-Flat-101-17",
-            "value": 70.187166486876
-        }, {
-            "id": "Block1-Flat-101-18",
-            "value": 83.66518903950484
-        }, {
-            "id": "Block1-Flat-101-19",
-            "value": 54.19991296537729
-        }, {
-            "id": "Block1-Flat-101-20",
-            "value": 63.03840928183309
-        }, {
-            "id": "Block1-Flat-101-21",
-            "value": 89.07384852381472
-        }, {
-            "id": "Block1-Flat-101-22",
-            "value": 12.389481608542159
-        }, {
-            "id": "Block1-Flat-101-23",
-            "value": 135.03168331008575
-        }, {
-            "id": "Block1-Flat-101-24",
-            "value": 15.107208263172828
-        }, {
-            "id": "Block1-Flat-101-25",
-            "value": 80.26235994171564
-        }, {
-            "id": "Block1-Flat-101-26",
-            "value": 74.9359424254268
-        }, {
-            "id": "Block1-Flat-101-27",
-            "value": 92.1091286789481
-        }, {
-            "id": "Block1-Flat-101-28",
-            "value": 41.90167668095767
-        }, {
-            "id": "Block1-Flat-101-29",
-            "value": 24.41591043666311
-        }, {
-            "id": "Block1-Flat-101-30",
-            "value": 18.980478559589262
-        }, {
-            "id": "Block1-Flat-101-31",
-            "value": 72.97824888583601
-        }, {
-            "id": "Block1-Flat-101-32",
-            "value": 32.33764009272538
-        }, {
-            "id": "Block1-Flat-101-33",
-            "value": 70.3742242220071
-        }, {
-            "id": "Block1-Flat-101-34",
-            "value": 80.9845877728746
-        }, {
-            "id": "Block1-Flat-101-35",
-            "value": 24.02427879512023
-        }, {
-            "id": "Block1-Flat-101-36",
-            "value": 47.40923577921672
-        }, {
-            "id": "Block1-Flat-101-37",
-            "value": 32.42416557399445
-        }, {
-            "id": "Block1-Flat-101-38",
-            "value": 158.74749169113139
-        }, {
-            "id": "Block1-Flat-101-39",
-            "value": 35.30682566906087
-        }, {
-            "id": "Block1-Flat-101-40",
-            "value": 94.5936536946105
-        }, {
-            "id": "Block1-Flat-101-41",
-            "value": 5.660713381113509
-        }, {
-            "id": "Block1-Flat-101-42",
-            "value": 59.22241425939648
-        }, {
-            "id": "Block1-Flat-101-43",
-            "value": 77.49002572882195
-        }, {
-            "id": "Block1-Flat-101-44",
-            "value": 16.53549261200489
-        }, {
-            "id": "Block1-Flat-101-45",
-            "value": 16.48885761832752
-        }, {
-            "id": "Block1-Flat-101-46",
-            "value": 61.94003818442585
-        }, {
-            "id": "Block1-Flat-101-47",
-            "value": 72.28974559205335
-        }, {
-            "id": "Block1-Flat-101-48",
-            "value": 68.31992900158716
-        }, {
-            "id": "Block1-Flat-101-49",
-            "value": 812.90708401826022
-        }, {
-            "id": "Block1-Flat-101-50",
-            "value": 53.553744569091364
-        }, {
-            "id": "Block1-Flat-101-51",
-            "value": 77.45805068979871
-        }, {
-            "id": "Block1-Flat-101-52",
-            "value": 3.5938583715641004
-        }, {
-            "id": "Block1-Flat-101-53",
-            "value": 91.17023096432771
-        }, {
-            "id": "Block1-Flat-101-54",
-            "value": 54.85982898370721
-        }, {
-            "id": "Block1-Flat-101-55",
-            "value": 29.916894770406532
-        }, {
-            "id": "Block1-Flat-101-56",
-            "value": 68.6317036508496
-        }, {
-            "id": "Block1-Flat-101-57",
-            "value": 77.83821010302051
-        }, {
-            "id": "Block1-Flat-101-58",
-            "value": 17.422049411776133
-        }, {
-            "id": "Block1-Flat-101-59",
-            "value": 36.094314044358725
-        }, {
-            "id": "Block1-Flat-101-60",
-            "value": 9.878006591034719
-        }, {
-            "id": "Block1-Flat-101-61",
-            "value": 93.68293499923483
-        }, {
-            "id": "Block1-Flat-101-62",
-            "value": 78.645787954173
-        }, {
-            "id": "Block1-Flat-101-63",
-            "value": 57.99829369029988
-        }, {
-            "id": "Block1-Flat-101-64",
-            "value": 69.51405234751758
-        }, {
-            "id": "Block1-Flat-101-65",
-            "value": 34.11841238070655
-        }, {
-            "id": "Block1-Flat-101-66",
-            "value": 197.40851484499277
-        }, {
-            "id": "Block1-Flat-101-67",
-            "value": 52.59274957106449
-        }, {
-            "id": "Block1-Flat-101-68",
-            "value": 12.25640862162865
-        }, {
-            "id": "Block1-Flat-101-69",
-            "value": 15.969129541589172
-        }, {
-            "id": "Block1-Flat-101-70",
-            "value": 32.161939682437534
-        }, {
-            "id": "Block1-Flat-101-71",
-            "value": 99.710776112164
-        }, {
-            "id": "Block1-Flat-101-72",
-            "value": 47.93567137169937
-        }, {
-            "id": "Block1-Flat-101-73",
-            "value": 85.79807160690493
-        }, {
-            "id": "Block1-Flat-101-74",
-            "value": 45.434028312545884
-        }, {
-            "id": "Block1-Flat-101-75",
-            "value": 17.1968519822602
-        }, {
-            "id": "Block1-Flat-101-76",
-            "value": 60.153040746149784
-        }, {
-            "id": "Block1-Flat-101-77",
-            "value": 62.81808527184396
-        }, {
-            "id": "Block1-Flat-101-78",
-            "value": 72.48240956334988
-        }, {
-            "id": "Block1-Flat-101-79",
-            "value": 16.26509583846317
-        }, {
-            "id": "Block1-Flat-101-80",
-            "value": 76.36329681218919
-        }, {
-            "id": "Block1-Flat-101-81",
-            "value": 93.14181317839524
-        }, {
-            "id": "Block1-Flat-101-82",
-            "value": 57.29818558507466
-        }, {
-            "id": "Block1-Flat-101-83",
-            "value": 58.17904593566908
-        }, {
-            "id": "Block1-Flat-101-84",
-            "value": 7.76082136965389
-        }, {
-            "id": "Block1-Flat-101-85",
-            "value": 84.3231903871893
-        }, {
-            "id": "Block1-Flat-101-86",
-            "value": 24.106531866605657
-        }, {
-            "id": "Block1-Flat-101-87",
-            "value": 35.410985001435265
-        }, {
-            "id": "Block1-Flat-101-88",
-            "value": 54.860621206257576
-        }, {
-            "id": "Block1-Flat-101-89",
-            "value": 58.04677803594899
-        }, {
-            "id": "Block1-Flat-101-90",
-            "value": 4.9785974107708615
-        }, {
-            "id": "Block1-Flat-101-91",
-            "value": 96.77892615383979
-        }, {
-            "id": "Block1-Flat-101-92",
-            "value": 100.2110080040093
-        }, {
-            "id": "Block1-Flat-101-93",
-            "value": 19.590579354416494
-        }, {
-            "id": "Block1-Flat-101-94",
-            "value": 43.8756993977872
-        }, {
-            "id": "Block1-Flat-101-95",
-            "value": 55.511163238064896
-        }, {
-            "id": "Block1-Flat-101-96",
-            "value": 72.71130407674691
-        }, {
-            "id": "Block1-Flat-101-97",
-            "value": 97.46113032061511
-        }, {
-            "id": "Block1-Flat-101-98",
-            "value": 21.172125239854875
-        }, {
-            "id": "Block1-Flat-101-99",
-            "value": 150.95187537724183
-        }];
+    d3.json("https://api.myjson.com/bins/101lzo", function(error, root) {
+    var node = svg.selectAll(".node")
+        .data(bubble.nodes(classes(root))
+        .filter(function(d) { return !d.children; }))
+        .enter().append("g")
+        .attr("class", "node")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-        generateData(jsonData);
+    node.append("circle")
+        .attr("r", function(d) { return d.r; })
+        .style("fill", function<dataType>(d) { return color(d.packageName); })
+        .on("mouseover", function<dataType>(d) {
+                tooltip.text(d.className + ": " + format(d.value));
+                tooltip.style("visibility", "visible");
+        })
+        .on("mousemove", function(d) {
+            //return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
-        function generateData(d) {
-            try {
-                var root = d3.hierarchy({
-                        children: d
-                    })
-                    .sum(function(d) {
-                        return d.value;
-                    })
-                    .each(function(d) {
-                        if (id = d.data.id) {
-                            var id, i = id.lastIndexOf(".");
-                            d.id = id;
-                            d.package = id.slice(0, i);
-                            d.class = id.slice(i + 1);
-                        }
-                    });
-                console.log("123123", root)
-                var chars = '0123456789ABCDEF'.split('');
+    node.append("text")
+        .attr("dy", ".3em")
+        .style("text-anchor", "middle")
+        .style("pointer-events", "none")
+        .text(function<dataType>(d) { return d.className.substring(0, d.r / 3); });
+    });
 
-                var randomColor = function() {
-                    var color = '#';
-                    for (var i = 0; i < 6; i++)
-                        color += chars[Math.floor(Math.random() * 16)];
-                    return color;
-                };
-                var node = svg.selectAll(".node")
-                    .data(pack(root).leaves())
-                    .enter().append("g")
-                    .attr("class", "node")
-                    .attr("transform", function(d) {
-                        return "translate(" + d.x + "," + d.y + ")";
-                    });
+    // Returns a flattened hierarchy containing all leaf nodes under the root.
+    function classes(root) {
+    var classes = [];
 
-                node.append("circle")
-                    .attr("id", function(d) {
-                        return d.id;
-                    })
-                    .attr("r", function(d) {
-                        return d.r;
-                    })
-                    .style("fill", function(d) {
-                        return color(d.package);
-                    });
+    function recurse(name, node) {
+        if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+        else classes.push({packageName: name, className: node.name, value: node.size});
+    }
 
-                node.append("clipPath")
-                    .attr("id", function(d) {
-                        return "clip-" + d.id;
-                    })
-                    .append("use")
-                    .attr("xlink:href", function(d) {
-                        return "#" + d.id;
-                    });
+    recurse(null, root);
+    return {children: classes};
+    }
 
-                node.append("text")
-                    .attr("clip-path", function(d) {
-                        return "url(#clip-" + d.id + ")";
-                    })
-                    .selectAll("tspan")
-                    .data(function(d) {
-                        return d.class.split(/(?=[A-Z][^A-Z])/g);
-                    })
-                    .enter().append("tspan")
-                    .attr("x", 0)
-                    .attr("y", function(d, i, nodes) {
-                        return 13 + (i - nodes.length / 2 - 0.5) * 10;
-                    })
-                    .text(function(d) {
-                        return d;
-                    })
-                    .style("fill", "#000");
-
-                node.append("title")
-                    .text(function(d) {
-                        return d.id + "\n" + format(d.value);
-                    });
-            } catch (error) {
-                console.log("Caught the error", error);
-            }
-        }
+    d3.select(self.frameElement).style("height", diameter + "px");
 
     }
 

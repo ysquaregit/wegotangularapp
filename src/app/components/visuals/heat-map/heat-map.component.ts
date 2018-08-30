@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output,ViewEncapsulation} from '
 import {animate, style, transition, trigger} from '@angular/animations';
 import {Headers, Http} from "@angular/http";
 import * as d3 from 'd3';
-import * as d3Hierarchy from 'd3-hierarchy';
+// import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
 import * as Highcharts from 'highcharts/highcharts.js';
 import * as highchartsHeatmap from 'highcharts/modules/heatmap';
