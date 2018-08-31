@@ -1,16 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 import * as d3 from 'd3';
-// import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4charts from "@amcharts/amcharts4/charts";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-// import * as Highcharts from 'highcharts/highcharts.js';
-// import * as highchartMore from 'highcharts/highcharts-more.src.js';
-// import Tree from 'highcharts/modules/treemap';
-
-// am4core.useTheme(am4themes_animated);
 
 export type dataType = {region:any,subregion:any,children:any,key:any,value:any};
 @Component({
@@ -30,12 +21,8 @@ export class appVisualTreemapChartComponent implements OnInit {
     }
 
     ngOnInit() {
-      var self = this;
-        //console.log("treemap data",this.data);
-        console.log("appVisualTreemapChartComponent",appVisualTreemapChartComponent)
-        // var data = d3.nest().key(function<dataType>(d) { return d.region; }).key(function<dataType>(d) { return d.subregion; }).entries(this.data);
-        //this.main();
-        this.testMain();
+        var self = this;
+        this.newD3();
         
     }
 
@@ -47,259 +34,219 @@ export class appVisualTreemapChartComponent implements OnInit {
     }
 
     testMain() {
-      window.addEventListener('message', function(e) {
-        var opts = e.data.opts,
-            data = e.data.data;
-    
-        return main(opts, data);
-    });
-    
-    var defaults = {
-        margin: {top: 24, right: 0, bottom: 0, left: 0},
-        rootname: "TOP",
-        format: ",d",
-        title: "",
-        width: 960,
-        height: 500
-    };
-    
-    function main(o, data) {
-      var root,
-          opts = $.extend(true, {}, defaults, o),
-          formatNumber = d3.format(opts.format),
-          rname = opts.rootname,
-          margin = opts.margin,
-          theight = 36 + 16;
-      
-      $('#chart').width(opts.width).height(opts.height);
-      var width = opts.width - margin.left - margin.right,
-          height = opts.height - margin.top - margin.bottom - theight,
-          transitioning;
-      
-      var color = d3.scale.category20c();
-      
-      var x = d3.scale.linear()
-          .domain([0, width])
-          .range([0, width]);
-      
-      var y = d3.scale.linear()
-          .domain([0, height])
-          .range([0, height]);
-      
+      var pathJson = 
+      {"name":"Sample data","children":[{"name":"Site 1","size":500,"children":[{"name":"Block 1","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 2","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 3","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 4","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 5","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 6","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 7","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 8","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 10","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 11","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 12","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 13","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 14","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 14","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 15","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 16","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 17","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 18","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 19","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 20","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 21","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 22","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 23","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 24","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]}]}]}
+       var w = 1280 - 80,
+      h = 800 - 180,
+      x = d3.scale.linear().range([0, w]),
+      y = d3.scale.linear().range([0, h]),
+      color = d3.scale.category10(),
+      root,
+      node;
       var treemap = d3.layout.treemap()
-          .children(function<dataType>(d, depth) { return depth ? null : d.children; })
-          .sort(function(a, b) { return a.value - b.value; })
-          .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
-          .round(false);
+          .round(false)
+          .size([w, h])
+          .sticky(true)
+          .padding([10, 0, 0, 0])
+          .value(function<dataType>(d) { return d.size; });
+      var svg = d3.select("#chart").append("div")
+          .attr("class", "chart")
+          .style("width", w + "px")
+          .style("height", h + "px")
+        .append("svg:svg")
+          .attr("width", w)
+          .attr("height", h)
+        .append("svg:g")
+          .attr("transform", "translate(.5,.5)");
       
-      var svg = d3.select("#chart").append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.bottom + margin.top)
-          .style("margin-left", -margin.left + "px")
-          .style("margin.right", -margin.right + "px")
-        .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-          .style("shape-rendering", "crispEdges");
+        node = root = pathJson;
+        
+        var nodes = treemap.nodes(root)
+            .filter(function(d) { return !d.children; });
+        var cell = svg.selectAll("g")
+            .data(nodes)
+            .enter().append("svg:g")
+            .attr("class", "cell")
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+            .on("click", function(d) { return zoom(node == d.parent ? root : d.parent,this); });
+        cell.append("svg:rect")
+            .attr("width", function(d) { return d.dx - 1; })
+            .attr("height", function(d) { return d.dy - 1; })
+            .style("fill", function<dataType>(d) { return color(d.parent.name); });
+        cell.append("svg:text")
+            .attr("x", function(d) { return d.dx / 2; })
+            .attr("y", function(d) { return d.dy / 2; })
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text(function<dataType>(d) { return d.name +'('+d.size+' K/l)'; })
+            .style("opacity", function<dataType>(d) { d.w = this.getComputedTextLength();console.log(d.dx +' '+d.w); if(d.w/d.dx > 10) { return 1 } else {return 0}});
+        d3.select(window).on("click", function(e) { zoom(root,e); });
+        d3.select("select").on("change", function(e) {
+          treemap.value(this.value == "size" ? size : count).nodes(root);
+          zoom(node,e);
+        });
       
-      var grandparent = svg.append("g")
-          .attr("class", "grandparent");
       
-      grandparent.append("rect")
-          .attr("y", -margin.top)
-          .attr("width", width)
-          .attr("height", margin.top);
-      
-      grandparent.append("text")
-          .attr("x", 6)
-          .attr("y", 6 - margin.top)
-          .attr("dy", ".75em");
-    
-      if (opts.title) {
-        $("#chart").prepend("<p class='title'>" + opts.title + "</p>");
+      function size(d) {
+        return d.size;
       }
-      if (data instanceof Array) {
-        root = { key: rname, values: data };
-      } else {
-        root = data;
+      function count(d) {
+        return 1;
       }
-      console.log("root",root)
-      initialize(root);
-      accumulate(root);
-      layout(root);
-      console.log(root);
-      display(root);
-    
-      if (window.parent !== window) {
-        var myheight = document.documentElement.scrollHeight || document.body.scrollHeight;
-        window.parent.postMessage({height: myheight}, '*');
+      function zoom(d,e) {
+        console.log("Zoom e",e)
+        //alert(d.name);
+        var kx = w / d.dx, ky = h / d.dy;
+        x.domain([d.x, d.x + d.dx]);
+        y.domain([d.y, d.y + d.dy]);
+        var t = svg.selectAll("g.cell").transition()
+            .duration(750)
+            .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+        t.select("rect")
+            .attr("width", function(d) { return kx * d.dx - 1; })
+            .attr("height", function(d) { return ky * d.dy - 1; })
+        t.select("text")
+            .attr("x", function(d) { return kx * d.dx / 2; })
+            .attr("y", function(d) { return ky * d.dy / 2; })
+            .style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
+            //.style("font-size", function(d) { return kx * d.dx > d.w ? "20px" : "12px";});
+        node = d;
+        console.log(d3.event)
+        
+        $( "#chart" ).on( "click", function(e) {
+          e.stopPropagation();
+        });
+        $( "#chart" ).trigger( "click" );
       }
-    
-      function initialize(root) {
-        root.x = root.y = 0;
-        root.dx = width;
-        root.dy = height;
-        root.depth = 0;
-      }
-    
-      // Aggregate the values for internal nodes. This is normally done by the
-      // treemap layout, but not here because of our custom implementation.
-      // We also take a snapshot of the original children (_children) to avoid
-      // the children being overwritten when when layout is computed.
-      function accumulate(d) {
-        return (d.children = d.values)
-            ? d.value = d.values.reduce(function(p, v) { return p + accumulate(v); }, 0)
-            : d.value;
-      }
-    
-      // Compute the treemap layout recursively such that each group of siblings
-      // uses the same size (1×1) rather than the dimensions of the parent cell.
-      // This optimizes the layout for the current zoom state. Note that a wrapper
-      // object is created for the parent node for each group of siblings so that
-      // the parent’s dimensions are not discarded as we recurse. Since each group
-      // of sibling was laid out in 1×1, we must rescale to fit using absolute
-      // coordinates. This lets us use a viewport to zoom.
-      function layout(d) {
-        if (d.children) {
-          treemap.nodes({children: d.children});
-          console.log("d._children",d.children)
-          d.children.forEach(function(c) {
-            c.x = d.x + c.x * d.dx;
-            c.y = d.y + c.y * d.dy;
-            c.dx *= d.dx;
-            c.dy *= d.dy;
-            c.parent = d;
-            layout(c);
+    }
+
+    newD3() {
+      var w = 1280 - 80,
+          h = 800 - 180,
+          x = d3.scale.linear().range([0, w]),
+          y = d3.scale.linear().range([0, h]),
+          color = d3.scale.category20c(),
+          root,
+          node;
+
+      var treemap = d3.layout.treemap()
+          .round(false)
+          .size([w, h])
+          .sticky(true)
+          .value(function < dataType > (d) {
+              return d.size;
           });
-        }
+
+      var svg = d3.select("#chart").append("div")
+          .attr("class", "chart")
+          .style("width", w + "px")
+          .style("height", h + "px")
+          .append("svg:svg")
+          .attr("width", w)
+          .attr("height", h)
+          .append("svg:g")
+          .attr("transform", "translate(.5,.5)");
+
+      d3.json("https://api.myjson.com/bins/18hcek", function(data) {
+          node = root = data;
+
+          var nodes = treemap.nodes(root)
+              .filter(function(d) {
+                  return !d.children;
+              });
+          console.log("nodes",nodes)
+          var cell = svg.selectAll("g")
+              .data(nodes)
+              .enter().append("svg:g")
+              .attr("class", "cell")
+              .attr("transform", function(d) {
+                  return "translate(" + d.x + "," + d.y + ")";
+              })
+              .on("click", function(d) {
+                  return zoom(node == d.parent ? root : d.parent);
+              });
+
+          cell.append("svg:rect")
+              .attr("width", function(d) {
+                  return d.dx - 1;
+              })
+              .attr("height", function(d) {
+                  return d.dy - 1;
+              })
+              .style("fill", function < dataType > (d) {
+                  return color(d.parent.name);
+              });
+
+          cell.append("svg:text")
+              .attr("x", function(d) {
+                  return d.dx / 2;
+              })
+              .attr("y", function(d) {
+                  return d.dy / 2;
+              })
+              .attr("dy", ".35em")
+              .attr("text-anchor", "middle")
+              .text(function < dataType > (d) {
+                  return d.name +'('+d.size+'k/l)';
+              })
+              .style("font-size","12px")
+              .style("opacity", function< dataType >(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
+
+          d3.select(window).on("click", function() {
+              zoom(root);
+          });
+
+          d3.select("select").on("change", function() {
+              treemap.value(this.value == "size" ? size : count).nodes(root);
+              zoom(node);
+          });
+      });
+
+      function size(d) {
+          return d.size;
       }
-    
-      function display(d) {
-        grandparent
-            .datum(d.parent)
-            .on("click", transition)
-          .select("text")
-            .text(name(d));
-    
-        var g1 = svg.insert("g", ".grandparent")
-            .datum(d)
-            .attr("class", "depth");
-    
-        var g = g1.selectAll("g")
-            .data(d.children)
-          .enter().append("g");
-    
-        g.filter(function<dataType>(d) { return d.children; })
-            .classed("children", true)
-            .on("click", transition);
-    
-        var children = g.selectAll(".child")
-            .data(function(d) { return d.children || [d]; })
-          .enter().append("g");
-    
-        children.append("rect")
-            .attr("class", "child")
-            .call(rect)
-          .append("title")
-            .text(function<dataType>(d) { return d.key + " (" + formatNumber(d.value) + ")"; });
-        children.append("text")
-            .attr("class", "ctext")
-            .text(function<dataType>(d) { return d.key; })
-            .call(text2);
-    
-        g.append("rect")
-            .attr("class", "parent")
-            .call(rect);
-    
-        var t = g.append("text")
-            .attr("class", "ptext")
-            .attr("dy", ".75em")
-    
-        t.append("tspan")
-            .text(function<dataType>(d) { return d.key; });
-        t.append("tspan")
-            .attr("dy", "1.0em")
-            .text(function<dataType>(d) { return formatNumber(d.value); });
-        t.call(text);
-    
-        g.selectAll("rect")
-            .style("fill", function(d) { return color(d.key); });
-    
-        function transition(d) {
-          if (transitioning || !d) return;
-          transitioning = true;
-    
-          var g2 = display(d),
-              t1 = g1.transition().duration(750),
-              t2 = g2.transition().duration(750);
-    
-          // Update the domain only after entering new elements.
+
+      function count(d) {
+          return 1;
+      }
+
+      function zoom(d) {
+          var kx = w / d.dx,
+              ky = h / d.dy;
           x.domain([d.x, d.x + d.dx]);
           y.domain([d.y, d.y + d.dy]);
-    
-          // Enable anti-aliasing during the transition.
-          svg.style("shape-rendering", null);
-    
-          // Draw child nodes on top of parent nodes.
-          svg.selectAll(".depth").sort(function(a, b) { return a.depth - b.depth; });
-    
-          // Fade-in entering text.
-          g2.selectAll("text").style("fill-opacity", 0);
-    
-          // Transition to the new view.
-          t1.selectAll(".ptext").call(text).style("fill-opacity", 0);
-          t1.selectAll(".ctext").call(text2).style("fill-opacity", 0);
-          t2.selectAll(".ptext").call(text).style("fill-opacity", 1);
-          t2.selectAll(".ctext").call(text2).style("fill-opacity", 1);
-          t1.selectAll("rect").call(rect);
-          t2.selectAll("rect").call(rect);
-    
-          // Remove the old node when the transition is finished.
-          t1.remove().each("end", function() {
-            svg.style("shape-rendering", "crispEdges");
-            transitioning = false;
+
+          var t = svg.selectAll("g.cell").transition()
+              .duration(750)
+              .attr("transform", function(d) {
+                  return "translate(" + x(d.x) + "," + y(d.y) + ")";
+              });
+
+          t.select("rect")
+              .attr("width", function(d) {
+                  return kx * d.dx - 1;
+              })
+              .attr("height", function(d) {
+                  return ky * d.dy - 1;
+              })
+
+          t.select("text")
+              .attr("x", function(d) {
+                  return kx * d.dx / 2;
+              })
+              .attr("y", function(d) {
+                  return ky * d.dy / 2;
+              })
+              .style("opacity", function(d) {
+                  return kx * d.dx > d.w ? 1 : 0;
+              });
+
+          node = d;
+          $("#chart").on("click", function(e) {
+              e.stopPropagation();
           });
-        }
-    
-        return g;
+          $("#chart").trigger("click");
       }
-    
-      function text(text) {
-        text.selectAll("tspan")
-            .attr("x", function(d) { return x(d.x) + 6; })
-        text.attr("x", function(d) { return x(d.x) + 6; })
-            .attr("y", function(d) { return y(d.y) + 6; })
-            .style("opacity", function(d) { return this.getComputedTextLength() < x(d.x + d.dx) - x(d.x) ? 1 : 0; });
-      }
-    
-      function text2(text) {
-        text.attr("x", function(d) { return x(d.x + d.dx) - this.getComputedTextLength() - 6; })
-            .attr("y", function(d) { return y(d.y + d.dy) - 6; })
-            .style("opacity", function(d) { return this.getComputedTextLength() < x(d.x + d.dx) - x(d.x) ? 1 : 0; });
-      }
-    
-      function rect(rect) {
-        rect.attr("x", function(d) { return x(d.x); })
-            .attr("y", function(d) { return y(d.y); })
-            .attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
-            .attr("height", function(d) { return y(d.y + d.dy) - y(d.y); });
-      }
-    
-      function name(d) {
-        return d.parent
-            ? name(d.parent) + " / " + d.key + " (" + formatNumber(d.value) + ")"
-            : d.key + " (" + formatNumber(d.value) + ")";
-      }
-    }
-    
-    if (window.location.hash === "") {
-        d3.json("https://api.myjson.com/bins/632tw", function(err, res) {
-            if (!err) {
-                console.log(res);
-                var data = d3.nest().key(function<dataType>(d) { return d.region; }).key(function<dataType>(d) { return d.subregion; }).entries(res);
-                main({title: "World Population"}, {key: "World", values: data});
-            }
-        });
-    }
     }
 
     
