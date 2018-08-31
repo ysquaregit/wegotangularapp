@@ -26,7 +26,7 @@ export class appVisualPieChartComponent implements OnInit {
                 plotShadow: false
             },
             title : {
-                text: 'pie chart'
+                text: 'Pie Chart'
             },
             series: [{
                 name: 'Water Sources(K/l)',

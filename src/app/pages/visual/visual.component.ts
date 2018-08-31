@@ -34,6 +34,7 @@ import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
 import * as Highcharts from 'highcharts/highcharts.js';
+import { color } from 'd3';
 
 @Component({
     selector: 'app-visual',
@@ -736,6 +737,7 @@ export class VisualComponent implements OnInit {
                 },
 
                 xAxis: {
+                    top: 50,
                     //type: 'datetime'
                     min: 0,
                     tickInterval: 1,
@@ -775,7 +777,9 @@ export class VisualComponent implements OnInit {
                     },
                     minPadding: 0.2,
                     maxPadding: 0.2,
-                    fontSize: '15px'
+                    fontSize: '15px',
+                    height: "360px",
+                    width: '1500px'
 
                 },
 

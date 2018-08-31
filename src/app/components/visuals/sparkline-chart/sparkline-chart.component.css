@@ -93,7 +93,7 @@ thead th {
 } */
 .js-report-sparkline {
   width: 208px;
-  height: 70px;
+  height: 20px;
   font-family: sans-serif;
   position: relative;
 }
@@ -137,7 +137,7 @@ thead th {
 }
 .js-report-sparkline .bullet {
   width: 8px;
-  height: 8px;
+  height: 4px;
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -149,6 +149,9 @@ thead th {
     font-size: 1.8em;
     position: relative;
     top: 6px;
+}
+.glyphicon-triangle-top:before {
+  content: "\e253";  
 }
 .status_green {
   color: green;
@@ -190,6 +193,43 @@ thead th {
   width: 10px;
 } */
 
+/* #table-sparkline tr:hover {background-color: #ddd;} */
+
+#table-sparkline th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color:#5A55A3;
+    color: rgb(255, 255, 255);
+    font-family: 'Times New Roman', Times, serif;
+    border: 2px solid black; 
+    height: 30px;
+}
+
+#table-sparkline tr {
+  height: 30px;
+}
+#table-sparkline table {
+  height: 30px;
+}
+.table-bordered{
+  height: 30px;
+ }
+
+.table, .thead, .th, .td, .tr{
+  margin-left: 15%;
+  margin-top: -5%;
+  border-collapse: collapse;
+  border: 2px solid black; 
+  width: 900px;
+  height: -1000px;
+  }
+
 #table-sparkline .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
   vertical-align: middle !important;
+  border: 2px solid black; 
+}
+
+.source{
+  font-size: 20;
 }

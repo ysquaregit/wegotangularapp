@@ -376,7 +376,7 @@ export class appVisualHeatMapComponent implements OnInit {
               lineColor: 'rgba(0,0,0,0.75)',
               title: {
                 text: 'Month',
-                rotation:0
+                rotation: 270
               }
             },
             xAxis: {
@@ -418,7 +418,7 @@ export class appVisualHeatMapComponent implements OnInit {
               data: chartData,
               borderWidth: 2,
               tooltip: {
-                headerFormat: 'Water Consumption<br/>',
+                headerFormat: '<br/>',
                 pointFormat: '<b>{point.value} K/L</b>'
               },
               events: {
