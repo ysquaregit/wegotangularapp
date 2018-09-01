@@ -162,10 +162,12 @@ export class appVisualsparklineComponent implements OnInit {
     generateHistoGramData() {
         
         
-        Highcharts.chart('Hcontainer1', {
+        $(function () {
+            new Highcharts.Chart({
             chart:{
                 width:200,
-                height:100
+                height:100,
+                renderTo:'Hcontainer1'
             },
             title: {
                 text: ''
@@ -200,6 +202,7 @@ export class appVisualsparklineComponent implements OnInit {
                 data: [5, 2, 4, 3, 3,1,3,2]
             }]
         });
+    });
         Highcharts.chart('Hcontainer2', {
             chart:{
                 width:200,

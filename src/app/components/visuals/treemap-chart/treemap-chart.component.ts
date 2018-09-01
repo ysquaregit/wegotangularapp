@@ -72,7 +72,8 @@ export class appVisualTreemapChartComponent implements OnInit {
         cell.append("svg:rect")
             .attr("width", function(d) { return d.dx - 1; })
             .attr("height", function(d) { return d.dy - 1; })
-            .style("fill", function<dataType>(d) { return color(d.parent.name); });
+            .style("fill", function<dataType>(d) { console.log("d.parent.name",d.parent.name);return color(d.parent.name); });
+
         cell.append("svg:text")
             .attr("x", function(d) { return d.dx / 2; })
             .attr("y", function(d) { return d.dy / 2; })
@@ -174,8 +175,9 @@ export class appVisualTreemapChartComponent implements OnInit {
                   return d.dy - 1;
               })
               .style("fill", function < dataType > (d) {
-                  return color(d.parent.name);
+                console.log("d.parent.name",d.parent);return color(d.parent.name);
               });
+          
 
           cell.append("svg:text")
               .attr("x", function(d) {

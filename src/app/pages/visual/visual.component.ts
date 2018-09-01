@@ -35,6 +35,7 @@ import * as d3 from 'd3';
 import * as $ from 'jquery/dist/jquery.min.js';
 import * as Highcharts from 'highcharts/highcharts.js';
 import { color } from 'd3';
+import { count } from 'rxjs/operator/count';
 
 @Component({
     selector: 'app-visual',
@@ -333,6 +334,7 @@ export class VisualComponent implements OnInit {
                         chart = Highcharts.charts[i];
                         // Find coordinates within the chart
                         event = chart.pointer.normalize(e.originalEvent);
+                        event.chartX = (event.chartX+100) % 500;
                         // Get the hovered point
                         point = chart.series[0].searchPoint(event, true);
     
@@ -357,7 +359,7 @@ export class VisualComponent implements OnInit {
          * Highlight a point by showing tooltip, setting hover state and draw crosshair
          */
         Highcharts.Point.prototype.highlight = function(event) {
-            event = this.series.chart.pointer.normalize(event);
+            //event = this.series.chart.pointer.normalize(event);
             this.onMouseOver(); // Show the hover marker
             this.series.chart.tooltip.refresh(this); // Show the tooltip
             this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair
@@ -416,7 +418,8 @@ export class VisualComponent implements OnInit {
                             spacingTop: 20,
                             spacingBottom: 20,
                             renderTo: $container[0],
-                            height: 250
+                            height: 250,
+                            width:500
 
                         },
                         title: {
@@ -506,6 +509,8 @@ export class VisualComponent implements OnInit {
         }
     }
 
+    
+
     ganttChart() {
         // var category_json = [{"name":"Pump 1","data":[{"x":1,"y":0,"label":"60 K/l","from":1,"to":3},{"x":1,"y":0,"from":1,"to":3},{"x":7,"y":0,"from":7,"label":"50 K/l","to":10},{"x":7,"y":0,"from":7,"to":10}]},{"name":"Pump 2","data":[{"x":3,"y":1,"label":"60 K/l","from":3,"to":5},{"x":7,"y":1,"from":7,"to":10}]},{"name":"Pump 3","data":[{"x":6,"y":2,"label":"50 K/l","from":6,"to":12},{"x":14,"y":2,"from":14,"to":19}]},{"name":"Pump 4","data":[{"x":9,"y":3,"label":"80%","from":9,"to":15},{"x":19,"y":3,"from":19,"to":23}]}]
 
@@ -591,6 +596,24 @@ export class VisualComponent implements OnInit {
         //     series: category_json
 
         // });	
+        function getRandom(cut){
+            var i= Math.floor(Math.random()*this.length);
+            if(cut && i in this){
+                return this.splice(i, 1)[0];
+            }
+            return this[i];
+        }
+        var colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
+		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
+		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
+		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
+		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+        
         $(function() {
             // Define tasks
             var tasks = [{
@@ -680,10 +703,10 @@ export class VisualComponent implements OnInit {
                     name: task.name,
                     data: [],
                     color: {
-                        linearGradient: [500,0,0,500],
+                        linearGradient: [1,500,1,1],
                         stops: [
-                            [0, Highcharts.getOptions().colors[i]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[i]).setOpacity(0).get('rgba')]
+                            [0, Highcharts.Color('#F00').setOpacity(0.5).get('rgba')],
+                            [1, Highcharts.Color('#F00').setOpacity(0.9).get('rgba')]
                         ]
                     }
                 };
@@ -727,6 +750,7 @@ export class VisualComponent implements OnInit {
              */
             
             // create the chart
+            var counter = 0;
             var chart = new Highcharts.Chart({
                 chart: {
                     renderTo: 'ganttChartContainer'
@@ -743,7 +767,7 @@ export class VisualComponent implements OnInit {
                     tickInterval: 1,
                     title: {
                         text: 'Hours'
-                    },
+                    }
                 },
 
                 yAxis: {
@@ -764,6 +788,11 @@ export class VisualComponent implements OnInit {
                             font: '12px Helvetica',
                             fontWeight: 'bold'
                         },
+                        formatter: function (i,d) {
+                            counter++;
+                            console.log(counter);
+                            return '<span style="fill: '+colorArray[counter]+'">' + this.value + '</span>';
+                        }
                         /* formatter: function() {
                              if (tasks[this.value]) {
                                  return tasks[this.value].name;

@@ -447,7 +447,7 @@ export class appVisualHeatMapComponent implements OnInit {
             [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
             this.histogramDataSet = newJSON;//activity.json();
 
-            Highcharts.chart('Hcontainer1', {
+            Highcharts.chart('Heacontainer1', {
               chart:{
                   width:500,
                   height:300
