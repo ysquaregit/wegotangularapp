@@ -36,6 +36,8 @@ import * as $ from 'jquery/dist/jquery.min.js';
 import * as Highcharts from 'highcharts/highcharts.js';
 import { color } from 'd3';
 import { count } from 'rxjs/operator/count';
+// import Exporting from 'highcharts/modules/exporting';
+import xrange from "highcharts/modules/xrange";
 
 @Component({
     selector: 'app-visual',
@@ -64,6 +66,7 @@ export class VisualComponent implements OnInit {
     toateValue: Date;
     treeMapShowStatus = false;
     RTSCHARTStatus= false;
+    ganttChartObj:Object;
 
     private width: number;
     private height: number;
@@ -232,7 +235,7 @@ export class VisualComponent implements OnInit {
         // let headers: Headers = new Headers({
         //     'Content-Type': 'application/json'
         // });
-        // //https://api.myjson.com/bins/pn21g awsj8 
+        // //https://api.myjson.com/bins/pn21g awsj8
         // this.http.get('https://api.myjson.com/bins/qex4k').subscribe(activity => {
         //     var chartColor;
         //     activity.json().datasets.forEach((dataset,i) => {
@@ -247,23 +250,23 @@ export class VisualComponent implements OnInit {
         //         }
         //         this.RTSChartOptions = {
         //             chart: {
-        //                 type: dataset.type,           
+        //                 type: dataset.type,
         //                 zoomType: 'x',
         //                 height: 300
         //             },
         //             title: {
-        //                 text: dataset.name,       
+        //                 text: dataset.name,
         //             },
         //             tooltip: {
-        //                 shared: true,  
-        //                 xDateFormat: '%m/%d/%Y',  
+        //                 shared: true,
+        //                 xDateFormat: '%m/%d/%Y',
         //                 valueDecimals: 2,
         //                 crosshairs: true,
         //                 backgroundColor: 'rgba(0, 0, 0, 0.85)',
         //                 style: {
         //                     color: '#F0F0F0'
         //                 }
-        //             },          
+        //             },
         //             xAxis: {
         //                 crosshair: true,
         //                 dateTimeLabelFormats: {
@@ -305,7 +308,7 @@ export class VisualComponent implements OnInit {
         //                 color: chartColor,//Highcharts.getOptions().colors[i],
         //                 fillOpacity: 0.3
         //             }]
-        //         };  
+        //         };
         //         this.RTSChartFinalData.push(this.RTSChartOptions);
         //     });
         // });
@@ -334,19 +337,19 @@ export class VisualComponent implements OnInit {
                         chart = Highcharts.charts[i];
                         // Find coordinates within the chart
                         event = chart.pointer.normalize(e.originalEvent);
-                        event.chartX = (event.chartX+100) % 500;
+                        // event.chartX = (event.chartX+100) % 500;
                         // Get the hovered point
                         point = chart.series[0].searchPoint(event, true);
-    
+
                         if (point) {
                             point.highlight(e);
                         }
                     }
-    
+
                 }
             });
         }, 2000);
-        
+
         /**
          * Override the reset function, we don't need to hide the tooltips and
          * crosshairs.
@@ -418,8 +421,7 @@ export class VisualComponent implements OnInit {
                             spacingTop: 20,
                             spacingBottom: 20,
                             renderTo: $container[0],
-                            height: 250,
-                            width:500
+                            height: 180
 
                         },
                         title: {
@@ -509,339 +511,124 @@ export class VisualComponent implements OnInit {
         }
     }
 
-    
+
 
     ganttChart() {
-        // var category_json = [{"name":"Pump 1","data":[{"x":1,"y":0,"label":"60 K/l","from":1,"to":3},{"x":1,"y":0,"from":1,"to":3},{"x":7,"y":0,"from":7,"label":"50 K/l","to":10},{"x":7,"y":0,"from":7,"to":10}]},{"name":"Pump 2","data":[{"x":3,"y":1,"label":"60 K/l","from":3,"to":5},{"x":7,"y":1,"from":7,"to":10}]},{"name":"Pump 3","data":[{"x":6,"y":2,"label":"50 K/l","from":6,"to":12},{"x":14,"y":2,"from":14,"to":19}]},{"name":"Pump 4","data":[{"x":9,"y":3,"label":"80%","from":9,"to":15},{"x":19,"y":3,"from":19,"to":23}]}]
 
-        // var chart = new Highcharts.Chart({
-        //     chart: {
-        //         renderTo: 'ganttChartContainer'
-        //     },
-
-        //     title: {
-        //         text: 'On / Off Status'
-        //     },
-
-        //     xAxis: {
-
-        //     },
-
-        //     yAxis: {
-
-        //      categories: ['Pump 1',
-        //                   'Pump 2',
-        //                   'Pump 3',
-        //                   'Pump 4',
-        //                   'Pump 5',
-        //                   'Pump 6',
-        //                   'Pump 7',
-        //                   'Pump 8',
-        //                   'Pump 9'],
-        //         tickInterval: 1,            
-        //         tickPixelInterval: 200,
-        //         labels: {
-        //             style: {
-        //                 color: '#525151',
-        //                 font: '12px Helvetica',
-        //                 fontWeight: 'bold'
-        //             },
-        //            /* formatter: function() {
-        //                 if (tasks[this.value]) {
-        //                     return tasks[this.value].name;
-        //                 }
-        //             }*/
-        //         },
-        //         startOnTick: false,
-        //         endOnTick: false,
-        //         title: {
-        //             text: 'Sources'
-        //         },
-        //         minPadding: 0.2,
-        //         maxPadding: 0.2,
-        //         fontSize:'15px'
-
-        //     },
-
-        //     legend: {
-        //         enabled: false
-        //     },
-        //     labels: {
-        //         enabled: false
-        //     },
-        //     tooltip: {
-        //         // formatter: function() {
-        //         //     return '<b>'+ tasks[this.y].name + '</b><br/>' +
-        //         //         Highcharts.dateFormat('%m-%d-%Y', this.point.options.from)  +
-        //         //         ' - ' + Highcharts.dateFormat('%m-%d-%Y', this.point.options.to); 
-        //         // }
-        //     },
-
-        //     plotOptions: {
-        //         line: {
-        //             lineWidth: 10,
-        //             marker: {
-        //                 enabled: false
-        //             },
-        //             dataLabels: {
-        //                 enabled: true,
-        //                 align: 'left',
-        //                 formatter: function() {
-        //                     return this.point.options && this.point.options.label;
-        //                 }
-        //             }
-        //         }
-        //     },
-
-        //     series: category_json
-
-        // });	
-        function getRandom(cut){
-            var i= Math.floor(Math.random()*this.length);
-            if(cut && i in this){
-                return this.splice(i, 1)[0];
-            }
-            return this[i];
-        }
-        var colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
-		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
-		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
-		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
-		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
-		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
-        
-        $(function() {
-            // Define tasks
-            var tasks = [{
-                name: 'Pump 1',
-                intervals: [{ // From-To pairs
-                    from: 3,
-                    to: 6,
-                    label: '65 K/l'
-                }]
-            }, {
-                name: 'Pump 2',
-                intervals: [{ // From-To pairs
-                    from: 10,
-                    to: 18,
-                    label: '75 K/l'
-                }]
-            }, {
-                name: 'Pump 3',
-                intervals: [{ // From-To pairs
-                    from: 5,
-                    to: 14,
-                    label: '91 K/l'
-                }, {
-                    from: 14,
-                    to: 23,
-                    label: '64 K/l'
-                }]
-            }, {
-                name: 'Pump 4',
-                intervals: [{ // From-To pairs
-                    from: 9,
-                    to: 18,
-                    label: '83 K/l'
-                }]
-            }, {
-                name: 'Pump 5',
-                intervals: [{ // From-To pairs
-                    from: 12,
-                    to: 19,
-                    label: '75 K/l'
-                }, {
-                    from: 9,
-                    to: 16,
-                    label: '87 K/l'
-                }]
-            }, {
-                name: 'Pump 6',
-                intervals: [{ // From-To pairs
-                    from: 13,
-                    to: 22,
-                    label: '92 K/l'
-                }, {
-                    from: 16,
-                    to: 22,
-                    label: '74 K/l'
-                }]
-            }, {
-                name: 'Pump 7',
-                intervals: [{ // From-To pairs
-                    from: 12,
-                    to: 18,
-                    label: '74 K/l'
-                }, {
-                    from: 19,
-                    to: 24,
-                    label: '47 K/l'
-                }]
-            }];
-
-            // Define milestones
-            /*var milestones = [{
-                name: 'Get to bed',
-                time: Date.UTC(0, 0, 0, 22),
-                task: 1,
-                marker: {
-                    symbol: 'triangle',
-                    lineWidth: 1,
-                    lineColor: 'black',
-                    radius: 8
-                }
-            }];
-             */
-            // re-structure the tasks into line seriesvar series = [];
-            var series = [];
-            $.each(tasks.reverse(), function(i, task) {
-                var item = {
-                    name: task.name,
-                    data: [],
-                    color: {
-                        linearGradient: [1,500,1,1],
-                        stops: [
-                            [0, Highcharts.Color('#F00').setOpacity(0.5).get('rgba')],
-                            [1, Highcharts.Color('#F00').setOpacity(0.9).get('rgba')]
-                        ]
-                    }
-                };
-                $.each(task.intervals, function(j, interval) {
-                    item.data.push({
-                        x: interval.from,
-                        y: i,
-                        label: interval.label,
-                        from: interval.from,
-                        to: interval.to
-                    }, {
-                        x: interval.to,
-                        y: i,
-                        from: interval.from,
-                        to: interval.to
-                    });
-
-                    // add a null value between intervals
-                    if (task.intervals[j + 1]) {
-                        item.data.push(
-                            [(interval.to + task.intervals[j + 1].from) / 2, null]
-                        );
-                    }
-
-                });
-
-                series.push(item);
-            });
-            console.log("series",series)
-            // restructure the milestones
-            /*$.each(milestones, function(i, milestone) {
-                var item = Highcharts.extend(milestone, {
-                    data: [[
-                        milestone.time,
-                        milestone.task
-                    ]],
-                    type: 'scatter'
-                });
-                series.push(item);
-            });
-             */
-            
-            // create the chart
-            var counter = 0;
-            var chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'ganttChartContainer'
-                },
-
+        this.ganttChartObj = {
+            chart: {
+               type: 'xrange',
+               width:900,
+               height:500
+             },
+             title: {
+               text: 'Pumps Yield'
+             },
+             xAxis: {
+            //    type: 'datetime'
+                top: 50,
+                //type: 'datetime'
+                min: 0,
+                tickInterval: 1,
                 title: {
-                    text: ''
-                },
-
-                xAxis: {
-                    top: 50,
-                    //type: 'datetime'
-                    min: 0,
-                    tickInterval: 1,
-                    title: {
-                        text: 'Hours'
-                    }
-                },
-
-                yAxis: {
-
-                    categories: ['Pump 7',
-                        'Pump 6',
-                        'Pump 5',
-                        'Pump 4',
-                        'Pump 3',
-                        'Pump 2',
-                        'Pump 1'
-                    ],
-                    tickInterval: 1,
-                    tickPixelInterval: 200,
-                    labels: {
-                        style: {
-                            color: '#525151',
-                            font: '12px Helvetica',
-                            fontWeight: 'bold'
-                        },
-                        formatter: function (i,d) {
-                            counter++;
-                            console.log(counter);
-                            return '<span style="fill: '+colorArray[counter]+'">' + this.value + '</span>';
-                        }
-                        /* formatter: function() {
-                             if (tasks[this.value]) {
-                                 return tasks[this.value].name;
-                             }
-                         }*/
-                    },
-                    startOnTick: false,
-                    endOnTick: false,
-                    title: {
-                        text: 'Sources'
-                    },
-                    minPadding: 0.2,
-                    maxPadding: 0.2,
-                    fontSize: '15px',
-                    height: "360px",
-                    width: '1500px'
-
-                },
-
-                legend: {
-                    enabled: false
-                },
-                tooltip: {
-                    enabled: false,
+                    text: 'Hours'
+                }
+             },
+             yAxis: {
+               title: {
+                 text: 'Sources'
+               },
+               categories: ['Pump 1','Pump 2','Pump 3','Pump 4','Pump 5', 'Pump 6'],
+               reversed: true
+             },
+             tooltip: {
+                enabled: true,
+                formatter: function() {
+                    return '<b>' + this.point.options.label + '</b><br/>' + '<b> Yield value :' + this.point.options.yieldValue + ' K/l</b><br/>'
+                }
+             },
+             series: [{
+               name: 'Pumps On / Off Status',
+               // pointPadding: 0,
+               // groupPadding: 0,
+               borderColor: 'gray',
+               pointWidth: 20,
+               data: [{
+                 x: 2,
+                 x2: 8,
+                 y: 0,
+                 partialFill: 0.54,
+                 label:"pump 1",
+                 yieldValue:54,
+                 yieldPercentage:54
+               }, {
+                 x: 3,
+                 x2: 10,
+                 y: 1,
+                 label:"pump 2",
+                 yieldValue:23,
+                 yieldPercentage:65,
+                 partialFill: 0.65,
+               }, {
+                 x: 12,
+                 x2: 18,
+                 y: 2,
+                 label:"pump 3",
+                 yieldValue:43,
+                 yieldPercentage:56,
+                 partialFill: 0.56,
+               }, {
+                 x: 19,
+                 x2: 24,
+                 y: 2,
+                 label:"pump 3",
+                 yieldValue:66,
+                 yieldPercentage:88,
+                 partialFill: 0.88,
+               }, {
+                 x: 2,
+                 x2: 6,
+                 y: 3,
+                 label:"pump 4",
+                 yieldValue:88,
+                 yieldPercentage:98,
+                 partialFill: 0.98,
+               },
+               {
+                 x: 7,
+                 x2: 9,
+                 y: 4,
+                 label:"pump 5",
+                 yieldValue:60,
+                 yieldPercentage:74,
+                 partialFill: 0.74,
+               },
+               {
+                 x: 12,
+                 x2: 15,
+                 y: 5,
+                 label:"pump 6",
+                 yieldValue:60,
+                 yieldPercentage:74,
+                 partialFill: 0.74,
+               },
+               {
+                 x: 17,
+                 x2: 19,
+                 y: 5,
+                 label:"pump 6",
+                 yieldValue:80,
+                 yieldPercentage:85,
+                 partialFill: 0.85,
+               }],
+               dataLabels: {
+                    enabled: true,
                     formatter: function() {
-                        return '<b>' + tasks[this.y].name + '</b><br/>' + '<b>' + this.point.options.label + '</b><br/>'
+                        return this.point.options.yieldPercentage +"%";
                     }
-                },
-
-                plotOptions: {
-                    line: {
-                        lineWidth: 10,
-                        marker: {
-                            enabled: false
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            align: 'left',
-                            formatter: function() {
-                                return this.point.options && this.point.options.label;
-                            }
-                        }
-                    }
-                },
-
-                series: series
-
-            });
-        });
+                }
+             }]
+        };
     }
 
 
@@ -1217,7 +1004,7 @@ export class VisualComponent implements OnInit {
         .attr("width", diameter)
         .attr("height", diameter)
         .attr("class", "bubble");
-        
+
     var tooltip = d3.select("#generateGraph")
         .append("div")
         .style("position", "absolute")
@@ -1229,8 +1016,10 @@ export class VisualComponent implements OnInit {
         .style("border-radius", "6px")
         .style("font", "12px sans-serif")
         .text("tooltip");
+//https://api.myjson.com/bins/jyiro
 
-    d3.json("https://api.myjson.com/bins/101lzo", function(error, root) {
+//https://api.myjson.com/bins/101lzo
+    d3.json("https://api.myjson.com/bins/mlgz8", function(error, root) {
     var node = svg.selectAll(".node")
         .data(bubble.nodes(classes(root))
         .filter(function(d) { return !d.children; }))
@@ -1240,13 +1029,19 @@ export class VisualComponent implements OnInit {
 
     node.append("circle")
         .attr("r", function(d) { return d.r; })
-        .style("fill", function<dataType>(d) { return color(d.packageName); })
+        .style("fill", function<dataType>(d) { console.log(d);return color(Math.random().toString().substr(10,10)); })
         .on("mouseover", function<dataType>(d) {
                 tooltip.text(d.className + ": " + format(d.value));
                 tooltip.style("visibility", "visible");
         })
-        .on("mousemove", function(d) {
-            //return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+        .on("mousemove", function<dataType>(d) {
+            if(d.className) {
+                tooltip.transition()
+                  .duration(200)
+                  tooltip.html(d.className + "<br/>"  + d.value +" K/l")
+                  .style("left", ((<any>d3.event).pageX+10) + "px")
+                  .style("top", ((<any>d3.event).pageY-10) + "px");
+              }
         })
         .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
@@ -1273,6 +1068,80 @@ export class VisualComponent implements OnInit {
     d3.select(self.frameElement).style("height", diameter + "px");
 
     }
+
+//     usageChart() {
+//         var diameter = 500,
+//     format = d3.format(",d"),
+//     color = d3.scale.category20c();
+//
+//     var bubble = d3.layout.pack()
+//         .sort(null)
+//         .size([diameter, diameter])
+//         .padding(1.5);
+//
+//     var svg = d3.select("#generateGraph").append("svg")
+//         .attr("width", diameter)
+//         .attr("height", diameter)
+//         .attr("class", "bubble");
+//
+//     var tooltip = d3.select("#generateGraph")
+//         .append("div")
+//         .style("position", "absolute")
+//         .style("z-index", "10")
+//         .style("visibility", "hidden")
+//         .style("color", "white")
+//         .style("padding", "8px")
+//         .style("background-color", "rgba(0, 0, 0, 0.75)")
+//         .style("border-radius", "6px")
+//         .style("font", "12px sans-serif")
+//         .text("tooltip");
+// //https://api.myjson.com/bins/jyiro
+//
+// //https://api.myjson.com/bins/101lzo
+//     d3.json("https://api.myjson.com/bins/mlgz8", function(error, root) {
+//     var node = svg.selectAll(".node")
+//         .data(bubble.nodes(classes(root))
+//         .filter(function(d) { return !d.children; }))
+//         .enter().append("g")
+//         .attr("class", "node")
+//         .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+//
+//     node.append("circle")
+//         .attr("r", function(d) { return d.r; })
+//         .style("fill", function<dataType>(d) { console.log(d);return color(Math.random().toString().substr(10,10)); })
+//         .on("mouseover", function<dataType>(d) {
+//                 tooltip.text(d.className + ": " + format(d.value));
+//                 tooltip.style("visibility", "visible");
+//         })
+//         .on("mousemove", function(d) {
+//             //return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+//             return tooltip.style("top", "10px").style("left", "10px");
+//         })
+//         .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+//
+//     node.append("text")
+//         .attr("dy", ".3em")
+//         .style("text-anchor", "middle")
+//         .style("pointer-events", "none")
+//         .text(function<dataType>(d) { return d.className.substring(0, d.r / 3); });
+//     });
+//
+//     // Returns a flattened hierarchy containing all leaf nodes under the root.
+//     function classes(root) {
+//     var classes = [];
+//
+//     function recurse(name, node) {
+//         if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+//         else classes.push({packageName: name, className: node.name, value: node.size});
+//     }
+//
+//     recurse(null, root);
+//     return {children: classes};
+//     }
+//
+//     d3.select(self.frameElement).style("height", diameter + "px");
+//
+//     }
 
     SLchart() {
         this.http.get('https://api.myjson.com/bins/ht54c').subscribe(activity => {

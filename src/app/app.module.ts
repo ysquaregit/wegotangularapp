@@ -10,6 +10,8 @@ import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import * as highcharts from 'highcharts';
 import * as highchartsHeatmap from 'highcharts/modules/heatmap';
 import Tree from 'highcharts/modules/treemap';
+// import Exporting from 'highcharts/modules/exporting';
+import xrange from "highcharts/modules/xrange";
 // import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
 import {
@@ -93,9 +95,11 @@ export function highchartsFactory() {
     var hcm = require('highcharts/highcharts-more');
     var hm = require('highcharts/modules/heatmap');
     var hr = require('highcharts/modules/treemap');
+    var xr = require('highcharts/modules/xrange');
     hcm(hc);
     hm(hc);
     hr(hc);
+    xr(hc);
     return hc;
   }
 

@@ -62,7 +62,7 @@
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                     </div>
-                    <hr>
+                    <hr style="margin-left:12%;">
                     <app-visuals-pie-chart [(data)]="options"></app-visuals-pie-chart>
                 </div>
                 <!-- Heat Map section -->
@@ -89,7 +89,7 @@
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                     </div>
-                    <hr>
+                    <hr style="margin-top: 1.5%">
                     <div *ngIf="heatMapDataSet.length > 0">
                         <app-visuals-heat-map [(data)]="heatMapDataSet"></app-visuals-heat-map>
                     </div>
@@ -121,11 +121,11 @@
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                     </div>
-                    <hr>
+                    <hr style="margin-left:12%;">
                     <div style="margin-left: 17%" id="STPChartContainer">
-                        <div class="STPChartContainer0 col-md-6"></div>
-                        <div class="STPChartContainer1 col-md-6"></div>
-                        <div class="STPChartContainer2 col-md-6"></div>
+                        <div class="STPChartContainer0"></div>
+                        <div class="STPChartContainer1"></div>
+                        <div class="STPChartContainer2"></div>
                     </div>
                 </div>
                 <!-- train section  *ngIf="navActive=='usageChart'"-->
@@ -152,8 +152,9 @@
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                     </div>
-                    <hr>
-                    <svg width="500" height="500" font-family="sans-serif" font-size="10" text-anchor="middle" id="generateGraph"></svg>
+                    <hr style="margin-left:12%;">
+                    <div id="generateGraph"></div>
+                    <!-- <svg width="500" height="500" font-family="sans-serif" font-size="10" text-anchor="middle" id="generateGraph"></svg> -->
                 </div>
                 <!-- train section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}" *ngIf="navActive=='ganttChart'">
@@ -179,8 +180,11 @@
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                     </div>
-                    <hr>
-                    <div id="ganttChartContainer"></div>
+                    <hr style="margin-left:12%;">
+                    <!-- <div id="ganttChartContainer"></div> -->
+                    <div style="margin-left:10%;" class="ganttChartStyle">
+                        <chart [options]="ganttChartObj"></chart>
+                    </div>
                 </div>
 
                 <!-- train section -->
@@ -207,7 +211,7 @@
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                     </div>
-                    <hr>
+                    <hr style="margin-left:12%; margin-top:1%">
                     <app-visuals-treemap-chart [(data)]="treeMapChartSet"></app-visuals-treemap-chart>
                 </div>
                 <!-- train section -->
@@ -242,7 +246,7 @@
                             </div>
                         </div>
                     </form>
-                    <hr>
+                    <hr style="margin-left:12%;">
                     <app-visuals-sparkline-chart [data]="['132','34','32',60,'50']"></app-visuals-sparkline-chart>
                 </div>
             </div>

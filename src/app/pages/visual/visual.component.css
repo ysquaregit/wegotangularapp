@@ -133,3 +133,7 @@ div.bhoechie-tab-container{
   div#STPChartContainer {
     display: flow-root;
 }
+
+.ganttChartStyle {
+  margin-left: 20%;
+}
