@@ -5,6 +5,8 @@
 
 export const environment = {
     production: false,
-    apiServer: 'http://35.154.25.206/api/auth'
+    apiServer: 'http://35.154.25.206/api/auth',
+    baseURL:"http://localhost:3000/api/",
+    actionComponentName:""
     // apiServer: '/api/auth'
 };

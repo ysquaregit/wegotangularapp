@@ -49,7 +49,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.PiepickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -59,11 +59,14 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.PiepickerToDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                            <button class="button button2" (click)="getpiecharts()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%;">
-                    <app-visuals-pie-chart [(data)]="options"></app-visuals-pie-chart>
+                    <app-visuals-pie-chart [(data)]="options" #piechild></app-visuals-pie-chart>
                 </div>
                 <!-- Heat Map section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='heatMap'}" [hidden]="navActive!='heatMap'">
@@ -76,7 +79,9 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.HeatpickerFromDate" required></my-date-picker>
+                            <!-- <input type="month" [(ngModel)]="DatePicker.HeatpickerFromDate" required>
+                            <i class="fa fa-calendar" style="font-size:23px"></i> -->
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -86,12 +91,17 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.HeatpickerToDate" required></my-date-picker>
+                            <!-- <input type="month" [(ngModel)]="DatePicker.HeatpickerToDate" required>
+                            <i class="fa fa-calendar" style="font-size:23px"></i> -->
+                        </div>
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                            <button class="button button2" (click)="getheatMapchart()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-top: 1.5%">
                     <div *ngIf="heatMapDataSet.length > 0">
-                        <app-visuals-heat-map [(data)]="heatMapDataSet"></app-visuals-heat-map>
+                        <app-visuals-heat-map [(data)]="heatMapDataSet" #heatChild></app-visuals-heat-map>
                     </div>
                     <!-- <div class="col-md-6" *ngIf="histogramDataSet.length > 0">
                         <app-visuals-histogram-chart [(data)]="histogramDataSet"></app-visuals-histogram-chart>
@@ -108,7 +118,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.RTSpickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -118,14 +128,17 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.RTSpickerToDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%">
+                            <button class="button button2" (click)="getstpchart()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%;">
                     <div style="margin-left: 17%" id="STPChartContainer">
-                        <div class="STPChartContainer0"></div>
-                        <div class="STPChartContainer1"></div>
-                        <div class="STPChartContainer2"></div>
+                        <div style="margin-top: -1%" class="STPChartContainer0"></div>
+                        <div style="margin-top: -1%" class="STPChartContainer1"></div>
+                        <div style="margin-top: -1%" class="STPChartContainer2"></div>
                     </div>
                 </div>
                 <!-- train section  *ngIf="navActive=='usageChart'"-->
@@ -139,7 +152,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.UsagepickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -149,7 +162,10 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.UsagepickerToDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                            <button class="button button2" (click)="getbubble()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%;">
@@ -167,7 +183,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.ganttpickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -177,7 +193,10 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.ganttpickerToDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                            <button class="button button2" (click)="getganttchart()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%;">
@@ -198,7 +217,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.TreepickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -208,7 +227,10 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.TreepickerToDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                            <button class="button button2" (click)="gettreeMapchart()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%; margin-top:1%">
@@ -219,18 +241,18 @@
                     <!-- <div class="row">
                         <div class="col-md-3">
                             <label>From Date:</label>
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.pickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-3 pull-left">
                             <label>To Date:</label>
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.pickerToDate" required></my-date-picker>
                         </div>
                     </div> -->
 
-                    <form class="form-inline">
+                    <div class="form-inline">
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-1.5  pull-left" style="margin-top: 1.5%; margin-left: 22%">
+                                <div class="col-md-1.5 pull-left" style="margin-top: 1.5%; margin-left: 22%">
                                     <label>
                                         <font size="3">
                                             <b> Last </b>
@@ -239,15 +261,18 @@
                                 </div>
                                 <div class="col-md-3">
                                     <input class="form-control" type="number" placeholder="Enter the week number(Max-52)" size="2" title="Enter the week number(Max-52)"
-                                        min="0" max="52"> </div>
+                                        [(ngModel)]="DatePicker.LastWeek" min="0" max="52"> </div>
                                 <div class="col-md-1" style="margin-top: 1.5%;margin-left: 15%">
                                     <font size="3">Week(s)</font>
                                 </div>
+                                <div class="col-md-1.5 pull-left" style="margin-top: 0%; position: fixed; right: 430px;">
+                                    <button class="button button2" (click)="getsparklinechart()"> Fetch </button>
+                                </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                     <hr style="margin-left:12%;">
-                    <app-visuals-sparkline-chart [data]="['132','34','32',60,'50']"></app-visuals-sparkline-chart>
+                    <app-visuals-sparkline-chart></app-visuals-sparkline-chart>
                 </div>
             </div>
         </div>

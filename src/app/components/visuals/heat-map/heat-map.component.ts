@@ -34,6 +34,9 @@ export class appVisualHeatMapComponent implements OnInit {
         this.selfData = this;
         console.log("Heat map data",this.data);
         this.heatMap(this.data, '#appHeatMap',this.selfData);
+        this.http.get('https://api.myjson.com/bins/enlb8').subscribe(activity => {
+            this.histogramDataSet = activity.json();
+        });
     }
 
     getRandomInt() {
@@ -442,10 +445,10 @@ export class appVisualHeatMapComponent implements OnInit {
       histroGramChart() {
         //https://api.myjson.com/bins/fkyjo
         //https://api.myjson.com/bins/7hw5g
-        this.http.get('https://api.myjson.com/bins/ghzl8').subscribe(activity => {
-            var newJSON =
+        this.http.get('https://api.myjson.com/bins/m3t6c').subscribe(activity => {
+         /*    var newJSON =
             [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
-            this.histogramDataSet = newJSON;//activity.json();
+            this.histogramDataSet = newJSON;//activity.json(); */
 
             Highcharts.chart('Heacontainer1', {
               chart:{

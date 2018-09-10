@@ -1,10 +1,28 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { RequestOptions } from '@angular/http';
+import { of } from 'rxjs/observable/of';
+import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class MessageService {
+    private baseURL = environment.baseURL;
 
+    httpOptions = {
+
+    };
+    constructor(private http: HttpClient) {
+        this.httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+
+    }
 
     private SiteConfigSubject = new Subject<any>();
     private STPSubject = new Subject<any>();
@@ -32,56 +50,146 @@ export class MessageService {
     private NoNetworkSubject = new Subject<any>();
     private DisableNav = new Subject<any>();
     //siteConfig
+
+    /* get the pie-chart data from server */
+    getpiechart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
+        console.log('Triggercall');
+
+        const url = `${this.baseURL + "charts"}/getSources?from_date=${fromdate}&to_date=${todate}`;
+        return this.http.get<any[]>(url, this.httpOptions)
+            .pipe(
+            tap(heroes => this.log(`fetched heroes`)),
+            catchError(this.handleError('getHeroes', []))
+            );
+    }
+
+    /* get the pie-chart data from server */
+    getheatMapchart(actionComponentName: String,fromdate: number, todate: number): Observable<any[]> {
+        console.log('Triggercall');
+
+        const url = `${this.baseURL + "charts"}/getWaterMapHeatMap?from_date=${fromdate}&to_date=${todate}`;
+        return this.http.get<any[]>(url, this.httpOptions)
+            .pipe(
+            tap(heroes => this.log(`fetched heroes`)),
+            catchError(this.handleError('getHeroes', []))
+            );
+    }
+
+    getHistogramChart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
+        console.log('Triggercall');
+
+        const url = `${this.baseURL + "charts"}/getWaterMapHistogram?from_date=${fromdate}&to_date=${todate}`;
+        return this.http.get<any[]>(url, this.httpOptions)
+            .pipe(
+            tap(heroes => this.log(`fetched heroes`)),
+            catchError(this.handleError('getHeroes', []))
+            );
+    }
+
+    getstpchart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
+        console.log('Triggercall');
+
+        const url = `${this.baseURL + "charts"}/getWaterDemand?from_date=${fromdate}&to_date=${todate}`;
+        return this.http.get<any[]>(url, this.httpOptions)
+            .pipe(
+            tap(heroes => this.log(`fetched heroes`)),
+            catchError(this.handleError('getHeroes', []))
+            );
+    }
+
+    getbubble(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
+        console.log('Triggercall');
+
+        const url = `${this.baseURL + "charts"}/getHighUsers?from_date=${fromdate}&to_date=${todate}`;
+        return this.http.get<any[]>(url, this.httpOptions)
+            .pipe(
+            tap(heroes => this.log(`fetched heroes`)),
+            catchError(this.handleError('getHeroes', []))
+            );
+    }
+
+    getganttchart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
+        console.log('Triggercall');
+
+        const url = `${this.baseURL + "charts"}/getPumpsYield?from_date=${fromdate}&to_date=${todate}`;
+        return this.http.get<any[]>(url, this.httpOptions)
+            .pipe(
+            tap(heroes => this.log(`fetched heroes`)),
+            catchError(this.handleError('getHeroes', []))
+            );
+    }
+
+    gettreeMapchart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
+        console.log('Triggercall');
+
+        const url = `${this.baseURL + "charts"}/getBlockLevel?from_date=${fromdate}&to_date=${todate}`;
+        return this.http.get<any[]>(url, this.httpOptions)
+            .pipe(
+            tap(heroes => this.log(`fetched heroes`)),
+            catchError(this.handleError('getHeroes', []))
+            );
+    }
+
+    getsparklinechart(actionComponentName: String, last_week: number): Observable<any[]> {
+        console.log('Triggercall');
+
+        const url = `${this.baseURL + "charts"}/getSourcesTrend?last_week=${last_week}`;
+        return this.http.get<any[]>(url, this.httpOptions)
+            .pipe(
+            tap(heroes => this.log(`fetched heroes`)),
+            catchError(this.handleError('getHeroes', []))
+            );
+    }
     sendSiteConfig(siteConfig: Array<any>) {
-        this.SiteConfigSubject.next({siteConfig: siteConfig});
+        this.SiteConfigSubject.next({ siteConfig: siteConfig });
     }
 
     getSiteConfig(): Observable<any> {
         return this.SiteConfigSubject.asObservable();
     }
 
-//daytotal
+    //daytotal
 
 
-//wtp
+    //wtp
     sendWTPData(wtp: any) {
-        this.WTPSubject.next({wtp: wtp});
+        this.WTPSubject.next({ wtp: wtp });
     }
 
     getWTPData(): Observable<any> {
         return this.WTPSubject.asObservable();
     }
 
-//wtp
+    //wtp
 
 
     //stp
     sendSTPData(stp: any) {
-        this.STPSubject.next({stp: stp});
+        this.STPSubject.next({ stp: stp });
     }
 
     getSTPData(): Observable<any> {
         return this.STPSubject.asObservable();
     }
 
-//stp
+    //stp
 
 
     //tlvl
     sendtlvlData(tlvl: Array<{ tname: String, level: Number }>) {
-        this.TLVLSubject.next({tlvl: tlvl});
+        this.TLVLSubject.next({ tlvl: tlvl });
     }
 
     gettlvlData(): Observable<any> {
         return this.TLVLSubject.asObservable();
     }
 
-//tlvl
+    //tlvl
 
 
     //slvl
     sendslvlData(slvl: Array<{ sname: String, level: Number }>) {
-        this.SLVLSubject.next({slvl: slvl});
+        this.SLVLSubject.next({ slvl: slvl });
     }
 
     getslvlData(): Observable<any> {
@@ -91,66 +199,66 @@ export class MessageService {
 
     //bwell
     sendbwellData(bwell: Array<{ name: String, byield: Number }>) {
-        this.BWELLSubject.next({bwell: bwell});
+        this.BWELLSubject.next({ bwell: bwell });
     }
 
     getbwellData(): Observable<any> {
         return this.BWELLSubject.asObservable();
     }
 
-//bwell
+    //bwell
 
 
     //btotal
     setbtotal(btotal: Array<any>) {
-        this.BTOTALSubject.next({btotal: btotal});
+        this.BTOTALSubject.next({ btotal: btotal });
     }
 
     getbtotal(): Observable<any> {
         return this.BTOTALSubject.asObservable();
     }
 
-//btotal
+    //btotal
 
     //stotal
     setstotal(stotal: Array<any>) {
-        this.STOTALSubject.next({stot: stotal});
+        this.STOTALSubject.next({ stot: stotal });
     }
 
     getstotal(): Observable<any> {
         return this.STOTALSubject.asObservable();
     }
 
-//stotal
+    //stotal
 
 
     //alarms
     setAlarmsData(alarms: Array<any>) {
-        this.AlarmsSubject.next({alarms: alarms});
+        this.AlarmsSubject.next({ alarms: alarms });
     }
 
     getAlarmsData(): Observable<any> {
         return this.AlarmsSubject.asObservable();
     }
 
-//alarms
+    //alarms
 
 
     //alarms
     setNoNetwork(nonetwork: Boolean) {
-        this.NoNetworkSubject.next({nonetwork: nonetwork});
+        this.NoNetworkSubject.next({ nonetwork: nonetwork });
     }
 
     getNoNetwork(): Observable<any> {
         return this.NoNetworkSubject.asObservable();
     }
 
-//alarms
+    //alarms
 
 
     //disable Nav
     setDisableNav(disablenav: Boolean) {
-        this.DisableNav.next({disablenav: disablenav});
+        this.DisableNav.next({ disablenav: disablenav });
     }
 
     getDisableNac(): Observable<any> {
@@ -159,7 +267,7 @@ export class MessageService {
 
 
     setOAlarmsData(oalarms: Array<any>) {
-        this.OAlarmsSubject.next({oalarms: oalarms});
+        this.OAlarmsSubject.next({ oalarms: oalarms });
     }
 
     getOAlarmsData(): Observable<any> {
@@ -168,7 +276,7 @@ export class MessageService {
 
 
     setSFAlarmsData(sfalarms: Array<any>) {
-        this.SFAlarmsSubject.next({sfData: sfalarms});
+        this.SFAlarmsSubject.next({ sfData: sfalarms });
     }
 
     getSFAlarmsData(): Observable<any> {
@@ -177,7 +285,7 @@ export class MessageService {
 
 
     setcomAlarmsData(comeData: Array<any>) {
-        this.comeAlarmsSubject.next({comeData: comeData});
+        this.comeAlarmsSubject.next({ comeData: comeData });
     }
 
     getcomAlarmsData(): Observable<any> {
@@ -187,19 +295,19 @@ export class MessageService {
 
     //ven_rp
     sendpumpData(pump: Array<any>) {
-        this.PSubject.next({pump: pump});
+        this.PSubject.next({ pump: pump });
     }
 
     getpumpData(): Observable<any> {
         return this.PSubject.asObservable();
     }
 
-//ven_rp
+    //ven_rp
 
 
     //ven_prev_month_total
     sendroData(ro: Array<any>) {
-        this.ROSubject.next({ro: ro});
+        this.ROSubject.next({ ro: ro });
     }
 
     getroData(): Observable<any> {
@@ -207,7 +315,7 @@ export class MessageService {
     }
 
 
-//ven_prev_month_total
+    //ven_prev_month_total
 
 
     clearMessage() {
@@ -216,7 +324,7 @@ export class MessageService {
 
 
     sendMDChartArray(mdchart: any[]) {
-        this.MDCSubject.next({mdchart: mdchart});
+        this.MDCSubject.next({ mdchart: mdchart });
     }
 
 
@@ -225,10 +333,10 @@ export class MessageService {
     }
 
 
-//month historical Chart
+    //month historical Chart
 
     sendMHChartArray(mhchart: any[]) {
-        this.MHCSubject.next({mhochart: mhchart});
+        this.MHCSubject.next({ mhochart: mhchart });
     }
 
 
@@ -242,7 +350,7 @@ export class MessageService {
     //month historical Detail Chart
 
     sendMHDChartArray(mhdchart: any[]) {
-        this.MHDCSubject.next({mhodchart: mhdchart});
+        this.MHDCSubject.next({ mhodchart: mhdchart });
     }
 
 
@@ -256,7 +364,7 @@ export class MessageService {
     //month Alarm History
 
     sendMAHArray(maharray: any[]) {
-        this.MAHASubject.next({maharray: maharray});
+        this.MAHASubject.next({ maharray: maharray });
     }
 
 
@@ -270,7 +378,7 @@ export class MessageService {
     //month day  Chart
 
     sendPMChartArray(pmchart: any[]) {
-        this.PMChartSubject.next({pmchart: pmchart});
+        this.PMChartSubject.next({ pmchart: pmchart });
     }
 
 
@@ -284,7 +392,7 @@ export class MessageService {
     //Three month cost   Chart
 
     sendTMCChartArray(tmcchart: any[]) {
-        this.TMCChartSubject.next({tmcchart: tmcchart});
+        this.TMCChartSubject.next({ tmcchart: tmcchart });
     }
 
 
@@ -298,7 +406,7 @@ export class MessageService {
     //Bill history
 
     sendBHArray(bhdata: any[]) {
-        this.BHSubject.next({bhdata: bhdata});
+        this.BHSubject.next({ bhdata: bhdata });
     }
 
 
@@ -309,7 +417,7 @@ export class MessageService {
     //alarms count
 
     sendALCount(aldata: any[]) {
-        this.ALSubject.next({alarms: aldata});
+        this.ALSubject.next({ alarms: aldata });
     }
 
 
@@ -321,13 +429,31 @@ export class MessageService {
     //alarms no
 
     sendASummary(asummary: any[]) {
-        this.ApartDatSummary.next({asummary: asummary});
+        this.ApartDatSummary.next({ asummary: asummary });
     }
 
 
     getASummary(): Observable<any> {
         return this.ApartDatSummary.asObservable();
     }
+    private handleError<T>(operation = 'operation', result?: T) {
+        return (error: any): Observable<T> => {
 
+            // TODO: send the error to remote logging infrastructure
+            console.error(error); // log to console instead
+
+            // TODO: better job of transforming error for user consumption
+            this.log(`${operation} failed: ${error.message}`);
+
+            // Let the app keep running by returning an empty result.
+            return of(result as T);
+        };
+    }
+
+    /** Log a HeroService message with the MessageService */
+    private log(message: string) {
+        //this.messageService.add('HeroService: ' + message);
+        //alert('HeroService: ' + message);
+    }
 
 }

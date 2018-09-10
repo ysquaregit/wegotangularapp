@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import * as $ from 'jquery/dist/jquery.min.js';
 import {HttpModule} from '@angular/http';
+import { HttpClientModule} from '@angular/common/http';
 import { MyDatePickerModule } from 'mydatepicker';
 import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
@@ -145,6 +146,7 @@ export function highchartsFactory() {
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         BrowserAnimationsModule,
         FormsModule,
         DataTableModule,
