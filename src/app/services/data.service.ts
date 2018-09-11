@@ -108,10 +108,10 @@ export class MessageService {
             );
     }
 
-    getganttchart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
+    getganttchart(actionComponentName: String, date: number): Observable<any[]> {
         console.log('Triggercall');
 
-        const url = `${this.baseURL + "charts"}/getPumpsYield?from_date=${fromdate}&to_date=${todate}`;
+        const url = `${this.baseURL + "charts"}/getPumpsYield?date=${date}`;
         return this.http.get<any[]>(url, this.httpOptions)
             .pipe(
             tap(heroes => this.log(`fetched heroes`)),

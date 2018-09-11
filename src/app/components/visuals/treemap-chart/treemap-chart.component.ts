@@ -1,14 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output,ViewEncapsulation} from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
-import * as d3 from 'd3';
-import { Headers,Http } from "@angular/http";
+// import * as d3 from 'd3';
 import * as $ from 'jquery/dist/jquery.min.js';
+import * as d3 from 'd3-3';
 
-export type dataType = {region:any,subregion:any,children:any,key:any,value:any};
+export type dataType = {region:any,subregion:any,_children:any,key:any,value:any};
 @Component({
     selector: 'app-visuals-treemap-chart',
     templateUrl: './treemap-chart.component.html',
-    styleUrls: ['./treemap-chart.component.css']
+    styleUrls: ['./treemap-chart.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
 export class appVisualTreemapChartComponent implements OnInit {
     @Input() data: Array<any> = [];
@@ -16,242 +17,318 @@ export class appVisualTreemapChartComponent implements OnInit {
     bytes: number;
     fromdateValue: Date;
     todateValue: Date;
-    
-    constructor( private http: Http) {
-        
+
+    constructor() {
+
     }
 
     ngOnInit() {
         var self = this;
-        this.newD3();
-        this.http.get('https://api.myjson.com/bins/8eu9g').subscribe(activity => {
-            this.data = activity.json();
-        });
+        this.treeMapGeneration();
+
     }
 
     generateAmcharts() {
       console.log("self",self);
       const appVisualTreemapChartComponent = this;
-      console.log("self",appVisualTreemapChartComponent);
 
     }
 
-    testMain() {
-    //   var pathJson = 
-    //   {"name":"Sample data","children":[{"name":"Site 1","size":500,"children":[{"name":"Block 1","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 2","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 3","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 4","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 5","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 6","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 7","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 8","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 10","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 11","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 12","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 13","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 14","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 14","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 15","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 16","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 17","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 18","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 19","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 20","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 21","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 22","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 23","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]},{"name":"Block 24","size":40,"children":[{"name":"Flat 101","size":100},{"name":"Flat 102","size":10},{"name":"Flat 103","size":25},{"name":"Flat 104","size":40},{"name":"Flat 105","size":25},{"name":"Flat 106","size":40},{"name":"Flat 201","size":20},{"name":"Flat 202","size":30},{"name":"Flat 203","size":25},{"name":"Flat 204","size":40},{"name":"Flat 205","size":25},{"name":"Flat 206","size":40},{"name":"Flat 301","size":80},{"name":"Flat 302","size":5},{"name":"Flat 303","size":25},{"name":"Flat 304","size":20},{"name":"Flat 305","size":25},{"name":"Flat 306","size":20},{"name":"Flat 401","size":25},{"name":"Flat 402","size":40},{"name":"Flat 403","size":80},{"name":"Flat 404","size":5},{"name":"Flat 405","size":25},{"name":"Flat 406","size":20}]}]}]}
-       var w = 1280 - 80,
-      h = 800 - 180,
-      x = d3.scale.linear().range([0, w]),
-      y = d3.scale.linear().range([0, h]),
-      color = d3.scale.category10(),
-      root,
-      node;
-      var treemap = d3.layout.treemap()
-          .round(false)
-          .size([w, h])
-          .sticky(true)
-          .padding([10, 0, 0, 0])
-          .value(function<dataType>(d) { return d.size; });
-      var svg = d3.select("#chart").append("div")
-          .attr("class", "chart")
-          .style("width", w + "px")
-          .style("height", h + "px")
-        .append("svg:svg")
-          .attr("width", w)
-          .attr("height", h)
-        .append("svg:g")
-          .attr("transform", "translate(.5,.5)");
-      
-        // node = root = pathJson;
-        
-        var nodes = treemap.nodes(root)
-            .filter(function(d) { return !d.children; });
-        var cell = svg.selectAll("g")
-            .data(nodes)
-            .enter().append("svg:g")
-            .attr("class", "cell")
-            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-            .on("click", function(d) { return zoom(node == d.parent ? root : d.parent,this); });
-        cell.append("svg:rect")
-            .attr("width", function(d) { return d.dx - 1; })
-            .attr("height", function(d) { return d.dy - 1; })
-            .style("fill", function<dataType>(d) { console.log("d.parent.name",d.parent.name);return color(d.parent.name); });
+    treeMapGeneration() {
+      // Largeur de la width
+    	var obj = document.getElementById('chart');
+    	var divWidth = obj.offsetWidth;
 
-        cell.append("svg:text")
-            .attr("x", function(d) { return d.dx / 2; })
-            .attr("y", function(d) { return d.dy / 2; })
-            .attr("dy", ".35em")
-            .attr("text-anchor", "middle")
-            .text(function<dataType>(d) { return d.name +'('+d.size+' K/l)'; })
-            .style("opacity", function<dataType>(d) { d.w = this.getComputedTextLength();console.log(d.dx +' '+d.w); if(d.w/d.dx > 10) { return 1 } else {return 0}});
-        d3.select(window).on("click", function(e) { zoom(root,e); });
-        d3.select("select").on("change", function(e) {
-          treemap.value(this.value == "size" ? size : count).nodes(root);
-          zoom(node,e);
-        });
-      
-      
-      function size(d) {
-        return d.size;
-      }
-      function count(d) {
-        return 1;
-      }
-      function zoom(d,e) {
-        console.log("Zoom e",e)
-        //alert(d.name);
-        var kx = w / d.dx, ky = h / d.dy;
-        x.domain([d.x, d.x + d.dx]);
-        y.domain([d.y, d.y + d.dy]);
-        var t = svg.selectAll("g.cell").transition()
-            .duration(750)
-            .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
-        t.select("rect")
-            .attr("width", function(d) { return kx * d.dx - 1; })
-            .attr("height", function(d) { return ky * d.dy - 1; })
-        t.select("text")
-            .attr("x", function(d) { return kx * d.dx / 2; })
-            .attr("y", function(d) { return ky * d.dy / 2; })
-            .style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
-            //.style("font-size", function(d) { return kx * d.dx > d.w ? "20px" : "12px";});
-        node = d;
-        console.log(d3.event)
-        
-        $( "#chart" ).on( "click", function(e) {
-          e.stopPropagation();
-        });
-        $( "#chart" ).trigger( "click" );
-      }
-    }
+    	var margin = {top: 30, right: 0, bottom: 20, left: 0},
+    		width = divWidth -25,
+    		height = 640 - margin.top - margin.bottom,
+    		formatNumber = d3.format(",%"),
+    		colorDomain = [-.1, 0, .1],
+    		colorRange = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+    		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+    		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+    		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+    		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+    		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+    		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+    		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+    		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+    		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'],
+    		transitioning;
+        var color = d3.scale.category10();
+    	// sets x and y scale to determine size of visible boxes
+    	var x = d3.scale.linear()
+    		.domain([0, width])
+    		.range([0, width]);
 
-    newD3() {
-      var w = 1280 - 80,
-          h = 800 - 180,
-          x = d3.scale.linear().range([0, w]),
-          y = d3.scale.linear().range([0, h]),
-          color = d3.scale.category20c(),
-          root,
-          node;
+    	var y = d3.scale.linear()
+    		.domain([0, height])
+    		.range([0, height]);
 
-      var treemap = d3.layout.treemap()
-          .round(false)
-          .size([w, h])
-          .sticky(true)
-          .value(function < dataType > (d) {
-              return d.size;
-          });
+    	// adding a color scale
+    	var color = d3.scale.category10();
 
-      var svg = d3.select("#chart").append("div")
-          .attr("class", "chart")
-          .style("width", w + "px")
-          .style("height", h + "px")
-          .append("svg:svg")
-          .attr("width", w)
-          .attr("height", h)
-          .append("svg:g")
-          .attr("transform", "translate(.5,.5)");
+    	// introduce color scale here
+    	var treemap = d3.layout.treemap()
+    		.children(function(d, depth) { return depth ? null : d._children; })
+    		.sort(function(a, b) { return a.value - b.value; })
+    		.ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
+    		.round(false);
 
-      d3.json("https://api.myjson.com/bins/18hcek", function(data) {
-          node = root = data;
+    	var svg = d3.select("#chart").append("svg")
+    		.attr("width", width + margin.left + margin.right)
+    		.attr("height", height + margin.bottom + margin.top)
+    		.style("margin-left", -margin.left + "px")
+    		.style("margin.right", -margin.right + "px")
+    	  .append("g")
+    		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    		.style("shape-rendering", "crispEdges");
 
-          var nodes = treemap.nodes(root)
-              .filter(function(d) {
-                  return !d.children;
-              });
-          console.log("nodes",nodes)
-          var cell = svg.selectAll("g")
-              .data(nodes)
-              .enter().append("svg:g")
-              .attr("class", "cell")
-              .attr("transform", function(d) {
-                  return "translate(" + d.x + "," + d.y + ")";
-              })
-              .on("click", function(d) {
-                  return zoom(node == d.parent ? root : d.parent);
-              });
+    	var grandparent = svg.append("g")
+    		.attr("class", "grandparent");
 
-          cell.append("svg:rect")
-              .attr("width", function(d) {
-                  return d.dx - 1;
-              })
-              .attr("height", function(d) {
-                  return d.dy - 1;
-              })
-              .style("fill", function < dataType > (d) {
-                console.log("d.parent.name",d.parent);return color(d.parent.name);
-              });
-          
+    	grandparent.append("rect")
+    		.attr("y", -margin.top)
+    		.attr("width", width)
+    		.attr("height", margin.top);
 
-          cell.append("svg:text")
-              .attr("x", function(d) {
-                  return d.dx / 2;
-              })
-              .attr("y", function(d) {
-                  return d.dy / 2;
-              })
-              .attr("dy", ".35em")
-              .attr("text-anchor", "middle")
-              .text(function < dataType > (d) {
-                  return d.name +'('+d.size+'k/l)';
-              })
-              .style("font-size","12px")
-              .style("opacity", function< dataType >(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
+    	grandparent.append("text")
+    		.attr("x", 6)
+    		.attr("y", 6 - margin.top)
+    		.attr("dy", ".75em");
 
-          d3.select(window).on("click", function() {
-              zoom(root);
-          });
+    	var legend = d3.select("#legend").append("svg")
+    	  .attr("width", width + margin.left + margin.right)
+    	  .attr("height", 30)
+    	  .attr('class', 'legend')
+    	  .selectAll("g")
+    		  .data([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
+    		  //.data([0,2,4,5,8,9,10,11,12,14,16,18])
+    		  .enter()
+    		  .append('g')
 
-          d3.select("select").on("change", function() {
-              treemap.value(this.value == "size" ? size : count).nodes(root);
-              zoom(node);
-          });
-      });
+    	// functions
+    	function initialize(root) {
+    		root.x = root.y = 0;
+    		root.dx = width;
+    		root.dy = height;
+    		root.depth = 0;
+    	  }
 
-      function size(d) {
-          return d.size;
-      }
+    	  // Aggregate the values for internal nodes. This is normally done by the
+    	  // treemap layout, but not here because of our custom implementation.
+    	  // We also take a snapshot of the original children (_children) to avoid
+    	  // the children being overwritten when when layout is computed.
+    	  function accumulate(d) {
+    		return (d._children = d.children)
+    		  // recursion step, note that p and v are defined by reduce
+    			? d.value = d.children.reduce(function(p, v) {return p + accumulate(v); }, 0)
+    			: d.value;
+    	  }
 
-      function count(d) {
-          return 1;
-      }
+    	  // Compute the treemap layout recursively such that each group of siblings
+    	  // uses the same size (1×1) rather than the dimensions of the parent cell.
+    	  // This optimizes the layout for the current zoom state. Note that a wrapper
+    	  // object is created for the parent node for each group of siblings so that
+    	  // the parent’s dimensions are not discarded as we recurse. Since each group
+    	  // of sibling was laid out in 1×1, we must rescale to fit using absolute
+    	  // coordinates. This lets us use a viewport to zoom.
+    	  function layout(d:any) {
+    		if (d._children) {
+			  // treemap nodes comes from the treemap set of functions as part of d3
+			  console.log("d_children",d);
+    		  treemap.nodes({_children:d._children});
+    		  d._children.forEach(function(c) {
+    			c.x = d.x + c.x * d.dx;
+    			c.y = d.y + c.y * d.dy;
+    			c.dx *= d.dx;
+    			c.dy *= d.dy;
+    			c.parent = d;
+    			// recursion
+    			layout(c);
+    		  });
+    		}
+    	  }
 
-      function zoom(d) {
-          var kx = w / d.dx,
-              ky = h / d.dy;
-          x.domain([d.x, d.x + d.dx]);
-          y.domain([d.y, d.y + d.dy]);
+    	function colorIncrements(d){
+    		return d3.scale.category20c().range(d);
+    	}
 
-          var t = svg.selectAll("g.cell").transition()
-              .duration(750)
-              .attr("transform", function(d) {
-                  return "translate(" + x(d.x) + "," + y(d.y) + ")";
-              });
+    	legend.append("rect")
+    		.attr("x", function(d){return margin.left + d * 35})
+    		.attr("y", 0)
+    		.attr("fill", function(d) {return color(d)})
+    		.attr('width', '35px')
+    		.attr('height', '40px')
 
-          t.select("rect")
-              .attr("width", function(d) {
-                  return kx * d.dx - 1;
-              })
-              .attr("height", function(d) {
-                  return ky * d.dy - 1;
-              })
+    	legend.append("text")
+				.text(function(d){return formatNumber(colorIncrements(d))})
+    			.attr('y', 20)
+    			.attr('x', function(d){return margin.left + d * 35 + 20});
 
-          t.select("text")
-              .attr("x", function(d) {
-                  return kx * d.dx / 2;
-              })
-              .attr("y", function(d) {
-                  return ky * d.dy / 2;
-              })
-              .style("opacity", function(d) {
-                  return kx * d.dx > d.w ? 1 : 0;
-              });
+    	// determines if white or black will be better contrasting color
+    	function getContrast50(hexcolor){
+    		return (parseInt(hexcolor.replace('#', ''), 16) > 0xffffff/3) ? 'black':'white';
+    	}
 
-          node = d;
-          $("#chart").on("click", function(e) {
-              e.stopPropagation();
-          });
-          $("#chart").trigger("click");
-      }
+    	d3.json("https://api.myjson.com/bins/1bc8vo", function(root) {
+    	  console.log(root)
+    	  initialize(root);
+    	  accumulate(root);
+    	  layout(root);
+    	  display(root);
+
+    	  function display(d) {
+    		grandparent
+    			.datum(d.parent)
+    			.on("click", transition)
+    		    .select("text")
+    			.text(name(d))
+
+    		// color header based on grandparent's rate
+    		grandparent
+    		  .datum(d.parent)
+    		  .select("rect")
+    		  .attr("fill", function(){console.log(color(d.rate)); return color(d['rate'])})
+
+    		var g1 = svg.insert("g", ".grandparent")
+    			.datum(d)
+    			.attr("class", "depth");
+
+    		var g = g1.selectAll("g")
+    			.data(d._children)
+    		    .enter().append("g");
+
+    		g.filter(function(d) { return d._children; })
+    			.classed("children", true)
+    			.on("click", transition);
+
+    		g.selectAll(".child")
+    			.data(function(d) { return d._children || [d]; })
+    		  .enter().append("rect")
+    			.attr("class", "child")
+    			.call(rect);
+
+
+    		g.append("rect")
+    			.attr("class", "parent")
+    			.call(rect)
+    		  .append("title");
+
+    		/* Adding a foreign object instead of a text object, allows for text wrapping */
+    		g.append("foreignObject")
+    				.call(rect)
+    				/* open new window based on the json's URL value for leaf nodes */
+    				/* Firefox displays this on top
+    				.on("click", function(d) {
+    					if(!d.children){
+    						window.open(d.url);
+    				}
+    			})*/
+    			.attr("class","foreignobj")
+    			.append("xhtml:div")
+    			.attr("dy", ".75em")
+    			.html(function(d) {
+    			    if(d.dx< 30) {
+    			        return '' +
+    				' <p class="title"> ' + d.name + '</p>'
+    			    }
+    			    else {
+    			        return '' +
+    				' <p class="title"> ' + d.name +'('+d3.round(d.value,2) + ')</p>'
+    			    }
+
+
+    				;})
+    			.attr("class","textdiv"); //textdiv class allows us to style the text easily with CSS
+
+    		function transition(d) {
+    		  if (transitioning || !d) return;
+    		  transitioning = true;
+
+    		  var g2 = display(d),
+    			  t1 = g1.transition().duration(650),
+    			  t2 = g2.transition().duration(650);
+
+    		  // Update the domain only after entering new elements.
+    		  x.domain([d.x, d.x + d.dx]);
+    		  y.domain([d.y, d.y + d.dy]);
+
+    		  // Enable anti-aliasing during the transition.
+    		  svg.style("shape-rendering", null);
+
+    		  // Draw child nodes on top of parent nodes.
+    		  svg.selectAll(".depth").sort(function(a, b) { return a.depth - b.depth; });
+
+    		  // Fade-in entering text.
+    		  g2.selectAll("text").style("fill-opacity", 0);
+    		  g2.selectAll("foreignObject div").style("display", "none"); /*added*/
+
+    		  // Transition to the new view.
+    		  t1.selectAll("text").call(text).style("fill-opacity", 0);
+    		  t2.selectAll("text").call(text).style("fill-opacity", 1);
+    		  t1.selectAll("rect").call(rect);
+    		  t2.selectAll("rect").call(rect);
+
+    		  /* Foreign object */
+    		  t1.selectAll(".textdiv").style("display", "none"); /* added */
+    		  t1.selectAll(".foreignobj").call(foreign); /* added */
+    		  t2.selectAll(".textdiv").style("display", "block"); /* added */
+    		  t2.selectAll(".foreignobj").call(foreign); /* added */
+
+    		  // Remove the old node when the transition is finished.
+    		  t1.remove().each("end", function() {
+    			svg.style("shape-rendering", "crispEdges");
+    			transitioning = false;
+    		  });
+    		}
+
+    		return g;
+    	  }
+
+      	function text(text) {
+    		text.attr("x", function(d) { return x(d.x) + 6; })
+    		.attr("y", function(d) { return y(d.y) + 6; });
+    	}
+
+    	  function rect(rect) {
+    		rect.attr("x", function(d) { return x(d.x); })
+    			.attr("y", function(d) { return y(d.y); })
+    			.attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
+    			.attr("height", function(d) { return y(d.y + d.dy) - y(d.y); })
+    			.attr("fill", function(d){return color(parseFloat(d.rate));});
+    	  }
+
+    	  function foreign(foreign){ /* added */
+    			foreign.attr("x", function(d) { return x(d.x); })
+    			.attr("y", function(d) { return y(d.y); })
+    			.attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
+    			.attr("height", function(d) { return y(d.y + d.dy) - y(d.y); });
+    		}
+
+    	  function name(d) {
+    	      console.log(d);
+    // 		return d.parent
+    // 			? d.parent.name + " - " + d.name + ""
+    // 			: d.name
+            if(d.parent && !d.parent.parent) {
+                return d.parent.name +" ("+parseInt(d.parent.value) +" k/l)" + " > " + d.name + " ("+parseInt(d.value) +" k/l)"
+            }
+            else if(d.parent && d.parent.parent) {
+                return d.parent.parent.name  +" ("+parseInt(d.parent.parent.value) +" k/l)" + " > " + d.parent.name +" ("+parseInt(d.parent.value) +" k/l)" + " > " + d.name + " ("+parseInt(d.value) +" k/l)"
+            }
+            else {
+                return d.name + " ("+parseInt(d.value) +" k/l)"
+            }
+    	  }
+
+    	  function nameSave(d) {
+    		return d.parent
+    			? name(d.parent) + " - " + d.name + ""
+    			: d.name;
+    	  }
+
+    	});
     }
 
     

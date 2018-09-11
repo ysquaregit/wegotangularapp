@@ -61,7 +61,7 @@
                         <div class="col-md-3">
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.PiepickerToDate" required></my-date-picker>
                         </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
                             <button class="button button2" (click)="getpiecharts()"> Fetch </button>
                         </div>
                     </div>
@@ -79,11 +79,17 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.HeatpickerFromDate" required></my-date-picker>
+                            <!-- <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.HeatpickerFromDate" required></my-date-picker> -->
                             <!-- <input type="month" [(ngModel)]="DatePicker.HeatpickerFromDate" required>
                             <i class="fa fa-calendar" style="font-size:23px"></i> -->
+                            <div class="input-group date" style="width: 200px">
+                                <p-calendar [(ngModel)]="DatePicker.HeatpickerFromDate" view="month" dateFormat="mm/yy"></p-calendar>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
                         </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.5%; margin-left:3%;">
                             <label>
                                 <font size="3">
                                     <b>To Date:</b>
@@ -91,11 +97,17 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.HeatpickerToDate" required></my-date-picker>
+                            <!-- <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.HeatpickerToDate" required></my-date-picker> -->
                             <!-- <input type="month" [(ngModel)]="DatePicker.HeatpickerToDate" required>
-                            <i class="fa fa-calendar" style="font-size:23px"></i> -->
+                            <i class="fa fa-calendar" style="font-size:23px"></i> -->.
+                            <div class="out-group date" style="width: 200px;margin-top: -8%;">
+                                <p-calendar [(ngModel)]="DatePicker.HeatpickerToDate" view="month" dateFormat="mm/yy"></p-calendar>
+                                <span class="out-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
                         </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
                             <button class="button button2" (click)="getheatMapchart()"> Fetch </button>
                         </div>
                     </div>
@@ -130,7 +142,7 @@
                         <div class="col-md-3">
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.RTSpickerToDate" required></my-date-picker>
                         </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%">
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%">
                             <button class="button button2" (click)="getstpchart()"> Fetch </button>
                         </div>
                     </div>
@@ -164,7 +176,7 @@
                         <div class="col-md-3">
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.UsagepickerToDate" required></my-date-picker>
                         </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
                             <button class="button button2" (click)="getbubble()"> Fetch </button>
                         </div>
                     </div>
@@ -175,17 +187,17 @@
                 <!-- train section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}" *ngIf="navActive=='ganttChart'">
                     <div class="row">
-                        <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 22%">
+                        <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 40%">
                             <label>
                                 <font size="3">
-                                    <b>From Date:</b>
+                                    <b>Date:</b>
                                 </font>
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.ganttpickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.ganttpickerDate" required></my-date-picker>
                         </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
+                        <!-- <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
                                 <font size="3">
                                     <b>To Date:</b>
@@ -194,8 +206,8 @@
                         </div>
                         <div class="col-md-3">
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.ganttpickerToDate" required></my-date-picker>
-                        </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                        </div> -->
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
                             <button class="button button2" (click)="getganttchart()"> Fetch </button>
                         </div>
                     </div>
@@ -229,7 +241,7 @@
                         <div class="col-md-3">
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.TreepickerToDate" required></my-date-picker>
                         </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:2%;">
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
                             <button class="button button2" (click)="gettreeMapchart()"> Fetch </button>
                         </div>
                     </div>

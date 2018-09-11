@@ -70,7 +70,8 @@ div.bhoechie-tab-container{
   div.bhoechie-tab div.bhoechie-tab-content:not(.active){
     display: none;
   }
-  #chart {
+
+  /* #chart {
     width: 960px;
     height: 500px;
     background: #ddd;
@@ -82,14 +83,14 @@ div.bhoechie-tab-container{
   
   .grandparent text {
     font-weight: bold;
-  }
+  } */
   
   /* rect {
     fill: none;
     stroke: #fff;
   } */
   
-  rect.parent,
+  /* rect.parent,
   .grandparent rect {
     stroke-width: 2px;
   }
@@ -118,9 +119,9 @@ div.bhoechie-tab-container{
   .sparklinesdata svg g path {
     fill: none;
     stroke: red;
-  } 
+  }  */
 
-  .treemapChart div .node {
+  /* .treemapChart div .node {
       border: solid 1px white;
       font: 10px sans-serif;
       line-height: 12px;
@@ -128,7 +129,7 @@ div.bhoechie-tab-container{
       position: absolute;
       text-indent: 2px;
       color: #000;
-  }
+  } */
 
   div#STPChartContainer {
     display: flow-root;

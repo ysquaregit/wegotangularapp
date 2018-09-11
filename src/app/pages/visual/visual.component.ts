@@ -44,8 +44,10 @@ import { async } from 'q';
 import { appVisualPieChartComponent } from '../../components/visuals/pie-chart/pie-chart.component'
 import { appVisualHeatMapComponent } from '../../components/visuals/heat-map/heat-map.component'
 // import { ViewChild } from '@angular/core/src/metadata/di';
+import { MyDatePickerModule } from 'mydatepicker';
 
 
+declare var $: any;
 @Component({
     selector: 'app-visual',
     templateUrl: './visual.component.html',
@@ -198,7 +200,7 @@ export class VisualComponent implements OnInit {
     /*  getganttchart() {
          console.log(this.DatePicker.pickerFromDate.formatted);
          console.log(this.DatePicker.pickerToDate.formatted);
-         const url = `${this.baseURL + "charts"}/getPumpsYield?from_date=${this.DatePicker.ganttpickerFromDate.formatted}&to_date=${this.DatePicker.ganttpickerToDate.formatted}`
+         const url = `${this.baseURL + "charts"}/getPumpsYield?from_date=${this.DatePicker.ganttpickerDate.formatted}`
          return this.http.get(url).subscribe(activity => {
              this.GanttsetData = activity.json();
          });
@@ -619,7 +621,7 @@ export class VisualComponent implements OnInit {
     ganttChart() {
         console.log('tabCall');
         if (this.pieflag == true) {
-            this.messageService.getganttchart(this.componentName, this.DatePicker.ganttpickerFromDate.formatted, this.DatePicker.ganttpickerToDate.formatted)
+            this.messageService.getganttchart(this.componentName, this.DatePicker.ganttpickerDate.formatted)
                 .subscribe(activity => {
                     this.GanttsetData = activity;
                     console.log('beforeFunction');
@@ -679,15 +681,15 @@ export class VisualComponent implements OnInit {
     }
 
     getheatMapchart() {
-        console.log('Triggercall');
+        console.log(this.DatePicker.HeatpickerFromDate);
+        console.log(this.DatePicker.HeatpickerToDate);
         this.pieflag = true;
         this.heatMapChart();
         this.histroGramChart();
     }
 
     heatMapChart() {
-        console.log('tabCall');
-        if (this.pieflag == true) {
+            if (this.pieflag == true) {
             this.messageService.getheatMapchart(this.componentName, this.DatePicker.HeatpickerFromDate.formatted, this.DatePicker.HeatpickerToDate.formatted)
                 .subscribe(activity => {
                     this.heatMapDataSet = activity;
@@ -699,7 +701,7 @@ export class VisualComponent implements OnInit {
     }
 
     histroGramChart() {
-        console.log('tabCall');
+        // console.log('tabCall');
         if (this.pieflag == true) {
             this.messageService.getHistogramChart(this.componentName, this.DatePicker.HeatpickerFromDate.formatted, this.DatePicker.HeatpickerToDate.formatted)
                 .subscribe(activity => {

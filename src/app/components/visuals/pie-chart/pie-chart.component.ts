@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
     selector: 'app-visuals-pie-chart',
@@ -11,21 +11,21 @@ export class appVisualPieChartComponent implements OnInit {
     options: Object;
     fromdateValue: Date;
     todateValue: Date;
-    
+
     constructor() {
-        
+
     }
 
     ngOnInit() {
-        console.log("Pie chart data",this.data);
+        console.log("Pie chart data", this.data);
         this.options = {
-            chart: { 
+            chart: {
                 type: 'pie',
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false
             },
-            title : {
+            title: {
                 text: 'Pie Chart'
             },
             series: [{
@@ -34,9 +34,10 @@ export class appVisualPieChartComponent implements OnInit {
             }],
             plotOptions: {
                 pie: {
-                    size:'100%',
+                    size: '100%',
                     dataLabels: {
-                        enabled: true
+                        enabled: true,
+                        format: '<b>{point.name}</b> <br> Water Sources(K/l): {point.y}'
                     },
                     slicedOffset: 20,
                     allowPointSelect: false,

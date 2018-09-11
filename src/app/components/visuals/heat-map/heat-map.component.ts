@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output,ViewEncapsulation} from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {Headers, Http} from "@angular/http";
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Headers, Http } from "@angular/http";
 import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
@@ -18,8 +18,8 @@ export class appVisualHeatMapComponent implements OnInit {
     @Input() data: Array<any> = [];
     options: Object;
     bytes: number;
-    histogramDataSet:Array<any> = [];
-    selfData:{};
+    histogramDataSet: Array<any> = [];
+    selfData: {};
     fromdateValue: Date;
     todateValue: Date;
 
@@ -32,8 +32,8 @@ export class appVisualHeatMapComponent implements OnInit {
     ngOnInit() {
         this.histroGramChart();
         this.selfData = this;
-        console.log("Heat map data",this.data);
-        this.heatMap(this.data, '#appHeatMap',this.selfData);
+        console.log("Heat map data", this.data);
+        this.heatMap(this.data, '#appHeatMap', this.selfData);
         this.http.get('https://api.myjson.com/bins/enlb8').subscribe(activity => {
             this.histogramDataSet = activity.json();
         });
@@ -44,7 +44,7 @@ export class appVisualHeatMapComponent implements OnInit {
     }
 
 
-    heatMap(dataFile, elementID,selfDataSet) {
+    heatMap(dataFile, elementID, selfDataSet) {
         // let monthSet = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
         // // Constants
         // var margin = {
@@ -321,7 +321,7 @@ export class appVisualHeatMapComponent implements OnInit {
         // }
         // var data = document.getElementById('csv').innerHTML.split("\n");
         var chartData = [];
-        var monthSet = ["Aug 2017","Sept 2017","Oct 2017","Nov 2017","Dec 2017","Jan 2018","Feb 2018","Mar 2018","Apr 2018","May 2018","Jun 2018","July 2018"];
+        var monthSet = ["Aug 2017", "Sept 2017", "Oct 2017", "Nov 2017", "Dec 2017", "Jan 2018", "Feb 2018", "Mar 2018", "Apr 2018", "May 2018", "Jun 2018", "July 2018"];
         // $.each(data, function(i, point) {
         //   var row  = point.split(',');
         //   var date = row[0].split('-');
@@ -334,12 +334,12 @@ export class appVisualHeatMapComponent implements OnInit {
         var martixY = [];
         var martixOutput = [];
 
-        for(let matX = 0; matX < 32;matX++) {
-            for(let matY = 0;matY < 13; matY++) {
-                martixOutput.push([matX,matY,this.getRandomInt()])
+        for (let matX = 0; matX < 32; matX++) {
+            for (let matY = 0; matY < 13; matY++) {
+                martixOutput.push([matX, matY, this.getRandomInt()])
             }
         }
-        console.log("martixOutput",JSON.stringify(martixOutput))
+        console.log("martixOutput", JSON.stringify(martixOutput))
         console.log(chartData);
         var chartData = martixOutput;
         let heatMapContainer = $('#heatMapContainer').width()
@@ -353,143 +353,146 @@ export class appVisualHeatMapComponent implements OnInit {
         //     });
         // });
         $(function () {
-          new Highcharts.Chart({
-            chart: {
-              type: 'heatmap',
-              renderTo: 'container',
-              width:heatMapContainer
-            },
-            title: {
-              text: '',
-              align: 'left',
-              x: 60
-            },
-            legend: {
-              align: 'right',
-              verticalAlign:'middle',
-              layout: 'vertical'
-            },
-            yAxis: {
-              categories: monthSet,
-              min: 0,
-              max: 11,
-              reversed: true,
-              gridLineWidth:0,
-              lineWidth:0.5,
-              lineColor: 'rgba(0,0,0,0.75)',
-              title: {
-                text: 'Month',
-                rotation: 270
-              }
-            },
-            xAxis: {
-              min: 1,
-              max: 31,
-              opposite:true,
-              tickInterval:1,
-              labels: {
-                step: 1,
-                style: {
-                  fontSize:'8px'
-                }
-              },
-              gridLineWidth:0,
-              lineWidth:0.5,
-              lineColor: 'rgba(0,0,0,0.75)',
-              tickWidth:0.5,
-              tickLength:3,
-              tickColor: 'rgba(0,0,0,0.75)',
-              title: {
-                text: 'Day'
-              }
-            },
-            colorAxis: {
-              // stops: [
-              //   /* [0, '#20255A'],
-              //   [0.5, '#4B8EE2'],
-              //   [0.9, '#AAEBFF']  */
-              //   [0, '#AAEBFF'],
-              //   [0.5, '#4B8EE2'],
-              //   [0.9, '#20255A']
-              // ],
-              minColor: '#FFFFFF',
-              min: 1,
-              max: 60
-            },
+            new Highcharts.Chart({
+                chart: {
+                    type: 'heatmap',
+                    renderTo: 'container',
+                    width: heatMapContainer
+                },
+                title: {
+                    text: '',
+                    align: 'left',
+                    x: 60
+                },
+                legend: {
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    layout: 'vertical'
+                },
+                yAxis: {
+                    categories: monthSet,
+                    min: 0,
+                    max: 11,
+                    reversed: true,
+                    gridLineWidth: 0,
+                    lineWidth: 0.5,
+                    lineColor: 'rgba(0,0,0,0.75)',
+                    title: {
+                        text: 'Month',
+                        rotation: 270
+                    }
+                },
+                xAxis: {
+                    min: 1,
+                    max: 31,
+                    opposite: true,
+                    tickInterval: 1,
+                    labels: {
+                        step: 1,
+                        style: {
+                            fontSize: '8px'
+                        }
+                    },
+                    gridLineWidth: 0,
+                    lineWidth: 0.5,
+                    lineColor: 'rgba(0,0,0,0.75)',
+                    tickWidth: 0.5,
+                    tickLength: 3,
+                    tickColor: 'rgba(0,0,0,0.75)',
+                    title: {
+                        text: 'Day'
+                    }
+                },
+                colorAxis: {
+                    // stops: [
+                    //   /* [0, '#20255A'],
+                    //   [0.5, '#4B8EE2'],
+                    //   [0.9, '#AAEBFF']  */
+                    //   [0, '#AAEBFF'],
+                    //   [0.5, '#4B8EE2'],
+                    //   [0.9, '#20255A']
+                    // ],
+                    minColor: '#FFFFFF',
+                    min: 1,
+                    max: 60
+                },
 
-            series: [{
-              data: chartData,
-              borderWidth: 2,
-              tooltip: {
-                headerFormat: '<br/>',
-                pointFormat: '<b>{point.value} K/L</b>'
-              },
-              events: {
-                click: function (event) {
-                  var userJSON = [];
-                  console.log("selfSet",selfDataSet)
-                  userJSON =
-            [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
-            selfDataSet.histogramDataSet = [];//activity.json();
-            setTimeout(() => {
-              selfDataSet.histogramDataSet.push(userJSON[0]);
-            }, 500);
-                }
-            }
-            }]
-          });
+                series: [{
+                    data: chartData,
+                    borderWidth: 2,
+                    tooltip: {
+                        headerFormat: '<br/>',
+                        pointFormat: '<b>{point.value} K/L</b>'
+                    },
+                    events: {
+                        click: function (event) {
+                            var userJSON = [];
+                            console.log("selfSet", selfDataSet)
+                            //       userJSON =
+                            // [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
+                            // selfDataSet.histogramDataSet = [];//activity.json();
+                            this.http.get('https://api.myjson.com/bins/enlb8').subscribe(activity => {
+                                selfDataSet.histogramDataSet = []; // activity.json();
+                            });
+                            setTimeout(() => {
+                                selfDataSet.histogramDataSet.push(userJSON[0]);
+                            }, 500);
+                        }
+                    }
+                }]
+            });
         });
 
 
-      }
-      histroGramChart() {
+    }
+    histroGramChart() {
         //https://api.myjson.com/bins/fkyjo
         //https://api.myjson.com/bins/7hw5g
         this.http.get('https://api.myjson.com/bins/m3t6c').subscribe(activity => {
-         /*    var newJSON =
-            [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
-            this.histogramDataSet = newJSON;//activity.json(); */
+            /*    var newJSON =
+               [{"name":"A","data":[{"bin":0,"count":Math.random()*1000},{"bin":10,"count":Math.random()*1000},{"bin":20,"count":Math.random()*1000},{"bin":30,"count":Math.random()*1000},{"bin":40,"count":Math.random()*1000},{"bin":50,"count":Math.random()*1000}]}]
+               this.histogramDataSet = newJSON;//activity.json(); */
 
             Highcharts.chart('Heacontainer1', {
-              chart:{
-                  width:500,
-                  height:230
-              },
-              title: {
-                  text: ''
-              },
-              xAxis: {
-                  categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24'],
-                  title:{
-                      'text':'Hours'
-                  },
-                  padding:0,
-                  visible:true,
-                  tickInterval:1,
-                  min:0
-              },
-              yAxis:{
-                  visible:true
-              },
-              legend: {
-                  enabled:false
-              },
-              plotOptions: {
-                  series: {
-                      pointPadding: 0,
-                      groupPadding:0
-                  }
-              },
-              tooltip: {
-                  formatter: function() {
-                    return '<strong>Value: </strong>'+ this.x;
-                  }
-              },
-              series: [{
-                  type: 'column',
-                  data: [5, 2, 4, 3, 3,1,3,2,5,6,7,7,4,5,6,3,5,7,8,9,9,7,5,4,3]
-              }]
-          });
+                chart: {
+                    width: 500,
+                    height: 230
+                },
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
+                    title: {
+                        'text': 'Hours'
+                    },
+                    padding: 0,
+                    visible: true,
+                    tickInterval: 1,
+                    min: 0
+                },
+                yAxis: {
+                    visible: true
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        pointPadding: 0,
+                        groupPadding: 0
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<strong>Value: </strong>' + this.x;
+                    }
+                },
+                series: [{
+                    type: 'column',
+                    data: [5, 2, 4, 3, 3, 1, 3, 2, 5, 6, 7, 7, 4, 5, 6, 3, 5, 7, 8, 9, 9, 7, 5, 4, 3]
+                }]
+            });
         });
 
     }
