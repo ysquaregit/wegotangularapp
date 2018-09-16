@@ -80,6 +80,10 @@ import {appVisualHeatMapComponent} from "./components/visuals/heat-map/heat-map.
 // import {appVisualHistogramChartComponent} from "./components/visuals/histogram-chart/histogram-chart.component";
 import {appVisualTreemapChartComponent} from "./components/visuals/treemap-chart/treemap-chart.component";
 import {appVisualsparklineComponent} from "./components/visuals/sparkline-chart/sparkline-chart.component";
+import {appVisualUsageChartComponent} from "./components/visuals/usage-chart/usage-chart.component";
+import {appVisualganttChartComponent} from "./components/visuals/gantt-chart/gantt-chart.component";
+import {appVisualstpChartComponent} from "./components/visuals/stp-chart/stp-chart.component";
+
 
 
 declare let require: any;
@@ -141,7 +145,10 @@ export function highchartsFactory() {
         appVisualHeatMapComponent,
         // appVisualHistogramChartComponent,
         appVisualTreemapChartComponent,
-        appVisualsparklineComponent
+        appVisualsparklineComponent,
+        appVisualUsageChartComponent,
+        appVisualganttChartComponent,
+        appVisualstpChartComponent
 
     ],
     imports: [

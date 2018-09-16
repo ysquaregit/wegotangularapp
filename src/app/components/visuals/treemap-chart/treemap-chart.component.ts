@@ -25,11 +25,12 @@ export class appVisualTreemapChartComponent implements OnInit {
     ngOnInit() {
         var self = this;
         this.treeMapGeneration();
+				console.log("treemap",this.data)
 
     }
 
     generateAmcharts() {
-      console.log("self",self);
+			console.log("self",self);
       const appVisualTreemapChartComponent = this;
 
     }
@@ -157,7 +158,7 @@ export class appVisualTreemapChartComponent implements OnInit {
     	legend.append("rect")
     		.attr("x", function(d){return margin.left + d * 35})
     		.attr("y", 0)
-    		.attr("fill", function(d) {return color(d)})
+    		.attr("fill", function(d) {return '#2c58dc'})
     		.attr('width', '35px')
     		.attr('height', '40px')
 
@@ -171,8 +172,9 @@ export class appVisualTreemapChartComponent implements OnInit {
     		return (parseInt(hexcolor.replace('#', ''), 16) > 0xffffff/3) ? 'black':'white';
     	}
 
-    	d3.json("https://api.myjson.com/bins/1bc8vo", function(root) {
-    	  console.log(root)
+			generateTreeDynmicMap(this.data);
+			function generateTreeDynmicMap(root) {
+				console.log(root)
     	  initialize(root);
     	  accumulate(root);
     	  layout(root);
@@ -189,7 +191,7 @@ export class appVisualTreemapChartComponent implements OnInit {
     		grandparent
     		  .datum(d.parent)
     		  .select("rect")
-    		  .attr("fill", function(){console.log(color(d.rate)); return color(d['rate'])})
+    		  .attr("fill", function(){console.log(color(d.rate)); return '#eee';})
 
     		var g1 = svg.insert("g", ".grandparent")
     			.datum(d)
@@ -296,7 +298,7 @@ export class appVisualTreemapChartComponent implements OnInit {
     			.attr("y", function(d) { return y(d.y); })
     			.attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
     			.attr("height", function(d) { return y(d.y + d.dy) - y(d.y); })
-    			.attr("fill", function(d){return color(parseFloat(d.rate));});
+    			.attr("fill", function(d){return '#ADD8E6';});
     	  }
 
     	  function foreign(foreign){ /* added */
@@ -328,7 +330,7 @@ export class appVisualTreemapChartComponent implements OnInit {
     			: d.name;
     	  }
 
-    	});
+			}
     }
 
     

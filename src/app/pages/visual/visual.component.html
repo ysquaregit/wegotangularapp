@@ -39,7 +39,8 @@
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
                 <div class="clearfix"></div>
                 <!-- Pie chart section -->
-                <div class="bhoechie-tab-content" [ngClass]="{'active':navActive==='pie'}" *ngIf="navActive=='pie'">
+                <div class="bhoechie-tab-content" [ngClass]="{'active':navActive==='pie'}" *ngIf="navActive=='pie' && options.length > 0">
+                    <!-- Date Picker -->
                     <div class="row">
                         <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 22%">
                             <label>
@@ -49,7 +50,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.PiepickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -59,17 +60,21 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.PiepickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
                             <button class="button button2" (click)="getpiecharts()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%;">
+                    <!-- Chart section -->
                     <app-visuals-pie-chart [(data)]="options" #piechild></app-visuals-pie-chart>
+                    <!-- Notes Section -->
+                    <p class="chartNotesSection">Note : Display of the quantity of water in K/L by different water sources for the given date range.</p>
                 </div>
                 <!-- Heat Map section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='heatMap'}" [hidden]="navActive!='heatMap'">
+                    <!-- Date Picker -->
                     <div class="row">
                         <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 22%">
                             <label>
@@ -79,17 +84,9 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <!-- <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.HeatpickerFromDate" required></my-date-picker> -->
-                            <!-- <input type="month" [(ngModel)]="DatePicker.HeatpickerFromDate" required>
-                            <i class="fa fa-calendar" style="font-size:23px"></i> -->
-                            <div class="input-group date" style="width: 200px">
-                                <p-calendar [(ngModel)]="DatePicker.HeatpickerFromDate" view="month" dateFormat="mm/yy"></p-calendar>
-                                <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </span>
-                            </div>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.5%; margin-left:3%;">
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
                                 <font size="3">
                                     <b>To Date:</b>
@@ -97,30 +94,22 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <!-- <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.HeatpickerToDate" required></my-date-picker> -->
-                            <!-- <input type="month" [(ngModel)]="DatePicker.HeatpickerToDate" required>
-                            <i class="fa fa-calendar" style="font-size:23px"></i> -->.
-                            <div class="out-group date" style="width: 200px;margin-top: -8%;">
-                                <p-calendar [(ngModel)]="DatePicker.HeatpickerToDate" view="month" dateFormat="mm/yy"></p-calendar>
-                                <span class="out-group-addon">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </span>
-                            </div>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
-                            <button class="button button2" (click)="getheatMapchart()"> Fetch </button>
+                            <button class="button button2" (click)="heatMapChart()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-top: 1.5%">
                     <div *ngIf="heatMapDataSet.length > 0">
                         <app-visuals-heat-map [(data)]="heatMapDataSet" #heatChild></app-visuals-heat-map>
                     </div>
-                    <!-- <div class="col-md-6" *ngIf="histogramDataSet.length > 0">
-                        <app-visuals-histogram-chart [(data)]="histogramDataSet"></app-visuals-histogram-chart>
-                    </div> -->
+                    <!-- Notes Section -->
+                    <p class="chartNotesSection">Note : Display of the trend of overall consumption of Water in K/L for the given months. Each cell represent a day and on click of each cell, the consumption trend for the respective day is shown below.</p>
                 </div>
-                <!-- train section -->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='RTS'}" *ngIf="navActive=='RTS' && RTSCHARTStatus">
+                <!-- Raw STP section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='RTS'}" *ngIf="navActive=='RTS' && STPChartShowStatus && STPChartDataSet">
+                    <!-- Date Picker -->
                     <div class="row">
                         <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 22%">
                             <label>
@@ -130,7 +119,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.RTSpickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -140,52 +129,53 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.RTSpickerToDate" required></my-date-picker>
-                        </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%">
-                            <button class="button button2" (click)="getstpchart()"> Fetch </button>
-                        </div>
-                    </div>
-                    <hr style="margin-left:12%;">
-                    <div style="margin-left: 17%" id="STPChartContainer">
-                        <div style="margin-top: -1%" class="STPChartContainer0"></div>
-                        <div style="margin-top: -1%" class="STPChartContainer1"></div>
-                        <div style="margin-top: -1%" class="STPChartContainer2"></div>
-                    </div>
-                </div>
-                <!-- train section  *ngIf="navActive=='usageChart'"-->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='usageChart'}" [hidden]="navActive!='usageChart'">
-                    <div class="row">
-                        <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 22%">
-                            <label>
-                                <font size="3">
-                                    <b>From Date:</b>
-                                </font>
-                            </label>
-                        </div>
-                        <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.UsagepickerFromDate" required></my-date-picker>
-                        </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
-                            <label>
-                                <font size="3">
-                                    <b>To Date:</b>
-                                </font>
-                            </label>
-                        </div>
-                        <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.UsagepickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
-                            <button class="button button2" (click)="getbubble()"> Fetch </button>
+                            <button class="button button2" (click)="getpiecharts()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%;">
-                    <div id="generateGraph"></div>
-                    <!-- <svg width="500" height="500" font-family="sans-serif" font-size="10" text-anchor="middle" id="generateGraph"></svg> -->
+                    <app-visuals-stp-chart [(data)] = "STPChartDataSet"></app-visuals-stp-chart>
+                    <!-- Notes Section -->
+                    <p class="chartNotesSection">Note : Display of the demand trend of different types of water in K/L with respect to time for the given date range.</p>
                 </div>
-                <!-- train section -->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}" *ngIf="navActive=='ganttChart'">
+                <!-- usageChart section  *ngIf="navActive=='usageChart'"-->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='usageChart'}" *ngIf="navActive=='usageChart' && bubbleChartShowStatus && bubbleChartDataSet">
+                    <!-- Date Picker -->
+                    <div class="row">
+                        <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 22%">
+                            <label>
+                                <font size="3">
+                                    <b>From Date:</b>
+                                </font>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
+                            <label>
+                                <font size="3">
+                                    <b>To Date:</b>
+                                </font>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                        </div>
+                        <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
+                            <button class="button button2" (click)="usageChart()"> Fetch </button>
+                        </div>
+                    </div>
+                    <hr style="margin-left:12%;">
+                    <app-visuals-usage-chart  [(data)]="bubbleChartDataSet"></app-visuals-usage-chart>
+                    
+                    <!-- Notes Section -->
+                    <p class="chartNotesSection">Note : Display of the consumption of water in K/L by all users for a given date range. Size of the bubble indicates the consumption.</p>
+                </div>
+                <!-- Gantt section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='ganttChart'}" *ngIf="navActive=='ganttChart' && ganttMapShowStatus && GanttsetData.length > 0">
                     <div class="row">
                         <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 40%">
                             <label>
@@ -195,31 +185,25 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.ganttpickerDate" required></my-date-picker>
+                                <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
-                        <!-- <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
-                            <label>
-                                <font size="3">
-                                    <b>To Date:</b>
-                                </font>
-                            </label>
-                        </div>
-                        <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.ganttpickerToDate" required></my-date-picker>
-                        </div> -->
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
-                            <button class="button button2" (click)="getganttchart()"> Fetch </button>
+                            <button class="button button2" (click)="ganttChart()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%;">
                     <!-- <div id="ganttChartContainer"></div> -->
                     <div style="margin-left:10%;" class="ganttChartStyle">
-                        <chart [options]="ganttChartObj"></chart>
+                        
+                        <app-visuals-gantt-chart [(data)] = "GanttsetData"></app-visuals-gantt-chart>
                     </div>
+                    <!-- Notes Section -->
+                    <p class="chartNotesSection">Note : Display of the ON/OFF states, Run duration, Stress level and yield in K/L of all the borewell pumps.</p>
                 </div>
 
-                <!-- train section -->
+                <!-- Tree section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='tree'}" *ngIf="navActive=='tree' && treeMapShowStatus && treeMapChartSet.children.length > 0">
+                    <!-- Date Picker -->
                     <div class="row">
                         <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 22%">
                             <label>
@@ -229,7 +213,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.TreepickerFromDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:3%;">
                             <label>
@@ -239,28 +223,19 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.TreepickerToDate" required></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.2%; margin-left:-0.5%;">
-                            <button class="button button2" (click)="gettreeMapchart()"> Fetch </button>
+                            <button class="button button2" (click)="treeMapChart()"> Fetch </button>
                         </div>
                     </div>
                     <hr style="margin-left:12%; margin-top:1%">
                     <app-visuals-treemap-chart [(data)]="treeMapChartSet"></app-visuals-treemap-chart>
+                    <!-- Notes Section -->
+                    <p class="chartNotesSection">Note : Display of the consumption of water in K/L on a block level and at an individual flat level (on-click of each block) for a given date range. Size of the squares indicates the consumption.</p>
                 </div>
-                <!-- train section -->
-                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='SL'}" *ngIf="navActive=='SL' && sparklinesSetData.length > 0">
-                    <!-- <div class="row">
-                        <div class="col-md-3">
-                            <label>From Date:</label>
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.pickerFromDate" required></my-date-picker>
-                        </div>
-                        <div class="col-md-3 pull-left">
-                            <label>To Date:</label>
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="DatePicker.pickerToDate" required></my-date-picker>
-                        </div>
-                    </div> -->
-
+                <!-- Sparkline section -->
+                <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='SL'}" *ngIf="navActive=='SL' && sparklinesSetData.length > 0 && SLMapShowStatus">
                     <div class="form-inline">
                         <div class="form-group">
                             <div class="row">
@@ -273,18 +248,20 @@
                                 </div>
                                 <div class="col-md-3">
                                     <input class="form-control" type="number" placeholder="Enter the week number(Max-52)" size="2" title="Enter the week number(Max-52)"
-                                        [(ngModel)]="DatePicker.LastWeek" min="0" max="52"> </div>
+                                        [(ngModel)]="sparkLineWeek" min="0" max="52"> </div>
                                 <div class="col-md-1" style="margin-top: 1.5%;margin-left: 15%">
                                     <font size="3">Week(s)</font>
                                 </div>
                                 <div class="col-md-1.5 pull-left" style="margin-top: 0%; position: fixed; right: 430px;">
-                                    <button class="button button2" (click)="getsparklinechart()"> Fetch </button>
+                                    <button class="button button2" (click)="SLchart()"> Fetch </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <hr style="margin-left:12%;">
-                    <app-visuals-sparkline-chart></app-visuals-sparkline-chart>
+                    <app-visuals-sparkline-chart [(data)]="sparklinesSetData"></app-visuals-sparkline-chart>
+                    <!-- Notes Section -->
+                    <p class="chartNotesSection">Note : Display of the overall trend in quantity of water in K/L on a weekly basis and comparison of current week trend with respect to the given number of weeks.</p>
                 </div>
             </div>
         </div>

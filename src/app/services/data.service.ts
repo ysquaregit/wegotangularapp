@@ -7,6 +7,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class MessageService {
@@ -23,7 +24,7 @@ export class MessageService {
         };
 
     }
-
+    // private headers: Headers = new Headers({'Content-Type': 'application/json'});
     private SiteConfigSubject = new Subject<any>();
     private STPSubject = new Subject<any>();
     private TLVLSubject = new Subject<any>();
@@ -52,27 +53,42 @@ export class MessageService {
     //siteConfig
 
     /* get the pie-chart data from server */
-    getpiechart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
-        console.log('Triggercall');
+    getpiechart(actionComponentName: String, fromdate: number, todate: number): Promise<any>{
+        // console.log('Triggercall');
 
-        const url = `${this.baseURL + "charts"}/getSources?from_date=${fromdate}&to_date=${todate}`;
-        return this.http.get<any[]>(url, this.httpOptions)
-            .pipe(
-            tap(heroes => this.log(`fetched heroes`)),
-            catchError(this.handleError('getHeroes', []))
-            );
+        // const url = `${this.baseURL + "charts"}/getSources?from_date=${fromdate}&to_date=${todate}`;
+        // return this.http.get<any[]>(url, this.httpOptions)
+        //     .pipe(
+        //     tap(heroes => this.log(`fetched heroes`)),
+        //     catchError(this.handleError('getHeroes', []))
+        //     );
+        let params = {
+            'from_date':fromdate,
+            'to_date':todate
+        }
+        let url: string = `${this.baseURL}/site/usage/watersource `;
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post(url, params, {headers: headers}).toPromise();
     }
 
     /* get the pie-chart data from server */
-    getheatMapchart(actionComponentName: String,fromdate: number, todate: number): Observable<any[]> {
+    getheatMapchart(actionComponentName: String,fromdate: number, todate: number): Promise<any>{
         console.log('Triggercall');
 
-        const url = `${this.baseURL + "charts"}/getWaterMapHeatMap?from_date=${fromdate}&to_date=${todate}`;
-        return this.http.get<any[]>(url, this.httpOptions)
-            .pipe(
-            tap(heroes => this.log(`fetched heroes`)),
-            catchError(this.handleError('getHeroes', []))
-            );
+        // const url = `${this.baseURL + "charts"}/getWaterMapHeatMap?from_date=${fromdate}&to_date=${todate}`;
+        // return this.http.get<any[]>(url, this.httpOptions)
+        //     .pipe(
+        //     tap(heroes => this.log(`fetched heroes`)),
+        //     catchError(this.handleError('getHeroes', []))
+        //     );
+
+            let params = {
+                'from_date':fromdate,
+                'to_date':todate
+            }
+            let url: string = `${this.baseURL}/site/watermap `;
+            let headers = new HttpHeaders({'Content-Type': 'application/json'});
+            return this.http.post(url, params, {headers: headers}).toPromise();
     }
 
     getHistogramChart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
@@ -86,59 +102,55 @@ export class MessageService {
             );
     }
 
-    getstpchart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
-        console.log('Triggercall');
-
-        const url = `${this.baseURL + "charts"}/getWaterDemand?from_date=${fromdate}&to_date=${todate}`;
-        return this.http.get<any[]>(url, this.httpOptions)
-            .pipe(
-            tap(heroes => this.log(`fetched heroes`)),
-            catchError(this.handleError('getHeroes', []))
-            );
+    getstpchart(actionComponentName: String, fromdate: number, todate: number): Promise<any>{
+        let params = {
+            'from_date':fromdate,
+            'to_date':todate
+        }
+        let url: string = `${this.baseURL}/site/demand/watertype `;
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post(url, params, {headers: headers}).toPromise();
     }
 
-    getbubble(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
-        console.log('Triggercall');
-
-        const url = `${this.baseURL + "charts"}/getHighUsers?from_date=${fromdate}&to_date=${todate}`;
-        return this.http.get<any[]>(url, this.httpOptions)
-            .pipe(
-            tap(heroes => this.log(`fetched heroes`)),
-            catchError(this.handleError('getHeroes', []))
-            );
+    getbubble(actionComponentName: String, fromdate: number, todate: number): Promise<any>{
+        let params = {
+            'from_date':fromdate,
+            'to_date':todate
+        }
+        let url: string = `${this.baseURL}/site/highusers`;
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post(url, params, {headers: headers}).toPromise();
     }
 
-    getganttchart(actionComponentName: String, date: number): Observable<any[]> {
-        console.log('Triggercall');
-
-        const url = `${this.baseURL + "charts"}/getPumpsYield?date=${date}`;
-        return this.http.get<any[]>(url, this.httpOptions)
-            .pipe(
-            tap(heroes => this.log(`fetched heroes`)),
-            catchError(this.handleError('getHeroes', []))
-            );
+    getganttchart(actionComponentName: String, date: number): Promise<any>{
+        
+        let params = {
+            'from_date':date
+        }
+        let url: string = `${this.baseURL}/site/pump/yield`;
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post(url, params, {headers: headers}).toPromise();
     }
 
-    gettreeMapchart(actionComponentName: String, fromdate: number, todate: number): Observable<any[]> {
-        console.log('Triggercall');
+    gettreeMapchart(actionComponentName: String, fromdate: number, todate: number): Promise<any>{
 
-        const url = `${this.baseURL + "charts"}/getBlockLevel?from_date=${fromdate}&to_date=${todate}`;
-        return this.http.get<any[]>(url, this.httpOptions)
-            .pipe(
-            tap(heroes => this.log(`fetched heroes`)),
-            catchError(this.handleError('getHeroes', []))
-            );
+        let params = {
+            'from_date':fromdate,
+            'to_date':todate
+        }
+        let url: string = `${this.baseURL}/site/usage/blocklevel `;
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post(url, params, {headers: headers}).toPromise();
     }
 
-    getsparklinechart(actionComponentName: String, last_week: number): Observable<any[]> {
-        console.log('Triggercall');
-
-        const url = `${this.baseURL + "charts"}/getSourcesTrend?last_week=${last_week}`;
-        return this.http.get<any[]>(url, this.httpOptions)
-            .pipe(
-            tap(heroes => this.log(`fetched heroes`)),
-            catchError(this.handleError('getHeroes', []))
-            );
+    getsparklinechart(actionComponentName: String, last_week: number): Promise<any>{
+        
+        let params = {
+            'last_week':last_week
+        }
+        let url: string = `${this.baseURL}/site/trend/watersource`;
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post(url, params, {headers: headers}).toPromise();
     }
     sendSiteConfig(siteConfig: Array<any>) {
         this.SiteConfigSubject.next({ siteConfig: siteConfig });
