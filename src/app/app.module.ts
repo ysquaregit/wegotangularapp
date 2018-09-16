@@ -15,6 +15,7 @@ import Tree from 'highcharts/modules/treemap';
 import xrange from "highcharts/modules/xrange";
 // import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
+import { LoadingModule } from 'ngx-loading';
 import {
     ButtonModule,
     CalendarModule,
@@ -177,7 +178,8 @@ export function highchartsFactory() {
         Ng2SmartTableModule,
         // ChartModule.forRoot(require('highcharts'))
         ChartModule,
-        MyDatePickerModule
+        MyDatePickerModule,
+        LoadingModule
     ],
     providers: [
         AuthService, 

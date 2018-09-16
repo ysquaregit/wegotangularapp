@@ -51,6 +51,7 @@
     "ng2-completer": "^2.0.8",
     "ng2-opd-popup": "^1.1.21",
     "ng2-smart-table": "^1.2.0",
+    "ngx-loading": "^1.0.14",
     "ngx-modal": "0.0.29",
     "ngx-modal-dialog": "^1.1.1",
     "ngx-owl-carousel": "^2.0.0",

@@ -2,6 +2,7 @@
 <!-- Tab -->
 <div class="container-fluid">
     <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+    <ngx-loading [show]="visualLoading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
             <div class="col-lg-2 col-md-1 col-sm-1 col-xs-2 bhoechie-tab-menu">
