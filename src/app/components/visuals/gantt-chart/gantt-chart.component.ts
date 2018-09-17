@@ -16,7 +16,7 @@ export class appVisualganttChartComponent implements OnInit {
     ganttChartObj: Object;
     selfData:  Object;
     constructor() {
-        
+
     }
 
     ngOnInit() {
@@ -41,7 +41,7 @@ export class appVisualganttChartComponent implements OnInit {
                 title: {
                     text: 'Hours'
                 },
-                tickInterval: 360 * 1000, 
+                tickInterval: 1800 * 1000, 
                 dateTimeLabelFormats: { //force all formats to be hour:minute:second
                     second: '%H:%M',
                     minute: '%H:%M',

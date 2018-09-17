@@ -37,9 +37,9 @@ export class appVisualsparklineComponent implements OnInit {
 
     sparklinesGenerator() {
         setTimeout(() => {
-            
+
         }, 1000);
-        
+
         setTimeout(() => {
             $('.js-report-sparkline').each(function (sparklineId) {
                 var th = $(this)
@@ -48,13 +48,13 @@ export class appVisualsparklineComponent implements OnInit {
                         .text('')
                         .data("sparkline-data")
                 ),
-    
+
                     w = 300,
                     h = 90,
-    
+
                     xMargin = 30,
                     yMargin = 15,
-    
+
                     y = d3.scale.linear()
                         .domain([d3.min(data), d3.max(data)])
                         .range([yMargin, h - yMargin]),
@@ -65,32 +65,32 @@ export class appVisualsparklineComponent implements OnInit {
                     gradientY = d3.scale.linear()
                         .domain([d3.min(data), d3.max(data)])
                         .range([th.data("range-low-color"), th.data("range-high-color")]),
-    
+
                     percentageMargin = 100 / data.length,
                     percentageX = d3.scale.linear()
                         .domain([0, data.length - 1])
                         .range([percentageMargin, 100 - percentageMargin]),
-    
+
                     container = d3.select(this),
-    
+
                     tooltip = container
                         .append("div")
                         .attr("class", "chart-tooltip"),
-    
+
                     vis = container
                         .append("svg:svg")
                         .attr("width", w)
                         .attr("height", h)
-    
+
                 var g = vis.append("svg:g")
                     .attr("stroke", "url(#sparkline-gradient-" + sparklineId + ")")
                     .attr("fill", "url(#sparkline-gradient-" + sparklineId + ")"),
-    
+
                     line = d3.svg.line()
                         .interpolate("cardinal")
                         .x(function (d, i) { return x(i); })
                         .y(function <dataType>(d) { return h - y(d); }),
-    
+
                     points = g.selectAll(".point")
                         .data(data)
                         .enter().append("svg:circle")
@@ -98,14 +98,14 @@ export class appVisualsparklineComponent implements OnInit {
                         .attr("cx", function (d, i) { return x(i) })
                         .attr("cy", function <dataType>(d, i) { return h - y(d) })
                         .attr("r", function (d, i) { return (i === (data.length - 1) || i === 0) ? 2 : 2; });
-    
+
                 g.append("svg:path").attr("d", line(data));
-    
+
                 th.find(".chart-tooltip").data({
                     calcY: y,
                     calcX: x
                 });
-    
+
                 vis.append("svg:defs")
                     .append("svg:linearGradient")
                     .attr("id", "sparkline-gradient-" + sparklineId)
@@ -119,7 +119,7 @@ export class appVisualsparklineComponent implements OnInit {
                     }).attr("style", function <dataType>(d) {
                         return "stop-color:" + gradientY(d) + ";stop-opacity:1";
                     });
-    
+
                 var rect = g.selectAll(".bar-rect")
                     .data(data)
                     .enter().append("svg:rect")
@@ -134,25 +134,25 @@ export class appVisualsparklineComponent implements OnInit {
                             .html(formatTooltip(d, i)),
                             tooltipLeft = $tooltip.data("calcX")(i) - ($tooltip.width() / 2),
                             tooltipTop = h - $tooltip.data("calcY")(d) - 40;
-    
+
                         // Position it again
                         $tooltip.css({
                             left: tooltipLeft + "px",
                             top: tooltipTop + "px"
                         }).show();
-    
+
                         // Add hover class to the targeted point
                         $(this).parent().parent().find('.point:eq(' + i + ')').attr('class', 'point hover');
                     }).on("mouseleave", function (d, i) {
                         var $tooltip = $(this).closest(".js-report-sparkline").find(".chart-tooltip");
-    
+
                         // Hide the tooltip
                         $tooltip.hide();
-    
+
                         // Remove hover class from the targeted point
                         $(this).parent().parent().find('.point:eq(' + i + ')').attr('class', 'point');
                     });
-    
+
                 // Helper function to calculate the HTML content of the tooltip
                 // Tooltip may contain any HTML
                 function formatTooltip(d, i) {
@@ -209,7 +209,7 @@ export class appVisualsparklineComponent implements OnInit {
                 });
             });
         })
-        
+
     }
 
 }

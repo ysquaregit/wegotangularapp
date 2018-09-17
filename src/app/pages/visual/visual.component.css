@@ -24,7 +24,7 @@ div.bhoechie-tab-container{
   }
   div.bhoechie-tab-menu div.list-group{
     margin-bottom: 0;
-   
+
   }
   div.bhoechie-tab-menu div.list-group>a{
     margin-bottom: 0;
@@ -59,14 +59,14 @@ div.bhoechie-tab-container{
     border-top: 13px solid transparent;
     border-left: 10px solid #5A55A3;
   }
-  
+
   div.bhoechie-tab-content{
     background-color: #ffffff;
     /* border: 1px solid #eeeeee; */
     padding-left: 20px;
     padding-top: 10px;
   }
-  
+
   div.bhoechie-tab div.bhoechie-tab-content:not(.active){
     display: none;
   }
@@ -76,43 +76,43 @@ div.bhoechie-tab-container{
     height: 500px;
     background: #ddd;
   }
-  
+
   text {
     pointer-events: none;
   }
-  
+
   .grandparent text {
     font-weight: bold;
   } */
-  
+
   /* rect {
     fill: none;
     stroke: #fff;
   } */
-  
+
   /* rect.parent,
   .grandparent rect {
     stroke-width: 2px;
   }
-  
+
   .grandparent rect {
     fill: orange;
   }
-  
+
   .grandparent:hover rect {
     fill: #ee9700;
   }
-  
+
   .children rect.parent,
   .grandparent rect {
     cursor: pointer;
   }
-  
+
   .children rect.parent {
     fill: #bbb;
     fill-opacity: 1;
   }
-  
+
   .children:hover rect.child {
     fill: #bbb;
   }
@@ -139,10 +139,10 @@ div.bhoechie-tab-container{
   margin-left: 20%;
 }
 .button {
-  background-color: #5A55A3; 
+  background-color: #5A55A3;
   border: none;
   color: white;
-  padding: 4px 32px;
+  padding: 2px 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -161,5 +161,5 @@ p.chartNotesSection {
   clear: both;
   margin-top: 15px;
   text-align: left;
-  
+
 }

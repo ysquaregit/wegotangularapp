@@ -37,7 +37,7 @@ export class appVisualPieChartComponent implements OnInit {
                     size: '100%',
                     dataLabels: {
                         enabled: true,
-                        format: '<b>{point.name}</b> <br> Water Sources(K/l): {point.y}'
+                        format: '<b>{point.name}</b> <br> {point.y} K/L'
                     },
                     slicedOffset: 20,
                     allowPointSelect: false,
