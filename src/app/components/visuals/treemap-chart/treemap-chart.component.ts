@@ -298,7 +298,7 @@ export class appVisualTreemapChartComponent implements OnInit {
     			.attr("y", function(d) { return y(d.y); })
     			.attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
     			.attr("height", function(d) { return y(d.y + d.dy) - y(d.y); })
-    			.attr("fill", function(d){return '#ADD8E6';});
+    			.attr("fill", function(d){return color(Math.random() * 0.01);});
     	  }
 
     	  function foreign(foreign){ /* added */

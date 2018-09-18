@@ -50,7 +50,8 @@ export class appVisualganttChartComponent implements OnInit {
                     week: '%H:%M',
                     month: '%H:%M',
                     year: '%H:%M'
-                 }
+                 },
+                 maxZoom:  3600000
             },
             yAxis: {
                 title: {
