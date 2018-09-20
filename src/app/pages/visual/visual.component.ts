@@ -21,6 +21,7 @@ import { appVisualPieChartComponent } from '../../components/visuals/pie-chart/p
 import { appVisualHeatMapComponent } from '../../components/visuals/heat-map/heat-map.component'
 // import { ViewChild } from '@angular/core/src/metadata/di';
 import { MyDatePickerModule } from 'mydatepicker';
+import {DatePickerComponent} from 'ng2-date-picker';
 declare var $: any;
 @Component({
     selector: 'app-visual',
@@ -67,6 +68,8 @@ export class VisualComponent implements OnInit {
     STPChartShowStatus = false;
     STPChartDataSet = [];
     visualLoading = true;
+    heatMappickerToDate:Object;
+    heatMappickerToDateVal:String;
     private width: number;
     private height: number;
     private x;
@@ -119,8 +122,46 @@ export class VisualComponent implements OnInit {
         this.maxDepth = 3;
         this.topDepth = 1;
         let d: Date = new Date();
+        this.heatMappickerToDate = {
+            firstDayOfWeek: 'su',
+            monthFormat: 'MMM, YYYY',
+            disableKeypress: false,
+            allowMultiSelect: false,
+            closeOnSelect: undefined,
+            closeOnSelectDelay: 100,
+            onOpenDelay: 0,
+            weekDayFormat: 'ddd',
+            appendTo: document.body,
+            drops: 'down',
+            opens: 'right',
+            showNearMonthDays: true,
+            showWeekNumbers: false,
+            enableMonthSelector: true,
+            format: "MM-YYYY",
+            yearFormat: 'YYYY',
+            showGoToCurrent: true,
+            dayBtnFormat: 'DD',
+            monthBtnFormat: 'MMM',
+            hours12Format: 'hh',
+            hours24Format: 'HH',
+            meridiemFormat: 'A',
+            minutesFormat: 'mm',
+            minutesInterval: 1,
+            secondsFormat: 'ss',
+            secondsInterval: 1,
+            showSeconds: false,
+            showTwentyFourHours: true,
+            timeSeparator: ':',
+            multipleYearsNavigateBy: 10,
+            showMultipleYearsNavigation: false,
+            locale: 'en',
+            // min:'2017-08-29 15:50',
+            // minTime:'2017-08-29 15:50'
+          };
         this.pickerFromDate = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth(), day: (new Date()).getDate()} };
         this.pickerToDate = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
+        this.heatMappickerToDateVal  = this.getDateFormat(new Date());
+        console.log("this.heatMappickerToDateVal",this.heatMappickerToDateVal)
     }
 
 
@@ -280,19 +321,12 @@ export class VisualComponent implements OnInit {
         try{
             this.visualLoading = true;
             this.treeMapShowStatus = false;
+            
             let getFromDate = (this.pickerFromDate.formatted)?this.pickerFromDate.formatted:this.pickerFromDate;
             let getToDate = (this.pickerToDate.formatted)?this.pickerToDate.formatted:this.pickerToDate;
             
-            if(this.pickerFromDate.formatted) {
-                getFromDate = this.pickerFromDate.formatted
-                getToDate = this.pickerToDate.formatted
-            }
-            else {
-                getFromDate = this.formatDate(this.pickerFromDate);
-                getToDate = this.formatDate(this.pickerToDate);
-
-            }
-            this.messageService.getheatMapchart(this.componentName, getFromDate,getToDate)
+            getFromDate = this.heatMappickerToDateVal;
+            this.messageService.getheatMapchart(this.componentName, getFromDate)
             .then((data) => {
                 if(data) {
                     this.heatMapDataSet = data
@@ -403,6 +437,17 @@ export class VisualComponent implements OnInit {
         }
         var test =  [date.date.day , monthFormat , date.date.year].join('-');
         return test;
+    }
+
+    getDateFormat(date) {
+        var d = date;
+        // var curr_date = d.getDate();
+        var curr_month = d.getMonth() + 1; //Months are zero based
+        var curr_year = d.getFullYear();
+        if(curr_month < 10) {
+            curr_month = "0"+curr_month;
+        }
+        return curr_month +"-" +curr_year;
     }
 
 }

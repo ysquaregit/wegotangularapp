@@ -79,22 +79,13 @@
                       <div class="col-md-1.5  pull-left" style="margin-top: 0.6%; margin-left: 22%">
                           <label>
                               <font size="3">
-                                  <b>From Date:</b>
+                                  <b>Select Date:</b>
                               </font>
                           </label>
                       </div>
                       <div class="col-md-3" style="margin-top: 0.3%; margin-left:-0.5%;">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker>
-                        </div>
-                        <div class="col-md-1.5 pull-left" style="margin-top: 0.6%; margin-left:0%;">
-                            <label>
-                                <font size="3">
-                                    <b>To Date:</b>
-                                </font>
-                            </label>
-                        </div>
-                        <div class="col-md-3" style="margin-top: 0.3%; margin-left:-0.5%;">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerToDate" required></my-date-picker>
+                            <!-- <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker> -->
+                            <dp-date-picker [(ngModel)]="heatMappickerToDateVal" theme="dp-material" [config]="heatMappickerToDate" mode="month" format="MMM-YYYY"></dp-date-picker>  
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.4%; margin-left:-0.5%;">
                             <button class="button button2" (click)="heatMapChart()"> Display </button>
@@ -278,7 +269,7 @@
                     <hr style="margin-left:12%;margin-top:-0.1%;clear: both">
                     <p class="chartNotesSection"><b>Note :</b> Weekly trend in water quantity(K/L) of different sources for the given number of weeks in comparison with last week trend.</p>
                     <app-visuals-sparkline-chart [(data)]="sparklinesSetData"></app-visuals-sparkline-chart>
-                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -72,7 +72,7 @@ export class MessageService {
     }
 
     /* get the pie-chart data from server */
-    getheatMapchart(actionComponentName: String,fromdate: number, todate: number): Promise<any>{
+    getheatMapchart(actionComponentName: String,fromdate: number): Promise<any>{
         console.log('Triggercall');
 
         // const url = `${this.baseURL + "charts"}/getWaterMapHeatMap?from_date=${fromdate}&to_date=${todate}`;
@@ -83,8 +83,7 @@ export class MessageService {
         //     );
 
             let params = {
-                'from_date':fromdate,
-                'to_date':todate
+                'from_date':fromdate
             }
             let url: string = `${this.baseURL}/site/watermap `;
             let headers = new HttpHeaders({'Content-Type': 'application/json'});

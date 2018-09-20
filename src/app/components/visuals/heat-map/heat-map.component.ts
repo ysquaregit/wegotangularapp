@@ -32,7 +32,6 @@ export class appVisualHeatMapComponent implements OnInit {
     ngOnInit() {
         // this.histroGramChart();
         this.selfData = this;
-        console.log("Heat map data", this.data);
         this.heatMap(this.data, '#appHeatMap', this.selfData);
         this.http.get('https://api.myjson.com/bins/enlb8').subscribe(activity => {
             this.histogramDataSet = activity.json();
@@ -57,9 +56,14 @@ export class appVisualHeatMapComponent implements OnInit {
                 monthSet.push(element['Month-Year'])
             }
         });
-        for (let matX = 0; matX < 32; matX++) {
-            for (let matY = 0; matY < 13; matY++) {
-                martixOutput.push([matX, matY, this.getRandomInt()])
+        for (let matY = 0; matY < monthSet.length; matY++) {
+            for (let matX = 1; matX < 32; matX++) {
+                martixOutput.push([
+                    matX, 
+                    matY, 
+                    dataFile[matX].Value,
+                    dataFile[matX].data
+                ])
             }
         }
         var chartData = martixOutput;
@@ -132,13 +136,12 @@ export class appVisualHeatMapComponent implements OnInit {
                     events: {
                         click: function (event) {
                             var userJSON = [];
-                            console.log("selfSet", selfDataSet,event)
-                            selfDataSet.data.forEach(element => {
-                                if(element['X-Value'] == event.point.x && element['Y-Value'] == event.point.y) {
-                                    console.log(element.data)
-                                    selfDataSet.histroGramChart(element.data)
+                            martixOutput.forEach(element => {
+                                if(element[0] == event.point.x && element[1] == event.point.y) {
+                                    selfDataSet.histroGramChart(element[3])
                                 }
                             });
+                            
                             setTimeout(() => {
                                 selfDataSet.histogramDataSet.push(userJSON[0]);
                             }, 500);
