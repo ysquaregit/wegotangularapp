@@ -67,8 +67,8 @@
                             <button class="button button2" (click)="getpiecharts()"> Display </button>
                         </div>
                     </div>
-                    <hr style="margin-left:12%;clear:both">
-                    <p class="chartNotesSection"><b>Note :</b> Display of the quantity of water in K/L by different water sources for the given date range.</p>
+                    <hr>
+                    <p class="chartNotesSection"><b>Note :</b> Display of water quantity in K/L by different water sources for the given date range.</p>
                     <!-- Chart section -->
                     <app-visuals-pie-chart [(data)]="options" #piechild></app-visuals-pie-chart>
                     </div>
@@ -99,12 +99,9 @@
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.4%; margin-left:-0.5%;">
                             <button class="button button2" (click)="heatMapChart()"> Display </button>
                         </div>
-                        <!-- Notes Section -->
-                         <!-- <div class="col-sm-10" style="float: right;font-style: italic;"><b>Note :</b>Display of the trend of overall consumption of Water in K/L for the given months. Each cell represent a day and on click of each cell, the consumption trend for the respective day is shown below.</div> -->
-                        
                     </div>
-                      <hr style="margin-left:12%;margin-top:0%;clear: both;">
-                      <p class="chartNotesSection"><b>Note :</b> Display of the trend of overall consumption of Water in K/L for the given months. Each cell represent a day and on click of each cell, the consumption trend for the respective day is shown below.</p>
+                      <hr>
+                      <p class="chartNotesSection"><b>Note :</b> Display of overall water consumption trend in K/L for the given months and on click of each cell, the respective day's trend is shown below.</p>
                     <div *ngIf="heatMapDataSet.length > 0">
                         <app-visuals-heat-map [(data)]="heatMapDataSet" #heatChild></app-visuals-heat-map>
                     </div>
@@ -138,9 +135,8 @@
                         </div>
                           <!-- Notes Section -->
                         <!-- <div class="col-sm-3" style="float: right;font-style: italic;"><b>Note :</b>Display of the average demand trend of different types of water in K/L with respect to time for the given date range.</div> -->
-                        
                       </div>
-                        <hr style="margin-left:12%;margin-top:-3%;clear:both">
+                        <hr>
                         <p class="chartNotesSection"><b>Note :</b> Display of the average demand trend of different types of water in K/L with respect to time for the given date range.</p>
                   <app-visuals-stp-chart [(data)] = "STPChartDataSet"></app-visuals-stp-chart>
                 </div>
@@ -173,10 +169,9 @@
                         </div>
                         <!-- Notes Section -->
                           <!-- <div class="col-sm-10" style="float: right;font-style: italic;"><b>Note :</b> Display of the consumption of water in K/L by all users for a given date range. Size of the bubble indicates the consumption.</div> -->
-                        
                     </div>
-                    <hr style="margin-left:12%;margin-top:0%;clear: both">
-                    <p class="chartNotesSection"><b>Note :</b> Display of the consumption of water in K/L by all users for a given date range. Size of the bubble indicates the consumption.</p>
+                    <hr>
+                    <p class="chartNotesSection"><b>Note :</b> Display of water consumption in K/L by each user for a given date range indicated by bubble size.</p>
                     <app-visuals-usage-chart  [(data)]="bubbleChartDataSet"></app-visuals-usage-chart>
                 </div>
                 <!-- Gantt section -->
@@ -197,18 +192,14 @@
                         </div>
                         <!-- Notes Section -->
                          <!-- <div class="col-sm-5" style="float: right;font-style: italic;"><b>Note :</b> Display of the ON/OFF states, Run duration, Stress level and yield in K/L of all the borewell pumps.</div> -->
-                        
                     </div>
-                    <hr style="margin-left:12%;margin-top: 0%;clear: both; ">
+                    <hr>
                     <!-- <div id="ganttChartContainer"></div> -->
                     <p class="chartNotesSection"><b>Note :</b> Display of the ON/OFF states, Run duration, Stress level and yield in K/L of all the borewell pumps.</p>
                     <div style="margin-left:10%;" class="ganttChartStyle">
-
                         <app-visuals-gantt-chart [(data)] = "GanttsetData"></app-visuals-gantt-chart>
                     </div>
-
                 </div>
-
                 <!-- Tree section -->
                 <div class="bhoechie-tab-content text-center" [ngClass]="{'active':navActive==='tree'}" *ngIf="navActive=='tree' && treeMapShowStatus && treeMapChartSet.children.length > 0">
                     <!-- Date Picker -->
@@ -238,10 +229,10 @@
                         </div>
                         <!-- Notes Section -->
                          <!-- <div class="col-sm-10" style="float: right;font-style: italic;"><b>Note :</b>Display of the consumption of water in K/L on a block level and at an individual flat level (on-click of each block) for a given date range. Size of the squares indicates the consumption.</div> -->
-                        
+
                     </div>
-                    <hr style="margin-left:12%; margin-top:-3%;clear: both">
-                    <p class="chartNotesSection"><b>Note :</b> Display of the consumption of water in K/L on a block level and at an individual flat level (on-click of each block) for a given date range. Size of the squares indicates the consumption.</p>
+                    <hr>
+                    <p class="chartNotesSection"><b>Note :</b> Display of block level & individual flat level (on-click of each block) water consumption in K/L for a given date range indicated by size of square.</p>
                     <app-visuals-treemap-chart [(data)]="treeMapChartSet"></app-visuals-treemap-chart>
                 </div>
                 <!-- Sparkline section -->
@@ -249,33 +240,31 @@
                     <div class="form-inline">
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-1.5 pull-left" style="margin-top: 1%; margin-left: 13%">
+                                <div class="col-md-2 pull-left">
                                     <label>
                                         <font size="3">
                                             <b> Last: </b>
                                         </font>
                                     </label>
                                 </div>
-                                <div class="col-md-2" style="margin-top: 0.5%; margin-left: -4%">
+                                <div class="col-md-1.5 pull-left">
                                     <input class="form-control" type="number" placeholder="Enter the week number(Max-52)" size="2" title="Enter the week number(Max-52)"
                                         [(ngModel)]="sparkLineWeek" min="0" max="52"> </div>
                                 <!-- <div class="col-md-1" style="margin-top: 1.5%;margin-left: 15%">
                                     <font size="3">Week(s)</font>
                                 </div> -->
-                                <div class="col-md-1.5 pull-left" style="margin-top: 1%; margin-left:25px;">
+                                <div class="col-md-2">
                                     <label>
                                         <font size="3">Week(s)</font>
                                     </label>
                                 </div>
-                                <div class="col-md-1" style="margin-top: 1%; margin-left:0.2%;">
+                                <div class="col-md-4 pull-right">
                                     <button class="button button2" (click)="SLchart()"> Display </button>
                                 </div>
-                                <!-- Notes Section -->
-                                  
                             </div>
                         </div>
                     </div>
-                    <hr style="margin-left:12%;margin-top:-0.1%;clear: both">
+                    <hr>
                     <p class="chartNotesSection"><b>Note :</b> Weekly trend in water quantity(K/L) of different sources for the given number of weeks in comparison with last week trend.</p>
                     <app-visuals-sparkline-chart [(data)]="sparklinesSetData"></app-visuals-sparkline-chart>
                     </div>
