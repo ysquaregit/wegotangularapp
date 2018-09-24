@@ -10,6 +10,7 @@ import {Message,SelectItem,Calendar,ProgressSpinnerModule} from 'primeng/primeng
 import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
+//import 'jquery-ui/ui/widgets/datepicker.js'; 
 import * as Highcharts from 'highcharts/highcharts.js';
 import { color } from 'd3';
 import { count } from 'rxjs/operator/count';
@@ -20,9 +21,8 @@ import { async } from 'q';
 import { appVisualPieChartComponent } from '../../components/visuals/pie-chart/pie-chart.component'
 import { appVisualHeatMapComponent } from '../../components/visuals/heat-map/heat-map.component'
 // import { ViewChild } from '@angular/core/src/metadata/di';
-import { MyDatePickerModule } from 'mydatepicker';
-import {DatePickerComponent} from 'ng2-date-picker';
 declare var $: any;
+//declare var JQueryUI:any;
 @Component({
     selector: 'app-visual',
     templateUrl: './visual.component.html',
@@ -69,7 +69,9 @@ export class VisualComponent implements OnInit {
     STPChartDataSet = [];
     visualLoading = true;
     heatMappickerToDate:Object;
+    heatMapDatePicker:any;
     heatMappickerToDateVal:String;
+    selfData:any;
     private width: number;
     private height: number;
     private x;
@@ -175,6 +177,7 @@ export class VisualComponent implements OnInit {
         this.toateValue = new Date();
         this.open('pie');
         this.getpiecharts();
+        this.selfData = this;
     }
 
 
@@ -319,13 +322,25 @@ export class VisualComponent implements OnInit {
 
     heatMapChart() {
         try{
+            if($("#datepicker").val() == undefined || $("#datepicker").val() == "") {
+                let dateDefault = this.getDateFormat(new Date());
+                console.log(dateDefault)
+                $("#datepicker").val(dateDefault)
+            }
+            $('#datepicker').datepicker({
+                autoclose: true,
+                minViewMode: 1,
+                format: 'mm-yyyy'
+            })
+            .on('changeDate', function(selected){
+                $("#datepicker").val(selected.target.value)
+            }); 
+            
+            let getDatePcikerValue = $("#datepicker").val();
             this.visualLoading = true;
             this.treeMapShowStatus = false;
-            
-            let getFromDate = (this.pickerFromDate.formatted)?this.pickerFromDate.formatted:this.pickerFromDate;
-            let getToDate = (this.pickerToDate.formatted)?this.pickerToDate.formatted:this.pickerToDate;
-            
-            getFromDate = this.heatMappickerToDateVal;
+            let getFromDate = getDatePcikerValue
+            console.log("getFromDate",getFromDate)
             this.messageService.getheatMapchart(this.componentName, getFromDate)
             .then((data) => {
                 if(data) {

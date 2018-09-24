@@ -44,7 +44,7 @@ export class appVisualHeatMapComponent implements OnInit {
 
 
     heatMap(dataFile, elementID, selfDataSet) {
-        
+
         var chartData = [];
         var monthSet = [];
         var matrixX = [];
@@ -59,8 +59,8 @@ export class appVisualHeatMapComponent implements OnInit {
         for (let matY = 0; matY < monthSet.length; matY++) {
             for (let matX = 1; matX < 32; matX++) {
                 martixOutput.push([
-                    matX, 
-                    matY, 
+                    matX,
+                    matY,
                     dataFile[matX].Value,
                     dataFile[matX].data
                 ])
@@ -68,7 +68,7 @@ export class appVisualHeatMapComponent implements OnInit {
         }
         var chartData = martixOutput;
         let heatMapContainer = $('#heatMapContainer').width()
-        
+
         $(function () {
             new Highcharts.Chart({
                 chart: {
@@ -123,7 +123,7 @@ export class appVisualHeatMapComponent implements OnInit {
                 colorAxis: {
                     minColor: '#FFFFFF',
                     min: 1,
-                    max: 60
+                    max: 9000
                 },
 
                 series: [{
@@ -141,7 +141,7 @@ export class appVisualHeatMapComponent implements OnInit {
                                     selfDataSet.histroGramChart(element[3])
                                 }
                             });
-                            
+
                             setTimeout(() => {
                                 selfDataSet.histogramDataSet.push(userJSON[0]);
                             }, 500);

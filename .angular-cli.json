@@ -22,10 +22,12 @@
         "../node_modules/primeng/resources/primeng.min.css",
         "../node_modules/primeng/resources/themes/omega/theme.css",
         "../node_modules/font-awesome/css/font-awesome.min.css",
-        "styles.css"
+        "styles.css",
+        "assets/vendor/bootstrap-datepicker/css/datepicker.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.js"
+        "../node_modules/jquery/dist/jquery.js",
+        "assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

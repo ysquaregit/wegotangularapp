@@ -16,7 +16,6 @@ import xrange from "highcharts/modules/xrange";
 // import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
 import { LoadingModule } from 'ngx-loading';
-import {DpDatePickerModule} from 'ng2-date-picker';
 import {
     ButtonModule,
     CalendarModule,
@@ -180,8 +179,7 @@ export function highchartsFactory() {
         // ChartModule.forRoot(require('highcharts'))
         ChartModule,
         MyDatePickerModule,
-        LoadingModule,
-        DpDatePickerModule
+        LoadingModule
     ],
     providers: [
         AuthService, 

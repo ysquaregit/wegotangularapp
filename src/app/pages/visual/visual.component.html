@@ -84,8 +84,9 @@
                           </label>
                       </div>
                       <div class="col-md-3" style="margin-top: 0.3%; margin-left:-0.5%;">
+                        <input id="datepicker" type="text" data-date="102/2012" data-date-format="mm/yyyy" data-date-viewmode="years" data-date-minviewmode="months" ng-model="heatMapDatePicker">
                             <!-- <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="pickerFromDate" required></my-date-picker> -->
-                            <dp-date-picker [(ngModel)]="heatMappickerToDateVal" theme="dp-material" [config]="heatMappickerToDate" mode="month" format="MMM-YYYY"></dp-date-picker>  
+                            <!-- <dp-date-picker [(ngModel)]="heatMappickerToDateVal" theme="dp-material" [config]="heatMappickerToDate" mode="month" format="MMM-YYYY"></dp-date-picker>   -->
                         </div>
                         <div class="col-md-1.5 pull-left" style="margin-top: 0.4%; margin-left:-0.5%;">
                             <button class="button button2" (click)="heatMapChart()"> Display </button>
