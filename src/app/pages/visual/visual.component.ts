@@ -10,7 +10,7 @@ import {Message,SelectItem,Calendar,ProgressSpinnerModule} from 'primeng/primeng
 import * as d3 from 'd3';
 // import * as d3Hierarchy from 'd3-hierarchy';
 import * as $ from 'jquery/dist/jquery.min.js';
-//import 'jquery-ui/ui/widgets/datepicker.js'; 
+//import 'jquery-ui/ui/widgets/datepicker.js';
 import * as Highcharts from 'highcharts/highcharts.js';
 import { color } from 'd3';
 import { count } from 'rxjs/operator/count';
@@ -64,7 +64,7 @@ export class VisualComponent implements OnInit {
     public pieflag: boolean;
     componentName: String = "charts";
     RTSChartDataSet: any = [];
-    sparkLineWeek:number = 0;
+    sparkLineWeek:number = 4;
     STPChartShowStatus = false;
     STPChartDataSet = [];
     visualLoading = true;
@@ -76,7 +76,7 @@ export class VisualComponent implements OnInit {
     private height: number;
     private x;
     private y;
-    
+
     private node;
     private root;
 
@@ -226,7 +226,7 @@ export class VisualComponent implements OnInit {
             this.visualLoading = true;
             let getFromDate = (this.pickerFromDate.formatted)?this.pickerFromDate.formatted:this.pickerFromDate;
             let getToDate = (this.pickerToDate.formatted)?this.pickerToDate.formatted:this.pickerToDate;
-            
+
             if(this.pickerFromDate.formatted) {
                 getFromDate = this.pickerFromDate.formatted
                 getToDate = this.pickerToDate.formatted
@@ -258,7 +258,7 @@ export class VisualComponent implements OnInit {
             this.STPChartShowStatus = false;
             let getFromDate = (this.pickerFromDate.formatted)?this.pickerFromDate.formatted:this.pickerFromDate;
             let getToDate = (this.pickerToDate.formatted)?this.pickerToDate.formatted:this.pickerToDate;
-            
+
             if(this.pickerFromDate.formatted) {
                 getFromDate = this.pickerFromDate.formatted
                 getToDate = this.pickerToDate.formatted
@@ -291,7 +291,7 @@ export class VisualComponent implements OnInit {
             this.ganttMapShowStatus = false;
             let getFromDate = (this.pickerFromDate.formatted)?this.pickerFromDate.formatted:this.pickerFromDate;
             let getToDate = (this.pickerToDate.formatted)?this.pickerToDate.formatted:this.pickerToDate;
-            
+
             if(this.pickerFromDate.formatted) {
                 getFromDate = this.pickerFromDate.formatted
                 getToDate = this.pickerToDate.formatted
@@ -334,8 +334,8 @@ export class VisualComponent implements OnInit {
             })
             .on('changeDate', function(selected){
                 $("#datepicker").val(selected.target.value)
-            }); 
-            
+            });
+
             let getDatePcikerValue = $("#datepicker").val();
             this.visualLoading = true;
             this.treeMapShowStatus = false;
@@ -358,13 +358,13 @@ export class VisualComponent implements OnInit {
     }
 
     treeMapChart() {
-        
+
         try{
             this.visualLoading = true;
             this.treeMapShowStatus = false;
             let getFromDate = (this.pickerFromDate.formatted)?this.pickerFromDate.formatted:this.pickerFromDate;
             let getToDate = (this.pickerToDate.formatted)?this.pickerToDate.formatted:this.pickerToDate;
-            
+
             if(this.pickerFromDate.formatted) {
                 getFromDate = this.pickerFromDate.formatted
                 getToDate = this.pickerToDate.formatted
@@ -396,7 +396,7 @@ export class VisualComponent implements OnInit {
             this.bubbleChartShowStatus = false;
             let getFromDate = (this.pickerFromDate.formatted)?this.pickerFromDate.formatted:this.pickerFromDate;
             let getToDate = (this.pickerToDate.formatted)?this.pickerToDate.formatted:this.pickerToDate;
-            
+
             if(this.pickerFromDate.formatted) {
                 getFromDate = this.pickerFromDate.formatted
                 getToDate = this.pickerToDate.formatted
@@ -424,8 +424,11 @@ export class VisualComponent implements OnInit {
 
     SLchart() {
         try{
+          if(!this.sparkLineWeek) {
+              this.sparkLineWeek = 4;
+          }
             this.visualLoading = true;
-            this.sparkLineWeek = 4;
+            //this.sparkLineWeek = 4;
             this.SLMapShowStatus = false;
             this.messageService.getsparklinechart(this.componentName, this.sparkLineWeek)
             .then((data) => {
@@ -435,10 +438,10 @@ export class VisualComponent implements OnInit {
                     setTimeout(() => {
                         this.visualLoading = false;
                     }, 4000);
-                    
+
                 }
             });
-        }
+          }
         catch(e) {
             console.log(e)
         }

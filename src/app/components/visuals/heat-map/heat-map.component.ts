@@ -68,6 +68,7 @@ export class appVisualHeatMapComponent implements OnInit {
         }
         var chartData = martixOutput;
         let heatMapContainer = $('#heatMapContainer').width()
+        let maxLengthValue = this.getMaxAge(dataFile);
 
         $(function () {
             new Highcharts.Chart({
@@ -123,7 +124,7 @@ export class appVisualHeatMapComponent implements OnInit {
                 colorAxis: {
                     minColor: '#FFFFFF',
                     min: 1,
-                    max: 9000
+                    max: maxLengthValue[0].Value
                 },
 
                 series: [{
@@ -198,5 +199,28 @@ export class appVisualHeatMapComponent implements OnInit {
 
     }
 
+    getMaxAge(list) {
+        var output = [];
+        var maxAge = Number.MIN_VALUE;
+
+          if(list) {
+          // loop through the array
+          for(var i=0; i<list.length; i++) {
+            var obj = list[i];
+            if(obj["Value"] > maxAge) {
+                maxAge = obj["Value"];
+              // Discard the output we have so far because we found a larger age
+              output = [];
+              output.push(obj);
+            }
+            else if(obj["Value"] === maxAge) {
+              // Simply add it to the output array
+              output.push(obj);
+            }
+          }
+        }
+
+        return output;
+    }
 
 }
