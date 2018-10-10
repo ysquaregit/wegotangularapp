@@ -49,7 +49,7 @@ import {SmTWWidgetComponent} from "./components/sm-twwidget/sm-twwidget.componen
 import {BwellLevelWidgetComponent} from './components/bwell-level-widget/bwell-widget.component';
 import {SwiperModule} from 'angular2-useful-swiper';
 import {PumpLevelWidgetComponent} from './components/pump-widget/pump-widget.component';
-import {UiSwitchModule} from 'angular2-ui-switch/src';
+// import {UiSwitchModule} from 'angular2-ui-switch/src';
 import {SumpLevelWidgetComponent} from "./components/sump-level-widget/sump-level-widget.component";
 import {WTPWidgetComponent} from "./components/wtp-widget/wtp-widget.component";
 import {StpWidgetComponent} from "./components/stp-widget/stp-widget.component";
@@ -167,7 +167,7 @@ export function highchartsFactory() {
         PanelModule,
         ProgressBarModule,
         SwiperModule,
-        UiSwitchModule,
+        // UiSwitchModule,
         DropdownModule,
         CalendarModule,
         RadioButtonModule,
