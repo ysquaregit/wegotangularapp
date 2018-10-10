@@ -49,6 +49,7 @@ export class VisualComponent implements OnInit {
     heatMapDataSet: Array<any> = [];
     histogramDataSet: Array<any> = []
     treeMapChartSet: Array<any> = [];
+    treeMapChartSetlength:any;
     UsageChartSet: any;
     sparklinesSetData: Array<any> = [];
     fromdateValue: Date;
@@ -378,6 +379,7 @@ export class VisualComponent implements OnInit {
             .then((data) => {
                 if(data) {
                     this.treeMapChartSet = data
+                    this.treeMapChartSetlength = data.children.length
                     this.treeMapShowStatus = true;
                     setTimeout(() => {
                         this.visualLoading = false;

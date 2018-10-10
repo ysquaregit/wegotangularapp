@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
-import {User} from '../../model/user';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../model/user';
 
 @Component({
     selector: 'login',
@@ -11,13 +11,16 @@ import {User} from '../../model/user';
 export class LoginComponent {
 
 
-    user: User = new User();
-
+    user: any = {}
     constructor(private router: Router, private auth: AuthService) {
     }
 
     onLogin(): void {
-        this.auth.login(this.user)
+        var userjson = {
+            name: this.user.name,
+            password: this.user.password
+        }
+        this.auth.login(userjson)
             .then((user) => {
                 //console.log(user);
                 if (user.json().success) {

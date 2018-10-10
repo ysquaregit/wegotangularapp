@@ -9,13 +9,17 @@ import {User} from '../../model/user';
     styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-    user: User = new User();
+    user: any ={};
 
     constructor(private router: Router, private auth: AuthService) {
     }
 
     onRegister(): void {
-        this.auth.register(this.user)
+        var userjson ={
+            name : this.user.email, 
+            password : this.user.password
+        }
+        this.auth.register(userjson)
             .then((user) => {
                 sessionStorage.setItem('token', user.json().auth_token);
                 this.router.navigateByUrl('/dashboard');

@@ -19,7 +19,7 @@
 
                         <p-tabView class="text-center" (onChange)="TabClicked($event)">
 
-                            <p-tabPanel *ngFor="let x of this.globals.blocksArray" header="{{x.block_name}}"
+                            <p-tabPanel *ngFor="let x of globalblockarray" header="{{x.block_name}}"
                                         (click)="TabClicked(x.block_id)">
                                 <div class="row">
                                     <div class="col-md-2" *ngFor="let apt of apartArray">
@@ -136,7 +136,7 @@
 
     </div>
     <div class="col-md-12 text-center">
-        <button (click)="showDialog = !showDialog; this.last_update=''" class="btn">Close</button>
+        <button (click)="showDialog = !showDialog;this.last_update=0" class="btn">Close</button>
     </div>
 
 </app-popup>

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Headers, Http} from "@angular/http";
-import {Globals} from '../../globals';
-import {environment} from "../../../environments/environment";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Headers, Http } from "@angular/http";
+import { Globals } from '../../globals';
+import { environment } from "../../../environments/environment";
 
 @Component({
     selector: 'app-venblock',
@@ -16,12 +16,12 @@ export class VenblockComponent implements OnInit {
     tabpane = "tab-pane active";
     display: boolean = false;
     day_totalx: Number;
-    alarmHistData: any [] = [];
+    alarmHistData: any[] = [];
     aptName: String;
     message: string;
     aptStatus: string;
     id: Number = 0;
-    apartArray: any [] = [];
+    apartArray: any[] = [];
     opened: boolean;
     apartAlarmArray: any[] = [];
     apartCompArray: any[] = [];
@@ -32,10 +32,12 @@ export class VenblockComponent implements OnInit {
     last_update: Number;
     dialogType: Number;
     showDialog: boolean;
+    globalblockarray: any
     private apiServer = environment.apiServer;
 
     constructor(private route: ActivatedRoute, private http: Http, private globals: Globals,
-                private router: Router, private global: Globals) {
+        private router: Router, private global: Globals) {
+        this.globalblockarray = this.globals.blocksArray
     }
 
 
@@ -52,7 +54,7 @@ export class VenblockComponent implements OnInit {
 
     }
 
-// open dialog send with data
+    // open dialog send with data
     openDialog(aptID, dialogType, aptName): void {
 
         this.dialogType = dialogType;
@@ -82,7 +84,7 @@ export class VenblockComponent implements OnInit {
             'x-access-token': `${token}`
         });
         //console.log('entered' + siteID);
-        this.http.get(this.apiServer + '/sa/saBlockList/' + sessionStorage.getItem('sid'), {headers: headers}).subscribe(data => {
+        this.http.get(this.apiServer + '/sa/saBlockList/' + sessionStorage.getItem('sid'), { headers: headers }).subscribe(data => {
             this.globals.blocksArray = data.json().blockList;
             // Read the result field from the JSON response.
 
@@ -111,12 +113,12 @@ export class VenblockComponent implements OnInit {
         });
         this.apartArray = [];
 
-        this.http.get(this.apiServer + '/sa/saApartList/' + blockID, {headers: headers}).subscribe(data => {
+        this.http.get(this.apiServer + '/sa/saApartList/' + blockID, { headers: headers }).subscribe(data => {
             // Read the result field from the JSON response.
             for (const aparts of data.json().apartList) {
                 //console.log('gotApartID:' + aparts.id);
                 // build the array here
-                this.apartArray.push({name: aparts.cust_name, status: aparts.status, id: aparts.id});
+                this.apartArray.push({ name: aparts.cust_name, status: aparts.status, id: aparts.id });
                 // this.getAparts(aparts.id);
             }
 
@@ -139,13 +141,13 @@ export class VenblockComponent implements OnInit {
             'x-access-token': `${token}`
         });
         //apartID =1;
-        this.http.get(this.apiServer + '/sa/saApartData/' + apartID, {headers: headers}).subscribe(data => {
+        this.http.get(this.apiServer + '/sa/saApartData/' + apartID, { headers: headers }).subscribe(data => {
             //console.log(typeof data);
             console.log(data);
             //console.log('apartID: ' + apartID);
-            let apartDatArray: any [] = data.json().apartDat;
-            let componentDataArray: any [] = data.json().apartSensorDat;
-            let componentCumDataArray: any [] = data.json().apartSensorCumDat.month;
+            let apartDatArray: any[] = data.json().apartDat;
+            let componentDataArray: any[] = data.json().apartSensorDat;
+            let componentCumDataArray: any[] = data.json().apartSensorCumDat.month;
             console.log(componentCumDataArray);
             console.log('----------------------------------');
             console.log(apartDatArray);
@@ -247,7 +249,7 @@ export class VenblockComponent implements OnInit {
             'x-access-token': `${token}`
         });
         //apartID =9;
-        this.http.get(this.apiServer + '/sa/saAlarmsData/' + apartID, {headers: headers}).subscribe(data => {
+        this.http.get(this.apiServer + '/sa/saAlarmsData/' + apartID, { headers: headers }).subscribe(data => {
             //console.log(typeof data);
             //console.log(data);
             this.apartAlarmArray = data.json().alarmDat;
