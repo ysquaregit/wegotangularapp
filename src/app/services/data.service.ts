@@ -53,7 +53,7 @@ export class MessageService {
     //siteConfig
 
     /* get the pie-chart data from server */
-    getpiechart(actionComponentName: String, fromdate: number, todate: number): Promise<any>{
+    getpiechart(actionComponentName: String, fromdate: String, todate: String): Promise<any>{
         // console.log('Triggercall');
 
         // const url = `${this.baseURL + "charts"}/getSources?from_date=${fromdate}&to_date=${todate}`;
@@ -63,8 +63,10 @@ export class MessageService {
         //     catchError(this.handleError('getHeroes', []))
         //     );
         let params = {
-            'from_date':fromdate,
-            'to_date':todate
+            'siteId': sessionStorage.getItem('siteid'),
+            'chartType': "pie chart",
+            'fromDate':fromdate,
+            'toDate':todate
         }
         let url: string = `${this.baseURL}/site/usage/watersource `;
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -83,7 +85,7 @@ export class MessageService {
         //     );
 
             let params = {
-                'from_date':fromdate
+                'fromDate':fromdate
             }
             let url: string = `${this.baseURL}/site/watermap `;
             let headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -103,8 +105,8 @@ export class MessageService {
 
     getstpchart(actionComponentName: String, fromdate: number, todate: number): Promise<any>{
         let params = {
-            'from_date':fromdate,
-            'to_date':todate
+            'fromDate':fromdate,
+            'toDate':todate
         }
         let url: string = `${this.baseURL}/site/demand/watertype `;
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -113,8 +115,8 @@ export class MessageService {
 
     getbubble(actionComponentName: String, fromdate: number, todate: number): Promise<any>{
         let params = {
-            'from_date':fromdate,
-            'to_date':todate
+            'fromDate':fromdate,
+            'toDate':todate
         }
         let url: string = `${this.baseURL}/site/highusers`;
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -122,9 +124,9 @@ export class MessageService {
     }
 
     getganttchart(actionComponentName: String, date: number): Promise<any>{
-        
+
         let params = {
-            'from_date':date
+            'fromDate':date
         }
         let url: string = `${this.baseURL}/site/pump/yield`;
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -134,8 +136,8 @@ export class MessageService {
     gettreeMapchart(actionComponentName: String, fromdate: number, todate: number): Promise<any>{
 
         let params = {
-            'from_date':fromdate,
-            'to_date':todate
+            'fromDate':fromdate,
+            'toDate':todate
         }
         let url: string = `${this.baseURL}/site/usage/blocklevel `;
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -143,7 +145,7 @@ export class MessageService {
     }
 
     getsparklinechart(actionComponentName: String, last_week: number): Promise<any>{
-        
+
         let params = {
             'last_week':last_week
         }

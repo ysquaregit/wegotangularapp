@@ -60,6 +60,7 @@ export class HomepageComponent implements OnInit {
         sessionStorage.setItem('sid', String(algo));
         this.globals.currentSiteID = Number(siteID);
         this.globals.currentSiteName = siteName;
+        sessionStorage.setItem('siteid', String(this.globals.currentSiteID));
         this.clicked.emit(siteID);
         // ,  {  skipLocationChange: true , queryParams: { siteID: siteID } }
         this.router.navigate(['dashboard']);

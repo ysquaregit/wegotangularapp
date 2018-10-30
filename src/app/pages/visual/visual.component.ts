@@ -227,16 +227,18 @@ export class VisualComponent implements OnInit {
             this.visualLoading = true;
             let getFromDate = (this.pickerFromDate.formatted)?this.pickerFromDate.formatted:this.pickerFromDate;
             let getToDate = (this.pickerToDate.formatted)?this.pickerToDate.formatted:this.pickerToDate;
-
-            if(this.pickerFromDate.formatted) {
-                getFromDate = this.pickerFromDate.formatted
-                getToDate = this.pickerToDate.formatted
-            }
-            else {
+            console.log(this.pickerFromDate.formatted);
+            console.log(this.pickerFromDate);
+            // if(this.pickerFromDate.formatted) {
+            //   console.log("1");
+            //     getFromDate = this.pickerFromDate.formatted
+            //     getToDate = this.pickerToDate.formatted
+            // }
+            // else {
+              console.log("2");
                 getFromDate = this.formatDate(this.pickerFromDate);
                 getToDate = this.formatDate(this.pickerToDate);
-
-            }
+            //}
             this.messageService.getpiechart(this.componentName, getFromDate,getToDate)
             .then((data) => {
                 if(data) {
@@ -455,7 +457,7 @@ export class VisualComponent implements OnInit {
         if(monthFormat < 10) {
             monthFormat = '0'+monthFormat
         }
-        var test =  [date.date.day , monthFormat , date.date.year].join('-');
+        var test =  [date.date.year, monthFormat , date.date.day].join('-');
         return test;
     }
 
